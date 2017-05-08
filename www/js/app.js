@@ -22,3 +22,16 @@ angular.module('starter', ['ionic'])
     }
   });
 })
+.controller('AppCtrl', function($rootScope,$scope,$filter,$state,StorageService) 
+{
+    var profile               = StorageService.get('users-identity');
+    $scope.profile            = profile;
+    $scope.tglskrg            = $filter('date')(new Date(),'yyyy-MM-dd');
+    var menus       = [];
+    menus.push({src: "img/200x200/chart.jpg",link:"#/tab/jadwal",judul:"Jadwal",keterangan:null});
+    menus.push({src: "img/200x200/ro.png",link:"#/tab/feedback",judul:"FeedBack",keterangan:null});
+    menus.push({src: "img/200x200/chat.png",link:"#/tab/history",judul:"History",keterangan:null});
+    menus.push({src: "img/200x200/money.png",link:"#/tab/informasi",judul:"Informasi",keterangan:'DEV'});
+    $scope.menus = menus;
+
+});

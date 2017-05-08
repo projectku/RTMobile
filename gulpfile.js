@@ -13,6 +13,9 @@ var paths = {
 
 gulp.task('default', ['sass']);
 
+// Customize Radumta Sitepu
+// gulp.task('serve:before', ['watch']);
+
 gulp.task('sass', function(done) {
   gulp.src('./scss/ionic.app.scss')
     .pipe(sass())

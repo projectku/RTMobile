@@ -24,6 +24,14 @@
                           <span class="input-label">No.Telp</span>
                             <input type="tel" ng-model="users.telp" class="form-control" placeholder="No Telepon" required>
                         </label>
+                        <label class="item item-input item-select">
+                            <div class="input-label">
+                              Luas Rumah
+                            </div>
+                            <select ng-model="users.luasrumah" ng-options="item.nama for item in luasrumah">
+                              <option value="">-- Pilih Luas --</option>
+                            </select>
+                        </label> 
                         <label class="item item-input item-floating-label">
                           <span class="input-label">Tanggal Lahir</span>
                             <input type="date" ng-model="users.tgllahir" class="form-control" placeholder="Tanggal Lahir" required>
