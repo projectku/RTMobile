@@ -32,7 +32,7 @@ angular.module('starter', ['ionic','ionic-ratings','ui.calendar'])
     menus.push({src: "img/200x200/feedback.jpg",link:"#/tab/feedback",judul:"FeedBack",keterangan:null});
     menus.push({src: "img/200x200/history.png",link:"#/tab/history",judul:"History",keterangan:null});
     menus.push({src: "img/200x200/information.png",link:"#/tab/informasi",judul:"Informasi",keterangan:'DEV'});
-
+    menus.push({src: "img/200x200/setting.png",link:"#/tab/informasi",judul:"Pengaturan",keterangan:'DEV'});
     $scope.menus = menus;
 
     // $scope.ratingsObject = {

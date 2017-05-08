@@ -45,17 +45,22 @@ angular.module('starter')
         iconOff: 'ion-ios-star-outline',   //Optional
         iconOnColor: 'rgb(200, 200, 100)',  //Optional
         iconOffColor:  'rgb(200, 100, 100)',    //Optional
-        rating:  5, //Optional
+        rating:  0, //Optional
         minRating:0,    //Optional
-        readOnly: true, //Optional
-        callback: function(rating, index) {    //Mandatory
+        readOnly: false, //Optional
+        callback: function(rating, index) 
+        {    //Mandatory
           $scope.ratingsCallback(rating, index);
         }
       };
   
       $scope.ratingsCallback = function(rating, index) 
       {
-        console.log('Selected rating is : ', rating, ' and the index is : ', index);
+        if(rating <= 3)
+        {
+            console.log('Selected rating is : ', rating, ' and the index is : ', index);
+            $scope.openmodalratingjelek();
+        }
       }; 
 
       $scope.todolist = [
@@ -64,4 +69,50 @@ angular.module('starter')
                             {'todo':'Memupuk','checked':true},
                             {'todo':'Merawat','checked':true}
                         ];
+
+    $scope.openmodalratingjelek = function()
+    {
+        $ionicModal.fromTemplateUrl('templates/jadwal/ratingjelek.html', 
+        {
+            scope: $scope,
+            animation: 'slide-in-up',
+            backdropClickToClose: false,
+            hardwareBackButtonClose: true
+        })
+        .then(function(modal) 
+        {
+            $scope.alasan = [
+                            {'todo':'Tidak Sopan','checked':false},
+                            {'todo':'Bermalas Ria','checked':false},
+                            {'todo':'Merokok Pas Bekerja','checked':false},
+                            {'todo':'Semberawutan','checked':false}
+                        ];
+            $scope.modalratingjelek  = modal;
+            $scope.modalratingjelek.show();
+        });
+    }
+    $scope.closemodalratingjelek = function()
+    {
+        $scope.modalratingjelek.hide();
+    }
+
+    $scope.openmodaldetailuser = function()
+    {
+        $ionicModal.fromTemplateUrl('templates/jadwal/users.html', 
+        {
+            scope: $scope,
+            animation: 'slide-in-up',
+            backdropClickToClose: false,
+            hardwareBackButtonClose: true
+        })
+        .then(function(modal) 
+        {
+            $scope.modaldetail  = modal;
+            $scope.modaldetail.show();
+        });
+    }
+    $scope.closemodaldetailuser = function()
+    {
+        $scope.modaldetail.hide();
+    }
 });

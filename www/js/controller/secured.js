@@ -12,6 +12,7 @@ angular.module('starter')
         $scope.disableInput = true;
         $scope.users    = angular.copy(user);
         StorageService.set('users-identity',$scope.users);
+        $ionicLoading.hide();
         $state.go('tab.dashboard', {}, {reload: true});
     }
 })
