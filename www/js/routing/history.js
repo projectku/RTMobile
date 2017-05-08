@@ -8,7 +8,8 @@ angular.module('starter')
         {
           'view-content': 
             {
-              templateUrl: 'templates/history/index.html'
+              templateUrl: 'templates/history/index.html',
+              controller: 'HistoryCtrl'
           }
         }
     });

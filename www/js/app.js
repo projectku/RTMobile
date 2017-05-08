@@ -3,7 +3,7 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('starter', ['ionic'])
+angular.module('starter', ['ionic','ionic-ratings','ui.calendar'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -28,10 +28,28 @@ angular.module('starter', ['ionic'])
     $scope.profile            = profile;
     $scope.tglskrg            = $filter('date')(new Date(),'yyyy-MM-dd');
     var menus       = [];
-    menus.push({src: "img/200x200/chart.jpg",link:"#/tab/jadwal",judul:"Jadwal",keterangan:null});
-    menus.push({src: "img/200x200/ro.png",link:"#/tab/feedback",judul:"FeedBack",keterangan:null});
-    menus.push({src: "img/200x200/chat.png",link:"#/tab/history",judul:"History",keterangan:null});
-    menus.push({src: "img/200x200/money.png",link:"#/tab/informasi",judul:"Informasi",keterangan:'DEV'});
+    menus.push({src: "img/200x200/schedule.png",link:"#/tab/jadwal",judul:"Jadwal",keterangan:null});
+    menus.push({src: "img/200x200/feedback.jpg",link:"#/tab/feedback",judul:"FeedBack",keterangan:null});
+    menus.push({src: "img/200x200/history.png",link:"#/tab/history",judul:"History",keterangan:null});
+    menus.push({src: "img/200x200/information.png",link:"#/tab/informasi",judul:"Informasi",keterangan:'DEV'});
+
     $scope.menus = menus;
+
+    // $scope.ratingsObject = {
+    //     iconOn: 'ion-ios-star',    //Optional
+    //     iconOff: 'ion-ios-star-outline',   //Optional
+    //     iconOnColor: 'rgb(200, 200, 100)',  //Optional
+    //     iconOffColor:  'rgb(200, 100, 100)',    //Optional
+    //     rating:  0, //Optional
+    //     minRating:0,    //Optional
+    //     readOnly: true, //Optional
+    //     callback: function(rating, index) {    //Mandatory
+    //       $scope.ratingsCallback(rating, index);
+    //     }
+    //   };
+  
+    //   $scope.ratingsCallback = function(rating, index) {
+    //     console.log('Selected rating is : ', rating, ' and the index is : ', index);
+    //   };
 
 });

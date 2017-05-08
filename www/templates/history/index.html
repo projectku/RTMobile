@@ -1,34 +1,24 @@
-<ion-view view-title="Account">
+<ion-view view-title="HISTORY">
 	<ion-content>
-	  <ion-list>
-	    <ion-item class="profile-item">
-	      <div class="profile-picture big-profile-picture" style="background:#93C178">
-	        <img data-ng-src="img/200x200/chart.jpg" width="100%" height="100%">
-	      </div>
-	      <h5 class="profile-name dark">Radumta Sitepu</h5>
-	    </ion-item>
-	  </ion-list>
-	      <ion-list>
-		    <ion-toggle  ng-model="settings.enableNotif">
-		        Enable Notifikasi
-		    </ion-toggle>
-		    <ion-toggle  ng-model="settings.enableSound">
-		        Enable Sound
-		    </ion-toggle>
-		    <ion-item class="item item-icon-right" type="item-text-wrap" ng-click="logout()">
-		        <h2>Log Out</h2>
-		        <i class="icon ion-log-out"></i>
-	      	</ion-item>
-<!-- 	      	<ion-item>
-		     <div style="float:left;padding-right: 10px;">
-		      <ionic-letter-avatar data="Ganesh"></ionic-letter-avatar>
-		      </div>
-		      <div>
-		         <h2>Ganesh</h2>
-		         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit mi, varius in blandit sit amet, tempus non risus. Maecenas risus urna, auctor ac laoreet sit amet, placerat non dolor.</p>
-		        </div>
-		    </ion-item> -->
-	    </ion-list>
+	    <div class="list card" ng-click="openmodaldetail()">
+			<div class="item row">
+			  <span style="text-align:left;" class="col col-50"></span>
+			  	<span style="text-align:right;font-size: 8px" class="col col-50">
+			  		04 May 2017, 12:05 PM
+		  		</span>
+			</div>
+		    <div class="item item-body">
+		      <ion-item>
+                <div class="item-icon-left">
+                    <i class="icon ion-navicon"></i>
+                    Radumta Sitepu
+                </div>
+                <div class="item-icon-right">
+                    <i class="icon ion-ios-star-outline"></i>
+                </div>
+            </ion-item>
+		    </div>
+	    </div>
 	</ion-content>
 </ion-view>
 

@@ -106,3 +106,20 @@
   font-weight: bold !important;
   text-transform: capitalize;
 }
+.profile-name-custom {
+  padding-top: 0px;
+  /*font-size: x-large !important;*/
+  font-weight: bold !important;
+  text-transform: none;
+  font-size: 18px;
+  font-weight: 18px;
+}
+
+.ionic_ratings .icon 
+{
+    font-size: 50px;
+}
+.ionic_ratings_custom .icon 
+{
+    font-size: 36px;
+}
