@@ -27,8 +27,6 @@ angular.module('starter', ['ionic','ionic-ratings','ui.calendar','auth0'])
 })
 .controller('AppCtrl', function($rootScope,$scope,$filter,$state,StorageService) 
 {
-    var profile               = StorageService.get('users-identity');
-    $scope.profile            = profile;
     $scope.tglskrg            = $filter('date')(new Date(),'yyyy-MM-dd');
     var menus       = [];
     menus.push({src: "img/200x200/schedule.png",link:"#/tab/jadwal",judul:"Jadwal",keterangan:null});

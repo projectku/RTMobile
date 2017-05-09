@@ -33,7 +33,7 @@ angular.module('starter')
                 var userinformation = StorageService.get('token');
                 if(userinformation)
                 {
-                    $location.path("/tab/dashboard");
+                    $location.path("/auth/register");
                     console.log();
                 }
             }  
@@ -58,23 +58,7 @@ angular.module('starter')
         url: '/tab',
         abstract: true,
         templateUrl: 'templates/tabs.html',
-        controller: 'AppCtrl',
-        resolve:
-        {
-            userinformation: function ($q,StorageService,$injector,$location) 
-            {
-                var userinformation = StorageService.get('token');
-                if(userinformation)
-                {
-                    return userinformation;
-                }
-                else 
-                {
-                    $location.path("#/auth/login");
-                    console.log();
-                }
-            }  
-        }
+        controller: 'AppCtrl'
     });
     $stateProvider.state('tab.dashboard', 
     {

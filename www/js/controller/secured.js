@@ -1,11 +1,11 @@
 angular.module('starter')
-.controller('LoginCtrl', function($http,$scope, $state,$ionicPopup,auth,StorageService) 
+.controller('LoginCtrl', function($http,$timeout,$scope,$ionicLoading,$state,$ionicPopup,auth,StorageService) 
 {
 
-    var lock = new Auth0Lock('tI8AC9Ykd1dSBKoKGETQeP8vAx86OQal', 'raizeta.auth0.com');
-    lock.show({connections: ['Username-Password-Authentication']});
-    lock.show({connections: ['twitter', 'facebook', 'linkedin']});
-    lock.show({connections: ['qraftlabs.com']});
+    // var lock = new Auth0Lock('tI8AC9Ykd1dSBKoKGETQeP8vAx86OQal', 'raizeta.auth0.com');
+    // lock.show({connections: ['Username-Password-Authentication']});
+    // lock.show({connections: ['twitter', 'facebook', 'linkedin']});
+    // lock.show({connections: ['qraftlabs.com']});
     $scope.loginWithGoogle = function ()
     {
         auth.signin(
@@ -16,10 +16,19 @@ angular.module('starter')
         }, 
         function(profile, token, accessToken, state, refreshToken) 
         {
+            $ionicLoading.show
+            ({
+                template: 'Loading...'
+            });
             StorageService.set('profile', profile);
             StorageService.set('token', token);
             StorageService.set('refreshToken', refreshToken);
-            $state.go('auth.register');
+            console.log(profile);
+            $timeout(function()
+            {
+                $ionicLoading.hide();
+                $state.go('auth.register');  
+            }, 1000);
         }, 
         function(error) 
         {
@@ -41,10 +50,19 @@ angular.module('starter')
         }, 
         function(profile, token, accessToken, state, refreshToken) 
         {
+            $ionicLoading.show
+            ({
+                template: 'Loading...'
+            });
             StorageService.set('profile', profile);
             StorageService.set('token', token);
             StorageService.set('refreshToken', refreshToken);
-            $state.go('auth.register');
+            console.log(profile);
+            $timeout(function()
+            {
+                $ionicLoading.hide();
+                $state.go('auth.register');  
+            }, 1000);
         }, 
         function(error) 
         {
@@ -56,23 +74,15 @@ angular.module('starter')
         });    
     }
 })
-.controller('RegisterCtrl', function($http,$scope, $state, $ionicPopup,$ionicLoading,StorageService,SecuredFac) 
+.controller('RegisterCtrl', function($timeout,$http,$scope, $state, $ionicPopup,$ionicLoading,StorageService,SecuredFac) 
 {
     var profile  = StorageService.get('profile');
     var username = profile.nickname;
     var email    = profile.email;
-    console.log(profile);
     SecuredFac.GetProfileLogin(username,email)
     .then(function(getprofilelogin)
     {
-        if(angular.isDefined(getprofilelogin.statusCode) && getprofilelogin.statusCode == 204)
-        {
-            console.log(getprofilelogin);
-        }
-        else
-        {
-            $state.go('tab.dashboard');  
-        }
+        console.log(getprofilelogin);
     },
     function(errorgetprofilelogin)
     {
@@ -80,7 +90,7 @@ angular.module('starter')
     });
     $scope.users = {'email':profile.email,'NAMA':profile.name}
     $scope.luasrumah = [{'nama':'100M-300M','type':'100-300'},{'nama':'500M-1000M','type':'500-1000'}];
-    $scope.register = function (user) 
+    $scope.registerbaru = function (user) 
     {
         $ionicLoading.show
         ({
@@ -108,7 +118,11 @@ angular.module('starter')
         SecuredFac.SetProfileLogin(datatosave)
         .then(function(responsesetloginprofile)
         {
-            $state.go('tab.dashboard');
+            console.log(responsesetloginprofile);
+            $timeout(function()
+            {
+                $state.go('tab.dashboard');  
+            }, 10);
         },
         function(errorsetloginprofile)
         {
