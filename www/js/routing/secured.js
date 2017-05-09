@@ -1,11 +1,19 @@
 angular.module('starter')
-.config(function ($stateProvider, $urlRouterProvider,$ionicConfigProvider,$ionicConfigProvider) 
+.config(function ($stateProvider, $urlRouterProvider,$ionicConfigProvider,$ionicConfigProvider,authProvider,$httpProvider) 
 {
+    authProvider.init({
+        domain: 'raizeta.auth0.com',
+        clientID: 'tI8AC9Ykd1dSBKoKGETQeP8vAx86OQal',
+        callbackURL: location.href,
+        loginState: 'auth.login'
+      });
+
     $stateProvider.state('auth', 
     {
         url: '/auth',
         templateUrl: 'templates/secured/main.html',
         abstract:true,
+        
     });
     $stateProvider.state('auth.login', 
     {
@@ -20,15 +28,28 @@ angular.module('starter')
         },
         resolve:
         {
-            auth: function ($q, StorageService,$injector,$location) 
+            userinformation: function ($q, StorageService,$injector,$location) 
             {
-                var userInfo = StorageService.get('users-identity');
-                if(userInfo)
+                var userinformation = StorageService.get('token');
+                if(userinformation)
                 {
                     $location.path("/tab/dashboard");
                     console.log();
                 }
             }  
+        }
+
+    });
+    $stateProvider.state('auth.register', 
+    {
+        url: '/register',
+        views: 
+        {
+            'login-tab': 
+            {
+              templateUrl: 'templates/secured/register.html',
+              controller: 'RegisterCtrl',
+            }
         }
     });
 
@@ -40,12 +61,16 @@ angular.module('starter')
         controller: 'AppCtrl',
         resolve:
         {
-            auth: function ($q, StorageService,$injector,$location) 
+            userinformation: function ($q,StorageService,$injector,$location) 
             {
-                var userInfo = StorageService.get('users-identity');
-                if(!userInfo)
+                var userinformation = StorageService.get('token');
+                if(userinformation)
                 {
-                    $location.path("/auth/login");
+                    return userinformation;
+                }
+                else 
+                {
+                    $location.path("#/auth/login");
                     console.log();
                 }
             }  
