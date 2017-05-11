@@ -15,7 +15,7 @@ angular.module('starter')
     });
     $stateProvider.state('tab.jadwal-detail', 
     {
-        url: '/jadwal/detail',
+        url: '/jadwal/:detail',
         views: 
         {
           'view-content': 

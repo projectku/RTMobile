@@ -73,7 +73,6 @@ angular.module('starter')
     });
 
     $urlRouterProvider.otherwise('/auth/login');
-    $ionicConfigProvider.tabs.position('bottom');
-    $ionicConfigProvider.navBar.alignTitle('center');
     $ionicConfigProvider.views.maxCache(0);
+    $ionicConfigProvider.navBar.alignTitle('center');
 });

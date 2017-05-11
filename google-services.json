@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "732009692563",
+    "project_id": "auth0-client-167118"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:732009692563:android:dde92bc72f51ec2b",
+        "android_client_info": {
+          "package_name": "com.ionicframework.rawattaman"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "732009692563-dkbc1lt63dc2otc47rboer39j35cc5ok.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ionicframework.rawattaman",
+            "certificate_hash": "b03c0b3e89c71743401729f349844a09b6ff477e"
+          }
+        },
+        {
+          "client_id": "732009692563-igve0of4bfcsvtu1t6op0r93mm3p8amp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAmRAzlRgJLB0dnPkRfrgF-572S1s8ynU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,6 +1,36 @@
 angular.module('starter')
-.controller('JadwalCtrl', function($scope,$state,$ionicModal,$ionicLoading,uiCalendarConfig) 
+.controller('JadwalCtrl', function($scope,$state,$ionicModal,$ionicLoading,uiCalendarConfig,JadwalFac,StorageService) 
 {
+    var profile = StorageService.get('profile');
+    $scope.events = [];
+    JadwalFac.GetJadwal('20170404081602')
+    .then(function(responsegetjadwal)
+    {
+        angular.forEach(responsegetjadwal, function(value, key)
+        {
+            var data ={};
+            
+            data.start = new Date(value.TGL);
+            data.allDay =true;
+            data.url ="#/tab/jadwal/" + value.TGL;
+            if(value.STATUS)
+            {
+                data.title = 'FINISH';
+                data.color = '#378006';  
+            }
+            else
+            {
+                data.title = 'PROGRESS';
+                data.color = '#dd4b39';
+            }
+            data.stick = true;
+            $scope.events.push(data); 
+        });
+    },
+    function(errorgetjadwal)
+    {
+        console.log(errorgetjadwal);
+    });
     $scope.uiConfig = 
     {
       calendar:
@@ -20,26 +50,21 @@ angular.module('starter')
         eventRender: $scope.eventRender
       }
     };
-    $scope.events = [];
-    var data ={};
-    data.title = 'ADA';
-    data.start = new Date('2017-05-09');
-    data.allDay =true;
-    data.url ="#/tab/jadwal/detail";
-    data.color = '#dd4b39';
-    $scope.events.push(data);
-
-    var data2 ={};
-    data2.title = 'ADA';
-    data2.start = new Date('2017-05-19');
-    data2.allDay =true;
-    data2.url ="#/tab/jadwal/detail";
-    data2.color = '#dd4b39';
-    $scope.events.push(data2);
     $scope.eventSources = [$scope.events];	
 })
-.controller('JadwalDetailCtrl', function($scope,$state,$ionicModal,$ionicLoading) 
+.controller('JadwalDetailCtrl', function($scope,$stateParams,$state,$ionicModal,$ionicLoading,JadwalFac) 
 {
+    $scope.params       = $stateParams.detail;
+    JadwalFac.GetJadwalDetail('20170404081602',$scope.params)
+    .then(function(responsegetdetailjadwal)
+    {
+        $scope.datadetail = responsegetdetailjadwal[0];
+        console.log($scope.datadetail);
+    },
+    function(errorgetdetailjadwal)
+    {
+        console.log(errorgetjadwal);
+    });
     $scope.ratingsObject = {
         iconOn: 'ion-ios-star',    //Optional
         iconOff: 'ion-ios-star-outline',   //Optional
@@ -96,7 +121,7 @@ angular.module('starter')
         $scope.modalratingjelek.hide();
     }
 
-    $scope.openmodaldetailuser = function()
+    $scope.openmodaldetailuser = function(pekerja)
     {
         $ionicModal.fromTemplateUrl('templates/jadwal/users.html', 
         {
@@ -107,6 +132,7 @@ angular.module('starter')
         })
         .then(function(modal) 
         {
+            $scope.detailpekerja    = pekerja;
             $scope.modaldetail  = modal;
             $scope.modaldetail.show();
         });

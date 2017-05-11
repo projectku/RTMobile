@@ -1,30 +1,16 @@
 <ion-view view-title="DESKRIPSI">
 	<ion-content>
 		<div class="row" style="flex-wrap: wrap;">
-			<div class="col col-50">
+			<div class="col col-50" ng-repeat="pekerja in datadetail.LIST_PEKERJA">
 		    	<div class="list">
-					<ion-item class="profile-item" ng-click="openmodaldetailuser()">
+					<ion-item class="profile-item" ng-click="openmodaldetailuser(pekerja)">
 						<div class="profile-picture big-profile-picture" style="background:#93C178">
-						  <img data-ng-src="img/adam.jpg" width="100%" height="100%">
+						  <img data-ng-src="data:image/png;base64,{{pekerja.PHOTO}}" width="100%" height="100%">
 						</div>
-						<p class="profile-name-custom dark">Radumta Sitepu</p>
+						<p class="profile-name-custom dark">{{pekerja.NAMA|uppercase}}</p>
 					</ion-item>
 					<ion-item class="profile-item">
 						<ionic-ratings ratingsobj='ratingsObject' index='0' class="ionic_ratings_custom">
-						</ionic-ratings>
-					</ion-item>
-		  		</div>
-	  		</div>
-	  		<div class="col col-50">
-		    	<div class="list">
-					<ion-item class="profile-item" ng-click="openmodaldetailuser()">
-						<div class="profile-picture big-profile-picture" style="background:#93C178">
-						  <img data-ng-src="img/ben.png" width="100%" height="100%">
-						</div>
-						<p class="profile-name-custom dark">Radumta Sitepu</p>
-					</ion-item>
-					<ion-item class="profile-item">
-						<ionic-ratings ratingsobj='ratingsObject' index='1' class="ionic_ratings_custom">
 						</ionic-ratings>
 					</ion-item>
 		  		</div>
@@ -42,12 +28,12 @@
 		<div class="row"  style="flex-wrap: wrap;">
 	      <div class="col col-50">
 	        <ion-checkbox  ng-model="item.checked" ng-checked="item.checked = true">
-	          Selasa,09 May 2017 12:00 PM
+	          {{datadetail.TGL}} {{datadetail.JAM_MASUK}}
 	        </ion-checkbox>
 	      </div>
 	      <div class="col col-50">
 	        <ion-checkbox  ng-model="item.checked" ng-checked="item.checked = true">
-	          Selasa,09 May 2017 18:00 PM
+	          {{datadetail.TGL}} {{datadetail.JAM_KELUAR}}
 	        </ion-checkbox>
 	      </div>
 	    </div>

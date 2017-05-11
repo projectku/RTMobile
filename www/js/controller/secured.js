@@ -1,5 +1,5 @@
 angular.module('starter')
-.controller('LoginCtrl', function($http,$timeout,$scope,$ionicLoading,$state,$ionicPopup,auth,StorageService) 
+.controller('LoginCtrl', function($http,$timeout,$location,$scope,$ionicLoading,$state,$ionicPopup,auth,StorageService) 
 {
 
     // var lock = new Auth0Lock('tI8AC9Ykd1dSBKoKGETQeP8vAx86OQal', 'raizeta.auth0.com');
@@ -8,64 +8,103 @@ angular.module('starter')
     // lock.show({connections: ['qraftlabs.com']});
     $scope.loginWithGoogle = function ()
     {
-        auth.signin(
+        $ionicLoading.show({
+          template: 'Logging in...'
+        });
+
+        window.plugins.googleplus.login(
         {
-            popup: true,
-            connection: 'google-oauth2',
-            scope: 'openid name email' //Details: https:///scopes
-        }, 
-        function(profile, token, accessToken, state, refreshToken) 
+        },
+        function (user_data) 
         {
-            $ionicLoading.show
-            ({
-                template: 'Loading...'
-            });
+            var profile = {};
+            profile.nickname    = user_data.email;
+            profile.email       = user_data.email;
+            profile.name        = user_data.displayName,
+            profile.picture     = user_data.imageUrl;
+            profile.identities  = [{'user_id':user_data.userId,'connection':'google-oauth2'}]; 
+            
+            alert("Nickname : " + profile.nickname);
+            alert("Email :" + profile.email);
+            alert("Nama :" + profile.name);
+            alert("User Id :" + profile.identities[0].user_id);
+            alert("Connection :" + profile.identities[0].connection);
+            alert("Access Token :" + profile.identities[0].user_id);
+
             StorageService.set('profile', profile);
-            StorageService.set('token', token);
-            StorageService.set('refreshToken', refreshToken);
-            console.log(profile);
+            StorageService.set('token', profile.identities[0].user_id);
             $timeout(function()
             {
                 $ionicLoading.hide();
-                $state.go('auth.register');  
-            }, 1000);
-        }, 
-        function(error) 
-        {
-            var alertPopup = $ionicPopup.alert
-            ({
-                title: 'Login failed!',
-                template: 'Please check your credentials!'
+                $location.path("/auth/register");
             });
-        });    
+        },
+        function (msg) 
+        {
+            alert("error " + msg)
+            // $ionicLoading.hide();
+        });
+    
     }
+    // $scope.loginWithGoogle = function ()
+    // {
+    //     auth.signin(
+    //     {
+    //         popup: true,
+    //         connection: 'google-oauth2',
+    //         scope: 'openid name email' //Details: https:///scopes
+    //     }, 
+    //     function(profile, token, accessToken, state, refreshToken) 
+    //     {
+    //         $ionicLoading.show
+    //         ({
+    //             template: 'Loading...'
+    //         });
+    //         StorageService.set('profile', profile);
+    //         StorageService.set('token', token);
+    //         StorageService.set('refreshToken', refreshToken);
+    //         console.log(profile);
+    //         $timeout(function()
+    //         {
+    //             $ionicLoading.hide();
+    //             $state.go('auth.register');  
+    //         }, 1000);
+    //     }, 
+    //     function(error) 
+    //     {
+    //         var alertPopup = $ionicPopup.alert
+    //         ({
+    //             title: 'Login failed!',
+    //             template: 'Please check your credentials!'
+    //         });
+    //     });    
+    // }
 
     $scope.loginWithFacebook = function ()
     {
+        $ionicLoading.show
+        ({
+            template: 'Loading...'
+        });
         auth.signin(
         {
             popup: true,
             connection: 'facebook',
             scope: 'openid name email' //Details: https:///scopes
         }, 
-        function(profile, token, accessToken, state, refreshToken) 
+        function(profile, token) 
         {
-            $ionicLoading.show
-            ({
-                template: 'Loading...'
-            });
             StorageService.set('profile', profile);
             StorageService.set('token', token);
-            StorageService.set('refreshToken', refreshToken);
-            console.log(profile);
             $timeout(function()
             {
                 $ionicLoading.hide();
-                $state.go('auth.register');  
-            }, 1000);
+                $location.path("/auth/register");
+            });  
         }, 
         function(error) 
         {
+            $ionicLoading.hide();
             var alertPopup = $ionicPopup.alert
             ({
                 title: 'Login failed!',
@@ -74,7 +113,7 @@ angular.module('starter')
         });    
     }
 })
-.controller('RegisterCtrl', function($timeout,$http,$scope, $state, $ionicPopup,$ionicLoading,StorageService,SecuredFac) 
+.controller('RegisterCtrl', function($timeout,$location,$http,$scope, $state, $ionicPopup,$ionicLoading,StorageService,SecuredFac) 
 {
     var profile  = StorageService.get('profile');
     var username = profile.nickname;
@@ -82,55 +121,66 @@ angular.module('starter')
     SecuredFac.GetProfileLogin(username,email)
     .then(function(getprofilelogin)
     {
-        console.log(getprofilelogin);
+        if(angular.isArray(getprofilelogin))
+        {
+            profile.ACCESS_UNIX = getprofilelogin[0].ACCESS_UNIX;
+            StorageService.set('profile',profile);
+            $location.path("/tab/dashboard");
+        }
+        else
+        {
+           alert(getprofilelogin.statusCode); 
+        }
     },
     function(errorgetprofilelogin)
     {
         console.log(errorgetprofilelogin);
     });
-    $scope.users = {'email':profile.email,'NAMA':profile.name}
+
+    $scope.customers = {'email':profile.email,'NAMA':profile.name}
     $scope.luasrumah = [{'nama':'100M-300M','type':'100-300'},{'nama':'500M-1000M','type':'500-1000'}];
-    $scope.registerbaru = function (user) 
+    $scope.registerbaru = function (customers) 
     {
         $ionicLoading.show
         ({
-            template: 'Loading...'
-        });
-
-        $scope.disableInput = true;
-        var datatosave = {};
-        datatosave.username     = profile.nickname;
-        datatosave.email        = profile.email;
-        datatosave.new_pass     = user.new_pass;
-        if(profile.identities[0].connection == 'facebook')
-        {
-            datatosave.ID_FB    = profile.identities[0].user_id;   
-        }
-        else if(profile.identities[0].connection == 'google-oauth2')
-        {
-            datatosave.ID_GOOGLE    = profile.identities[0].user_id;   
-        }
-        
-        datatosave.NAMA         = user.NAMA;
-        datatosave.ALAMAT       = user.ALAMAT;
-        datatosave.HP           = user.HP;
-        datatosave.LUAS_TANAH   = user.LUAS_TANAH.type;
-        SecuredFac.SetProfileLogin(datatosave)
-        .then(function(responsesetloginprofile)
-        {
-            console.log(responsesetloginprofile);
-            $timeout(function()
-            {
-                $state.go('tab.dashboard');  
-            }, 10);
-        },
-        function(errorsetloginprofile)
-        {
-            console.log(errorsetloginprofile);
+          template: 'Loading...'
         })
-        .finally(function()
+        .then(function()
         {
-            $ionicLoading.hide();
+
+            $scope.disableInput = true;
+            var datatosave = {};
+            datatosave.username     = profile.nickname;
+            datatosave.email        = customers.email;
+            datatosave.new_pass     = customers.new_pass;
+            if(profile.identities[0].connection == 'facebook')
+            {
+                datatosave.ID_FB    = profile.identities[0].user_id;   
+            }
+            else if(profile.identities[0].connection == 'google-oauth2')
+            {
+                datatosave.ID_GOOGLE    = profile.identities[0].user_id;   
+            }
+            
+            datatosave.NAMA         = customers.NAMA;
+            datatosave.ALAMAT       = customers.ALAMAT;
+            datatosave.HP           = customers.HP;
+            datatosave.LUAS_TANAH   = customers.LUAS_TANAH.type;
+            SecuredFac.SetProfileLogin(datatosave)
+            .then(function(responsesetloginprofile)
+            {
+                profile.ACCESS_UNIX = responsesetloginprofile.ACCESS_UNIX;
+                StorageService.set('profile',profile);
+                $state.go('tab.dashboard',{},{reload:true});  
+            },
+            function(errorsetloginprofile)
+            {
+                console.log(errorsetloginprofile);
+            })
+            .finally(function()
+            {
+                $ionicLoading.hide();
+            });
         });
     }
 })

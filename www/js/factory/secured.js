@@ -10,7 +10,7 @@ angular.module('starter')
 		var method 			= "GET";
 		var params 			= {};
 		params["username"]	= username;
-		params["email"]		= email;
+		params["email"]		= '';
 		$http({method:method, url:url,params:params})
         .success(function(response) 
         {
@@ -18,14 +18,7 @@ angular.module('starter')
         })
         .error(function(err,status)
         {
-			if (status === 404)
-			{
-	        	deferred.resolve([]);
-	      	}
-	      	else	
-      		{
-	        	deferred.reject(err);
-	      	}
+	        deferred.reject(err);
         });	
 
         return deferred.promise;  

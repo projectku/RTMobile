@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 angular.module('starter', ['ionic','ionic-ratings','ui.calendar','auth0'])
 
-.run(function($ionicPlatform,auth) 
+.run(function($ionicPlatform,$location,auth,$rootScope,StorageService) 
 {
   auth.hookEvents();
   $ionicPlatform.ready(function() 
@@ -24,16 +24,24 @@ angular.module('starter', ['ionic','ionic-ratings','ui.calendar','auth0'])
       StatusBar.styleDefault();
     }
   });
+  $rootScope.$on('$stateChangeStart', function (event,next, nextParams, fromState) 
+    {
+         var token = StorageService.get('token');
+         if (!token) 
+         {
+            $location.path('/auth/login');
+          }
+    });
 })
 .controller('AppCtrl', function($rootScope,$scope,$filter,$state,StorageService) 
 {
     $scope.tglskrg            = $filter('date')(new Date(),'yyyy-MM-dd');
     var menus       = [];
     menus.push({src: "img/200x200/schedule.png",link:"#/tab/jadwal",judul:"Jadwal",keterangan:null});
-    menus.push({src: "img/200x200/feedback.jpg",link:"#/tab/feedback",judul:"FeedBack",keterangan:null});
     menus.push({src: "img/200x200/history.png",link:"#/tab/history",judul:"History",keterangan:null});
+    menus.push({src: "img/200x200/feedback.jpg",link:"#/tab/feedback",judul:"FeedBack",keterangan:null});
     menus.push({src: "img/200x200/information.png",link:"#/tab/informasi",judul:"Informasi",keterangan:'DEV'});
-    menus.push({src: "img/200x200/setting.png",link:"#/tab/informasi",judul:"Pengaturan",keterangan:'DEV'});
+    menus.push({src: "img/200x200/setting.png",link:"#/tab/setting",judul:"Pengaturan",keterangan:'DEV'});
     $scope.menus = menus;
 
     // $scope.ratingsObject = {
