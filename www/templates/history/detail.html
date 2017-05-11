@@ -1,7 +1,7 @@
 <ion-view view-title="DESKRIPSI">
 	<ion-content>
 		<div class="row" style="flex-wrap: wrap;">
-			<div class="col col-50" ng-repeat="pekerja in datadetail.LIST_PEKERJA">
+			<div class="col col-50" ng-repeat="pekerja in datadetail.IMG_PEKERJA">
 		    	<div class="list">
 					<ion-item class="profile-item" ng-click="openmodaldetailuser(pekerja)">
 						<div class="profile-picture big-profile-picture" style="background:#93C178">
@@ -18,9 +18,9 @@
 		</div>
 		<div class="row" style="padding-top: 5px"><h5 style="text-align: center">Todo List</h5></div>
 		<div class="row"  style="flex-wrap: wrap;">
-	      <div class="col col-50" ng-repeat="item in todolist">
-	        <ion-checkbox  ng-model="item.checked" ng-checked="item.checked">
-	          {{ item.todo }}
+	      <div class="col col-50" ng-repeat="todolist in datadetail.Todolist">
+	        <ion-checkbox  ng-model="todolist.STATUS" ng-checked="todolist.STATUS">
+	          {{ todolist.LIST_NAME }}
 	        </ion-checkbox>
 	      </div>
 	    </div>

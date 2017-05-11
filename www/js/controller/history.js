@@ -1,15 +1,25 @@
 angular.module('starter')
 .controller('HistoryCtrl', function($scope,$state,$location,$ionicModal,$ionicLoading,JadwalFac) 
 {
-
-    JadwalFac.GetJadwal('20170404081602')
-    .then(function(responsegetjadwal)
+    $ionicLoading.show
+    ({
+        template: 'Loading...'
+    })
+    .then(function()
     {
-        $scope.datajadwal = responsegetjadwal;
-    },
-    function(errorgetjadwal)
-    {
-        console.log(errorgetjadwal);
+        JadwalFac.GetJadwal('20170404081602')
+        .then(function(responsegetjadwal)
+        {
+            $scope.datajadwal = responsegetjadwal;
+        },
+        function(errorgetjadwal)
+        {
+            console.log(errorgetjadwal);
+        })
+        .finally(function()
+        {
+            $ionicLoading.hide();
+        });
     });
     $scope.openmodaldetail = function(jadwal)
     {
@@ -19,15 +29,26 @@ angular.module('starter')
 })
 .controller('HistoryDetailCtrl', function($scope,$state,$ionicModal,$ionicLoading,JadwalFac) 
 {
-    JadwalFac.GetJadwalDetail('20170404081602',$scope.params)
-    .then(function(responsegetdetailjadwal)
+    $ionicLoading.show
+    ({
+        template: 'Loading...'
+    })
+    .then(function()
     {
-        $scope.datadetail = responsegetdetailjadwal[0];
-        console.log($scope.datadetail);
-    },
-    function(errorgetdetailjadwal)
-    {
-        console.log(errorgetjadwal);
+        JadwalFac.GetJadwalDetail('20170404081602',$scope.params)
+        .then(function(responsegetdetailjadwal)
+        {
+            $scope.datadetail = responsegetdetailjadwal[0];
+            console.log($scope.datadetail);
+        },
+        function(errorgetdetailjadwal)
+        {
+            console.log(errorgetjadwal);
+        })
+        .finally(function()
+        {
+            $ionicLoading.hide();
+        });
     });
     $scope.ratingsObject = {
         iconOn: 'ion-ios-star',    //Optional

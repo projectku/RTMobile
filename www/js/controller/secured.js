@@ -1,5 +1,5 @@
 angular.module('starter')
-.controller('LoginCtrl', function($http,$timeout,$location,$scope,$ionicLoading,$state,$ionicPopup,auth,StorageService) 
+.controller('LoginCtrl', function($http,$timeout,$location,$scope,$ionicLoading,$state,$ionicPopup,auth,StorageService,SecuredFac) 
 {
 
     // var lock = new Auth0Lock('tI8AC9Ykd1dSBKoKGETQeP8vAx86OQal', 'raizeta.auth0.com');
@@ -112,6 +112,41 @@ angular.module('starter')
             });
         });    
     }
+
+    $scope.loginmanual  = function(users)
+    {
+        $ionicLoading.show
+        ({
+            template: 'Loading...'
+        });
+
+        $scope.disableInput = true;
+        $scope.users    = angular.copy(users);
+        var username    = $scope.users.username;
+        // var password    = $scope.users.password;
+            
+        SecuredFac.GetProfileLogin(username, username)
+        .then(function (result) 
+        {
+            var profile = {};
+            profile.nickname        = result[0].username;
+            profile.email           = result[0].email;
+            profile.ACCESS_UNIX     = result[0].ACCESS_UNIX;
+            profile.name            = result[0].NAMA;
+            console.log(profile);
+            StorageService.set('profile', profile);
+            StorageService.set('token', result[0].access_token);
+            $state.go('auth.register', {}, {reload: true}); 
+        }, 
+        function (err) 
+        {          
+            console.log(err);
+        })
+        .finally(function()
+        {
+           $ionicLoading.hide(); 
+        });
+    }
 })
 .controller('RegisterCtrl', function($timeout,$location,$http,$scope, $state, $ionicPopup,$ionicLoading,StorageService,SecuredFac) 
 {
@@ -126,10 +161,6 @@ angular.module('starter')
             profile.ACCESS_UNIX = getprofilelogin[0].ACCESS_UNIX;
             StorageService.set('profile',profile);
             $location.path("/tab/dashboard");
-        }
-        else
-        {
-           alert(getprofilelogin.statusCode); 
         }
     },
     function(errorgetprofilelogin)

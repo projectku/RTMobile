@@ -31,6 +31,7 @@ angular.module('starter')
         var params              = {};
         params["ACCESS_UNIX"]   = ACCESS_UNIX;
         params["TGL"]           = TGL;
+        params["expand"]        = "IMG_PEKERJA,Todolist";
         $http({method:method, url:url,params:params})
         .success(function(response) 
         {

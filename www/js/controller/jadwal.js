@@ -55,15 +55,26 @@ angular.module('starter')
 .controller('JadwalDetailCtrl', function($scope,$stateParams,$state,$ionicModal,$ionicLoading,JadwalFac) 
 {
     $scope.params       = $stateParams.detail;
-    JadwalFac.GetJadwalDetail('20170404081602',$scope.params)
-    .then(function(responsegetdetailjadwal)
+    $ionicLoading.show
+    ({
+      template: 'Loading...'
+    })
+    .then(function()
     {
-        $scope.datadetail = responsegetdetailjadwal[0];
-        console.log($scope.datadetail);
-    },
-    function(errorgetdetailjadwal)
-    {
-        console.log(errorgetjadwal);
+        JadwalFac.GetJadwalDetail('20170404081602',$scope.params)
+        .then(function(responsegetdetailjadwal)
+        {
+            $scope.datadetail = responsegetdetailjadwal[0];
+            console.log($scope.datadetail);
+        },
+        function(errorgetdetailjadwal)
+        {
+            console.log(errorgetjadwal);
+        })
+        .finally(function()
+        {
+            $ionicLoading.hide();
+        });
     });
     $scope.ratingsObject = {
         iconOn: 'ion-ios-star',    //Optional
@@ -88,12 +99,12 @@ angular.module('starter')
         }
       }; 
 
-      $scope.todolist = [
-                            {'todo':'Merias','checked':true},
-                            {'todo':'Menghias','checked':true},
-                            {'todo':'Memupuk','checked':true},
-                            {'todo':'Merawat','checked':true}
-                        ];
+      // $scope.todolist = [
+      //                       {'todo':'Merias','checked':true},
+      //                       {'todo':'Menghias','checked':true},
+      //                       {'todo':'Memupuk','checked':true},
+      //                       {'todo':'Merawat','checked':true}
+      //                   ];
 
     $scope.openmodalratingjelek = function()
     {
