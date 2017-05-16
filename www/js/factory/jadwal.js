@@ -65,9 +65,55 @@ angular.module('starter')
         });
         return deferred.promise;  
     }
+    var GetRatings = function(JADWAL_ID)
+    {
+        var deferred           = $q.defer();
+        var url                 = "http://rt.kontrolgampang.com/master/ratings";
+        var method              = "GET";
+        var params              = {};
+        params["JADWAL_ID"]     = JADWAL_ID;
+        $http({method:method, url:url,params:params})
+        .success(function(response) 
+        {
+            deferred.resolve(response.rating);
+        })
+        .error(function(err,status)
+        {
+            deferred.reject(err);
+        }); 
+
+        return deferred.promise;  
+    }
+    var SetRatings = function(JADWAL_ID,NILAI,NILAI_KETERANGAN)
+    {
+        var deferred               = $q.defer();
+        var url                    = "http://rt.kontrolgampang.com/master/ratings?JADWAL_ID=" + JADWAL_ID + "&NILAI=" + NILAI + "&NILAI_KETERANGAN=" + NILAI_KETERANGAN;
+        var method                 = "PUT";
+        var params                 = {};
+        params["JADWAL_ID"]        = JADWAL_ID;
+        params["NILAI"]            = NILAI;
+        params["NILAI_KETERANGAN"] = NILAI_KETERANGAN;
+
+        var result              = UtilService.SerializeObject(params);
+        var serialized          = result.serialized;
+        var config              = result.config;
+        $http.put(url,params,serialized,config)
+        .success(function(response) 
+        {
+            deferred.resolve(response.rating);
+        })
+        .error(function(err,status)
+        {
+            deferred.reject(err);
+        }); 
+
+        return deferred.promise;  
+    }
     return {
     	GetJadwal:GetJadwal,
         GetJadwalDetail:GetJadwalDetail,
-    	SetJadwal:SetJadwal
+    	SetJadwal:SetJadwal,
+        GetRatings:GetRatings,
+        SetRatings:SetRatings
     }
 });

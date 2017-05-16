@@ -28,15 +28,15 @@
           </div>
         </div>
         <div class="item row">
-          <span style="text-align:left" class="col col-50">Alasan Lain</span>
+          <span style="text-align:left" class="col col-50">Masukan</span>
         </div>
         <div class="item item-body">
-            <textarea placeholder="Masukkan Alasan Disini"></textarea>
+            <textarea placeholder="Masukkan Alasan Disini" ng-model="komentarrating.alasan"></textarea>
         </div>
         <div class="row">
         <div class="col col-100">
           <div class="list">
-            <button type="submit" class="button button-block button-balanced" ng-click="closemodalratingjelek()">
+            <button type="submit" class="button button-block button-balanced" ng-click="submitmodalrating()">
                 Submit
               </button>
             </div>

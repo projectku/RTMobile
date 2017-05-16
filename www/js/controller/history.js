@@ -40,7 +40,16 @@ angular.module('starter')
         .then(function(responsegetdetailjadwal)
         {
             $scope.datadetail = responsegetdetailjadwal[0];
-            console.log($scope.datadetail);
+            JadwalFac.GetRatings($scope.datadetail.ID)
+            .then(function(responsegetratings)
+            {
+                console.log(responsegetratings[0])
+                $scope.datarating = responsegetratings[0];
+            },
+            function(errorgetratings)
+            {
+                console.log(errorgetratings);
+            });
         },
         function(errorgetdetailjadwal)
         {
@@ -50,6 +59,7 @@ angular.module('starter')
         {
             $ionicLoading.hide();
         });
+
     });
 
     $scope.ratingsObject = UtilService.GetRatingConfig();
@@ -64,7 +74,6 @@ angular.module('starter')
     }
     $scope.ratingsCallback = function(rating, index) 
     {
-        console.log(rating);
         if(rating <= 3)
         {
             $scope.pilihalasan = true;
@@ -95,22 +104,36 @@ angular.module('starter')
                             {'todo':'Merokok Pas Bekerja','checked':false},
                             {'todo':'Semberawutan','checked':false}
                         ];
+            $scope.komentarrating = {'alasan':null};
             $scope.modalratingjelek  = modal;
             $scope.modalratingjelek.show();
         });
     }
     $scope.closemodalratingjelek = function()
     {
-        $scope.ratingsObject.rating = $scope.ratinggiven;
+        // $scope.ratingsObject.rating = $scope.ratinggiven;
         $scope.modalratingjelek.hide();
     }
-
-    $scope.gambar = [{'namagambar':'img/rt.png'},{'namagambar':'img/rt.png'},{'namagambar':'img/rt.png'},{'namagambar':'img/rt.png'}];
+    $scope.submitmodalrating = function()
+    {
+        console.log($scope.komentarrating);
+        $scope.ratingsObject.rating = $scope.ratinggiven;
+        JadwalFac.SetRatings($scope.datarating.JADWAL_ID,$scope.ratingsObject.rating,$scope.komentarrating.alasan)
+        .then(function(responseupdaterating)
+        {
+            console.log(responseupdaterating)
+        },
+        function(errorupdaterating)
+        {
+            console.log(errorupdaterating);
+        });
+        $scope.modalratingjelek.hide();  
+    }
     $scope.openModalImages = function(index) 
     {
         
         $scope.activeSlide = index;
-        $scope.showModaImages('templates/jadwal/modalgambar.html');
+        $scope.showModaImages('templates/history/modalgambar.html');
     }
     
     $scope.showModaImages = function(templateUrl) 
@@ -121,7 +144,8 @@ angular.module('starter')
             animation: 'slide-in-up'
         }).then(function(modal) 
         {
-            $scope.gambar = [{'namagambar':'img/rt.png'},{'namagambar':'img/rt.png'},{'namagambar':'img/rt.png'},{'namagambar':'img/rt.png'}];
+            $scope.gambar = $scope.datarating.PHOTO_HASIL;
+            console.log($scope.gambar);
             $scope.modalimages = modal;
             $scope.modalimages.show();
         });
@@ -132,4 +156,19 @@ angular.module('starter')
         $scope.modalimages.hide();
         $scope.modalimages.remove()
     };
+
+    $scope.getimageprefix = function(itemimage)
+    {
+        var png  = itemimage.IMAGE_64.search("data:image/png;base64");
+        var jpg  = itemimage.IMAGE_64.search("data:image/jpg;base64");
+        if((png == -1) && (jpg == -1))
+        {
+            itemimage.IMAGE_64 = 'data:image/png;base64,' + itemimage.IMAGE_64;
+        }
+        else
+        {
+            itemimage.IMAGE_64           = itemimage.IMAGE_64;
+        }
+        return itemimage.IMAGE_64;
+    }
 });

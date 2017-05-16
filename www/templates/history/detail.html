@@ -55,11 +55,11 @@
 	      </div>
 	    </div>
 	    <div class="row"  style="flex-wrap: wrap;">
-	      	<div class="col col-50" ng-repeat="gambar in gambar">
+	      	<div class="col col-50" ng-repeat="gambar in datarating.PHOTO_HASIL">
 		    	<div class="list">
 					<ion-item class="profile-item" ng-click="openModalImages($index)">
 						<div class="big-profile-picture" style="background:#93C178">
-						  <img data-ng-src="{{gambar.namagambar}}" width="100%" height="100%">
+						  <img data-ng-src="{{getimageprefix(gambar)}}" width="100%" height="100%">
 						</div>
 					</ion-item>
 		  		</div>
