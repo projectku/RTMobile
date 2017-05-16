@@ -33,32 +33,33 @@ angular.module('starter', ['ionic','ionic-ratings','ui.calendar','auth0'])
           }
     });
 })
-.controller('AppCtrl', function($rootScope,$scope,$filter,$state,StorageService) 
+.controller('AppCtrl', function($window,$rootScope,$scope,$filter,$state,$ionicLoading,$timeout,$ionicHistory,StorageService) 
 {
     $scope.tglskrg            = $filter('date')(new Date(),'yyyy-MM-dd');
+    $scope.profile            = StorageService.get('profile');
+
     var menus       = [];
-    menus.push({src: "img/200x200/schedule.png",link:"#/tab/jadwal",judul:"Jadwal",keterangan:null});
-    menus.push({src: "img/200x200/history.png",link:"#/tab/history",judul:"History",keterangan:null});
-    menus.push({src: "img/200x200/feedback.jpg",link:"#/tab/feedback",judul:"FeedBack",keterangan:null});
-    menus.push({src: "img/200x200/information.png",link:"#/tab/informasi",judul:"Informasi",keterangan:'DEV'});
-    menus.push({src: "img/200x200/setting.png",link:"#/tab/setting",judul:"Pengaturan",keterangan:'DEV'});
+    menus.push({src: "img/rt.png",link:"#/tab/jadwal",judul:"Jadwal Kunjungan",keterangan:null});
+    menus.push({src: "img/rt.png",link:"#/tab/history",judul:"History",keterangan:null});
+    menus.push({src: "img/rt.png",link:"#/tab/feedback",judul:"FeedBack",keterangan:null});
+    menus.push({src: "img/rt.png",link:"#/tab/informasi",judul:"Informasi",keterangan:'DEV'});
+    menus.push({src: "img/rt.png",link:"#/tab/setting",judul:"Pengaturan",keterangan:'DEV'});
     $scope.menus = menus;
 
-    // $scope.ratingsObject = {
-    //     iconOn: 'ion-ios-star',    //Optional
-    //     iconOff: 'ion-ios-star-outline',   //Optional
-    //     iconOnColor: 'rgb(200, 200, 100)',  //Optional
-    //     iconOffColor:  'rgb(200, 100, 100)',    //Optional
-    //     rating:  0, //Optional
-    //     minRating:0,    //Optional
-    //     readOnly: true, //Optional
-    //     callback: function(rating, index) {    //Mandatory
-    //       $scope.ratingsCallback(rating, index);
-    //     }
-    //   };
-  
-    //   $scope.ratingsCallback = function(rating, index) {
-    //     console.log('Selected rating is : ', rating, ' and the index is : ', index);
-    //   };
+  $scope.logout = function() 
+  {
+    $ionicLoading.show();
+    StorageService.destroy('profile');
+    StorageService.destroy('token');
+    $timeout(function () 
+    {
+          $ionicLoading.hide();
+          $ionicHistory.clearCache();
+          $ionicHistory.clearHistory();
+          $ionicHistory.nextViewOptions({ disableBack: true, historyRoot: true });
+          $window.location.href = "index.html";
+      }, 500);
+  };
 
+  
 });

@@ -6,14 +6,14 @@
 			  	{{jadwal.ID_PEKERJA}}
 			  </span>
 			  	<span style="text-align:right;font-size: 14px" class="col col-50">
-			  		{{jadwal.TGL}} {{jadwal.JAM_MASUK}} - {{jadwal.JAM_KELUAR}}
+			  		{{jadwal.JAM_MASUK|date :'h:mm'}} - {{jadwal.JAM_KELUAR}}
 		  		</span>
 			</div>
 		    <div class="item item-body">
 		      <ion-item>
                 <div class="item-icon-left">
                     <i class="icon ion-navicon"></i>
-                   	{{jadwal.ACCESS_UNIX}}
+                   	{{jadwal.TGL | date :'EEEE,dd-MM-yyyy'}} 
                 </div>
                 <div class="item-icon-right">
                     <i class="icon ion-ios-star-outline"></i>

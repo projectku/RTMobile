@@ -277,6 +277,18 @@ angular.module('starter')
         return datacustrans.TRANS_ID;
     }
     
+    var GetRatingConfig = function()
+    {
+        var ratingconfig = {};
+        ratingconfig.iconOn       = 'ion-ios-star';
+        ratingconfig.iconOff      = 'ion-ios-star-outline';
+        ratingconfig.iconOnColor  = 'rgb(200, 200, 100)';
+        ratingconfig.iconOffColor = 'rgb(200, 100, 100)';
+        ratingconfig.rating       = 0;
+        ratingconfig.minRating    = 0;
+        ratingconfig.readOnly     = false;
+        return ratingconfig;
+    }
     return {
       ArrayChunk:ArrayChunk,
       ApiUrl:ApiUrl,
@@ -292,6 +304,7 @@ angular.module('starter')
       StringPad:StringPad,
       CameraOptions:CameraOptions,
       PembayaranFunc:PembayaranFunc,
-      GenerateNomorTrans:GenerateNomorTrans
+      GenerateNomorTrans:GenerateNomorTrans,
+      GetRatingConfig:GetRatingConfig
     };
 });
