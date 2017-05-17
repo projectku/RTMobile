@@ -1,6 +1,7 @@
 <ion-view view-title="RAWAT TAMAN">
 	<ion-content>
-		<div class="row" style="flex-wrap: wrap;" >
+		<div  class="row" style="flex-wrap: wrap;padding: 10px" >
+		<div class="row row-no-padding">
 			<div class="col col-50" ng-repeat="pekerja in datadetail.IMG_PEKERJA" ng-if="datadetail.IMG_PEKERJA.length > 1" >
 		    	<div class="list">
 					<ion-item class="profile-item" ng-click="openmodaldetailuser(pekerja)">
@@ -11,7 +12,7 @@
 					</ion-item>
 		  		</div>
 	  		</div>
-			
+	  		</div>
 		</div>
 		<div class="row" style="flex-wrap: wrap;" ng-if="datadetail.IMG_PEKERJA.length == 1">
 			<div class="col col-100" ng-repeat="pekerja in datadetail.IMG_PEKERJA">
@@ -26,7 +27,7 @@
 	  		</div>
 		</div>
 		<div class="row">
-			<div class="col col-100" style="margin-top: -10px;">
+			<div class="col col-100" style="margin-top:-10px;border-top: 0px">
 		    	<div class="list">
 					<ion-item class="profile-item" ng-click="openmodalratingjelek()">
 						<ionic-ratings ratingsobj='ratingsObject' index='1' class="ionic_ratings_custom">
@@ -35,25 +36,34 @@
 		  		</div>
 	  		</div>
   		</div>
-
-		<div class="row"  style="flex-wrap: wrap;">
-	      <div class="col col-50">
-	        <div class="list">
-			  <label class="item item-input item-stacked-label" style="background-color: #f8f8f8">
-			    <span class="input-label">Checkin</span>
-			    <input type="text" value="{{datadetail.JAM_MASUK}}" readonly="true">
-			  </label>
-			</div>
-	      </div>
-	      <div class="col col-50">
-	        <div class="list">
-			  <label class="item item-input item-stacked-label" style="background-color: #f8f8f8">
-			    <span class="input-label">Checkout</span>
-			    <input type="text" value="{{datadetail.JAM_KELUAR}}" readonly="true">
-			  </label>
-			</div>
-	      </div>
-	    </div>
+  		<div class="list card">
+			<style>
+	            i.icon.xxx {font-size: 16px;}
+	        </style>
+	        <div class="item row">
+	          <span style="text-align:left" class="col col-50">
+	          	{{datadetail.TGL | date :'EEEE, dd-MM-yyyy'}}
+	          </span>
+	        </div>
+	        <ion-item>
+	            <div class="item-icon-left">
+	                <i class="icon ion-play custom-icon-green"></i>
+	                <p>CHECKIN</p>
+	            </div>
+	            <div class="item-icon-right">
+	                <i class="icon xxx">{{datadetail.JAM_MASUK}}</i>
+	            </div>
+	        </ion-item>
+	        <ion-item>
+	            <div class="item-icon-left">
+	                <i class="icon ion-stop custom-icon-red"></i>
+	                <p>CHECKOUT</p>
+	            </div>
+	            <div class="item-icon-right">
+	                <i class="icon xxx">{{datadetail.JAM_KELUAR}}</i>
+	            </div>
+	        </ion-item>
+        </div>
 	    <div class="row"  style="flex-wrap: wrap;">
 	      	<div class="col col-50" ng-repeat="gambar in datarating.PHOTO_HASIL">
 		    	<div class="list">

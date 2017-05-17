@@ -32,24 +32,34 @@
 		  		</div>
 	  		</div>
 		</div>
-		<div class="row"  style="flex-wrap: wrap;">
-	      <div class="col col-50">
-	        <div class="list">
-			  <label class="item item-input item-stacked-label" style="background-color: #f8f8f8">
-			    <span class="input-label">Checkin</span>
-			    <input type="text" value="{{datadetail.JAM_MASUK}}" readonly="true">
-			  </label>
-			</div>
-	      </div>
-	      <div class="col col-50">
-	        <div class="list">
-			  <label class="item item-input item-stacked-label" style="background-color: #f8f8f8">
-			    <span class="input-label">Checkout</span>
-			    <input type="text" value="{{datadetail.JAM_KELUAR}}" readonly="true">
-			  </label>
-			</div>
-	      </div>
-	    </div>
+		<div class="list card">
+			<style>
+	            i.icon.xxx {font-size: 16px;}
+	        </style>
+	        <div class="item row">
+	          <span style="text-align:left" class="col col-50">
+	          	{{datadetail.TGL | date :'EEEE, dd-MM-yyyy'}}
+	          </span>
+	        </div>
+	        <ion-item>
+	            <div class="item-icon-left">
+	                <i class="icon ion-play custom-icon-green"></i>
+	                <p>CHECKIN</p>
+	            </div>
+	            <div class="item-icon-right">
+	                <i class="icon xxx">{{datadetail.JAM_MASUK}}</i>
+	            </div>
+	        </ion-item>
+	        <ion-item>
+	            <div class="item-icon-left">
+	                <i class="icon ion-stop custom-icon-red"></i>
+	                <p>CHECKOUT</p>
+	            </div>
+	            <div class="item-icon-right">
+	                <i class="icon xxx">{{datadetail.JAM_KELUAR}}</i>
+	            </div>
+	        </ion-item>
+        </div>
   </ion-content>
 </ion-view>
 

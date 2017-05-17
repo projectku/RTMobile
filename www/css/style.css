@@ -167,3 +167,18 @@ height: 10vh;
 {
     font-size: 36px;
 }
+
+.custom-icon-red {
+  font-size: 64px;
+  color : red;
+}
+
+.custom-icon-green {
+  font-size: 64px;
+  color : green;
+}
+
+.custom-icon-gold {
+  font-size: 64px;
+  color : rgb(200, 200, 100);
+}

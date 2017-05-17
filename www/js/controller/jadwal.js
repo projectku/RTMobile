@@ -137,6 +137,7 @@ angular.module('starter')
 
     $scope.openmodaldetailuser = function(pekerja)
     {
+        console.log(pekerja);
         $ionicModal.fromTemplateUrl('templates/jadwal/users.html', 
         {
             scope: $scope,

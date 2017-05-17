@@ -21,7 +21,7 @@
           <span style="text-align:left" class="col col-50">Pilih Alasan</span>
         </div>
         <div class="row"  style="flex-wrap: wrap;" ng-show="pilihalasan">
-          <div class="col col-50" ng-repeat="item in alasan">
+          <div class="col col-100" ng-repeat="item in alasan">
             <ion-checkbox  ng-model="item.checked" ng-checked="item.checked">
               {{ item.todo }}
             </ion-checkbox>
@@ -31,7 +31,7 @@
           <span style="text-align:left" class="col col-50">Masukan</span>
         </div>
         <div class="item item-body">
-            <textarea placeholder="Masukkan Alasan Disini" ng-model="komentarrating.alasan"></textarea>
+            <textarea placeholder="Tulis Masukan Anda Disini" ng-model="komentarrating.alasan"></textarea>
         </div>
         <div class="row">
         <div class="col col-100">
