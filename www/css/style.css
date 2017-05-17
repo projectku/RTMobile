@@ -6,11 +6,11 @@ height: 10vh;
 
 #login 
 {
-  background: #1c2627;
-  -webkit-background-size: cover;
+background: #2aa5ad; 
+/*  -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
-  background-size: cover;
+  background-size: cover;*/
 
   .scroll-content 
   {

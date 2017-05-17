@@ -1,8 +1,9 @@
 <ion-view id="login" hide-nav-bar="true" name="login-view" view-title="Login Area">
-    <div class="row row-center" style="margin-top:30px">
+    <ion-content scroll="true">
+        <div class="row row-center" style="margin-top:30px">
             <div class="row responsive-md">
                 <div class="col col-50 col-offset-25">
-                      <div class="profile-picturezzz big-profile-picture">
+                      <div class="profile-picture">
                         <img data-ng-src="img/rt.png" width="100%" height="100%">
                       </div>
                     <form name="loginForm" ng-submit="loginmanual(users)" novalidate="">
@@ -17,21 +18,18 @@
                                 <input type="password" ng-model="users.password" class="form-control" placeholder="password" required>
                             </label>
                         </div>
-                        <button type="submit" class="button button-block button-positive" ng-disabled="loginForm.$invalid">
+                        <button type="submit" class="button button-block button-balanced" ng-disabled="loginForm.$invalid">
                           Login
                         </button>
                     </form>
                     <div class="button-bar social-login">
-                <button class="button button-small button-border icon-left ion-social-google button-assertive" ng-click="loginWithGoogle()">
-                    Google+
-                </button>
-                <button class="button button-small button-border icon-left ion-social-twitter button-calm">Twitter</button>
-                <button class="button button-small button-border icon-left ion-social-facebook button-positive" ng-click="loginWithFacebook()">Facebook</button>
-            </div>
+                        <button class="button button-large button-border ion-social-googleplus button-assertive" ng-click="loginWithGoogle()">
+                        </button>
+                        <button class="button button-large button-border ion-social-facebook button-positive" ng-click="loginWithFacebook()"></button>
+                        <button class="button button-large button-border ion-social-tumblr button-calm"></button>
+                    </div>
                 </div>
             </div>
-            
-
-    </div>
+        </div>
   </ion-content>
 </ion-view>
