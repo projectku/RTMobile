@@ -42,8 +42,8 @@ angular.module('starter', ['ionic','ionic-ratings','ui.calendar','auth0'])
     menus.push({src: "img/rt.png",link:"#/tab/jadwal",judul:"Jadwal Kunjungan",keterangan:null});
     menus.push({src: "img/rt.png",link:"#/tab/history",judul:"History",keterangan:null});
     menus.push({src: "img/rt.png",link:"#/tab/feedback",judul:"FeedBack",keterangan:null});
-    menus.push({src: "img/rt.png",link:"#/tab/informasi",judul:"Informasi",keterangan:'DEV'});
-    menus.push({src: "img/rt.png",link:"#/tab/setting",judul:"Pengaturan",keterangan:'DEV'});
+    menus.push({src: "img/rt.png",link:"#/tab/informasi",judul:"Jasa",keterangan:'DEV'});
+    menus.push({src: "img/rt.png",link:"#/tab/setting",judul:"Setting",keterangan:'DEV'});
     $scope.menus = menus;
 
   $scope.logout = function() 
