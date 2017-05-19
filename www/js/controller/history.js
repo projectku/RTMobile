@@ -11,6 +11,7 @@ angular.module('starter')
         .then(function(responsegetjadwal)
         {
             $scope.datajadwal = responsegetjadwal;
+            console.log($scope.datajadwal);
         },
         function(errorgetjadwal)
         {
@@ -27,9 +28,11 @@ angular.module('starter')
         $location.path("/tab/history/" + jadwal.TGL);
     }
 })
-.controller('HistoryDetailCtrl', function($scope,$state,$stateParams,$ionicModal,$ionicLoading,JadwalFac,UtilService) 
+.controller('HistoryDetailCtrl', function($scope,$state,$stateParams,$ionicModal,$ionicScrollDelegate,$ionicSlideBoxDelegate,$ionicLoading,JadwalFac,UtilService) 
 {
     $scope.params       = $stateParams.detail;
+    $scope.ratingsObject = UtilService.GetRatingConfig();
+    $scope.ratingsObject.readOnly   = true;
     $ionicLoading.show
     ({
         template: 'Loading...'
@@ -43,8 +46,11 @@ angular.module('starter')
             JadwalFac.GetRatings($scope.datadetail.ID)
             .then(function(responsegetratings)
             {
-                console.log(responsegetratings[0])
-                $scope.datarating = responsegetratings[0];
+                if(angular.isArray(responsegetratings) && responsegetratings.length > 0)
+                {
+                    $scope.datarating               = responsegetratings[0];
+                    $scope.ratingsObject.rating     = $scope.datarating.NILAI;
+                } 
             },
             function(errorgetratings)
             {
@@ -53,7 +59,7 @@ angular.module('starter')
         },
         function(errorgetdetailjadwal)
         {
-            console.log(errorgetjadwal);
+            console.log(errorgetdetailjadwal);
         })
         .finally(function()
         {
@@ -62,9 +68,6 @@ angular.module('starter')
 
     });
 
-    $scope.ratingsObject = UtilService.GetRatingConfig();
-    $scope.ratingsObject.readOnly = true;
-    
     $scope.giverating           = UtilService.GetRatingConfig();
     $scope.giverating.readOnly  = false;
     
@@ -116,12 +119,13 @@ angular.module('starter')
     }
     $scope.submitmodalrating = function()
     {
-        console.log($scope.komentarrating);
-        $scope.ratingsObject.rating = $scope.ratinggiven;
-        JadwalFac.SetRatings($scope.datarating.JADWAL_ID,$scope.ratingsObject.rating,$scope.komentarrating.alasan)
+
+        var starsawal   = $scope.ratingsObject.rating;
+        var starsresult = $scope.ratinggiven;
+        JadwalFac.SetRatings($scope.datadetail.ID,starsawal,starsresult,$scope.komentarrating.alasan)
         .then(function(responseupdaterating)
         {
-            console.log(responseupdaterating)
+            $scope.ratingsObject.rating = starsresult;
         },
         function(errorupdaterating)
         {
@@ -135,7 +139,7 @@ angular.module('starter')
         $scope.activeSlide = index;
         $scope.showModaImages('templates/history/modalgambar.html');
     }
-    
+     $scope.zoomMin = 1;
     $scope.showModaImages = function(templateUrl) 
     {
         $ionicModal.fromTemplateUrl(templateUrl, 
@@ -145,7 +149,6 @@ angular.module('starter')
         }).then(function(modal) 
         {
             $scope.gambar = $scope.datarating.PHOTO_HASIL;
-            console.log($scope.gambar);
             $scope.modalimages = modal;
             $scope.modalimages.show();
         });
@@ -170,5 +173,40 @@ angular.module('starter')
             itemimage.IMAGE_64           = itemimage.IMAGE_64;
         }
         return itemimage.IMAGE_64;
+    }
+
+    $scope.updateSlideStatus = function(slide) 
+    {
+      var zoomFactor = $ionicScrollDelegate.$getByHandle('scrollHandle' + slide).getScrollPosition().zoom;
+      if (zoomFactor == $scope.zoomMin) 
+      {
+        $ionicSlideBoxDelegate.enableSlide(true);
+      } 
+      else 
+      {
+        $ionicSlideBoxDelegate.enableSlide(false);
+      }
+    };
+
+    $scope.openmodaldetailuser = function(pekerja)
+    {
+        $ionicModal.fromTemplateUrl('templates/history/users.html', 
+        {
+            scope: $scope,
+            animation: 'slide-in-up',
+            backdropClickToClose: false,
+            hardwareBackButtonClose: true
+        })
+        .then(function(modal) 
+        {
+            $scope.detailpekerja    = pekerja;
+            $scope.modaldetail  = modal;
+            $scope.modaldetail.show();
+        });
+    }
+    
+    $scope.closemodaldetailuser = function()
+    {
+        $scope.modaldetail.hide();
     }
 });

@@ -129,7 +129,6 @@ angular.module('starter')
     },
     function(errorgetprofilelogin)
     {
-        alert("Proses Gagal");
         console.log(errorgetprofilelogin);
     });
 

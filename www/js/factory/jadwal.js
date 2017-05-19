@@ -10,7 +10,7 @@ angular.module('starter')
 		var method 			    = "GET";
 		var params 			    = {};
 		params["ACCESS_UNIX"]	= ACCESS_UNIX;
-		$http({method:method, url:url,params:params})
+		$http({method:method, url:url,params:params,cache:true})
         .success(function(response) 
         {
 	        deferred.resolve(response.jadwalkunjng);
@@ -32,7 +32,7 @@ angular.module('starter')
         params["ACCESS_UNIX"]   = ACCESS_UNIX;
         params["TGL"]           = TGL;
         params["expand"]        = "IMG_PEKERJA,Todolist";
-        $http({method:method, url:url,params:params})
+        $http({method:method, url:url,params:params,cache:true})
         .success(function(response) 
         {
             deferred.resolve(response.jadwalkunjng);
@@ -72,7 +72,7 @@ angular.module('starter')
         var method              = "GET";
         var params              = {};
         params["JADWAL_ID"]     = JADWAL_ID;
-        $http({method:method, url:url,params:params})
+        $http({method:method, url:url,params:params,cache:true})
         .success(function(response) 
         {
             deferred.resolve(response.rating);
@@ -84,10 +84,10 @@ angular.module('starter')
 
         return deferred.promise;  
     }
-    var SetRatings = function(JADWAL_ID,NILAI,NILAI_KETERANGAN)
+    var SetRatings = function(JADWAL_ID,NILAI_AWAL,NILAI,NILAI_KETERANGAN)
     {
         var deferred               = $q.defer();
-        var url                    = "http://rt.kontrolgampang.com/master/ratings?JADWAL_ID=" + JADWAL_ID + "&NILAI=" + NILAI + "&NILAI_KETERANGAN=" + NILAI_KETERANGAN;
+        var url                    = "http://rt.kontrolgampang.com/master/ratings?JADWAL_ID=" + JADWAL_ID + "&NILAI=" + NILAI_AWAL;
         var method                 = "PUT";
         var params                 = {};
         params["JADWAL_ID"]        = JADWAL_ID;
@@ -97,7 +97,7 @@ angular.module('starter')
         var result              = UtilService.SerializeObject(params);
         var serialized          = result.serialized;
         var config              = result.config;
-        $http.put(url,params,serialized,config)
+        $http.put(url,serialized,config)
         .success(function(response) 
         {
             deferred.resolve(response.rating);
