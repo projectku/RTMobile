@@ -25,13 +25,13 @@ angular.module('starter', ['ionic','ionic-ratings','ui.calendar','auth0','ionic-
     }
   });
   $rootScope.$on('$stateChangeStart', function (event,next, nextParams, fromState) 
-    {
-         var token = StorageService.get('token');
-         if (!token) 
-         {
-            $location.path('/auth/login');
-          }
-    });
+  {
+      var token = StorageService.get('token');
+      if (!token) 
+      {
+        $location.path('/auth/login');
+      }
+  });
 })
 .controller('AppCtrl', function($window,$rootScope,$scope,$filter,$state,$ionicLoading,$timeout,$ionicHistory,StorageService) 
 {
