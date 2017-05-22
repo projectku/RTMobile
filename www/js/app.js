@@ -39,16 +39,16 @@ angular.module('starter', ['ionic','ionic-ratings','ui.calendar','auth0','ionic-
     $scope.profile            = StorageService.get('profile');
 
     var menus       = [];
-    menus.push({src: "img/rt.png",link:"#/tab/jadwal",judul:"Jadwal Kunjungan",keterangan:null});
-    menus.push({src: "img/rt.png",link:"#/tab/history",judul:"History",keterangan:null});
-    menus.push({src: "img/rt.png",link:"#/tab/feedback",judul:"FeedBack",keterangan:null});
-    menus.push({src: "img/rt.png",link:"#/tab/informasi",judul:"Jasa",keterangan:'DEV'});
-    menus.push({src: "img/rt.png",link:"#/tab/setting",judul:"Setting",keterangan:'DEV'});
+    menus.push({src: "img/jadwal.jpg",link:"#/tab/jadwal",judul:"Jadwal Kunjungan",keterangan:null});
+    menus.push({src: "img/history.jpg",link:"#/tab/history",judul:"History",keterangan:null});
+    // menus.push({src: "img/rt.png",link:"#/tab/feedback",judul:"FeedBack",keterangan:null});
+    menus.push({src: "img/jasa.jpg",link:"#/tab/informasi",judul:"Jasa",keterangan:'DEV'});
+    menus.push({src: "img/settings.jpg",link:"#/tab/setting",judul:"Setting",keterangan:'DEV'});
     $scope.menus = menus;
 
   $scope.logout = function() 
   {
-    $ionicLoading.show();
+    $ionicLoading.show({duration:1000});
     StorageService.destroy('profile');
     StorageService.destroy('token');
     $timeout(function () 

@@ -75,6 +75,6 @@ angular.module('starter')
     $urlRouterProvider.otherwise('/auth/login');
     $ionicConfigProvider.views.maxCache(0);
     $ionicConfigProvider.navBar.alignTitle('center');
-    $ionicConfigProvider.backButton.text('Go Back').icon('ion-chevron-left');
+    $ionicConfigProvider.backButton.text('Back').icon('ion-chevron-left');
     // $ionicConfigProvider.scrolling.jsScrolling(true);
 });

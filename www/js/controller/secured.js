@@ -8,9 +8,7 @@ angular.module('starter')
     // lock.show({connections: ['qraftlabs.com']});
     $scope.loginWithGoogle = function ()
     {
-        $ionicLoading.show({
-          template: 'Logging in...'
-        });
+        $ionicLoading.show();
 
         window.plugins.googleplus.login(
         {
@@ -42,10 +40,7 @@ angular.module('starter')
     
     $scope.loginWithFacebook = function ()
     {
-        $ionicLoading.show
-        ({
-            template: 'Loading...'
-        });
+        $ionicLoading.show();
         auth.signin(
         {
             popup: true,
