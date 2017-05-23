@@ -10,7 +10,7 @@ angular.module('starter')
 		var method 			    = "GET";
 		var params 			    = {};
 		params["ID_PEKERJA"]	= ID_PEKERJA;
-		$http({method:method, url:url,params:params,cache:true})
+		$http({method:method, url:url,params:params,cache:false})
         .success(function(response) 
         {
 	        deferred.resolve(response.pekerja);

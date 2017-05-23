@@ -1,6 +1,6 @@
 <ion-view id="login" hide-nav-bar="true" name="login-view" view-title="Login Area">
-    <ion-content scroll="true">
-        <div class="row row-center" style="margin-top:30px">
+    <ion-content scroll="true" padding="true">
+        <div class="row row-center" style="margin-top:10px">
             <div class="row responsive-md">
                 <div class="col col-50 col-offset-25">
                       <div class="profile-picture-login">
@@ -18,14 +18,16 @@
                                 <input type="password" ng-model="users.password" class="form-control" placeholder="password" required>
                             </label>
                         </div>
-                        <button type="submit" class="button button-block button-balanced" ng-disabled="loginForm.$invalid">
+                        <button type="submit" class="button button-block button-balanced" ng-disabled="loginForm.$invalid" style="border: 1px solid rgba(255, 255, 255, 0.8);">
                           Login
                         </button>
                     </form>
-                    <button class="button button-block button-border ion-social-googleplus button-assertive" ng-click="loginWithGoogle()">
+                    <div style="padding-top:15px">
+                        <button class="button button-block ion-social-googleplus button-assertive" ng-click="loginWithGoogle()" style="border: 1px solid rgba(255, 255, 255, 0.8);">
                         </button>
-                        <button class="button button-block button-border ion-social-facebook button-positive" ng-click="loginWithFacebook()"></button>
-                        <button class="button button-block button-border ion-social-tumblr button-calm"></button>
+                        <button class="button button-block ion-social-facebook button-positive" ng-click="loginWithFacebook()" style="border: 1px solid rgba(255, 255, 255, 0.8);"></button>
+                            <button class="button button-block ion-social-tumblr button-calm" style="border: 1px solid rgba(255, 255, 255, 0.8);"></button>
+                    </div>
                         
                 </div>
 

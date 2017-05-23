@@ -3,7 +3,6 @@ angular.module('starter')
 {
     $ionicLoading.show
     ({
-        template: 'Loading...'
     })
     .then(function()
     {
@@ -35,7 +34,6 @@ angular.module('starter')
     $scope.ratingsObject.readOnly   = true;
     $ionicLoading.show
     ({
-        template: 'Loading...'
     })
     .then(function()
     {

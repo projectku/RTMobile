@@ -1,6 +1,12 @@
 angular.module('starter')
 .config(function ($stateProvider, $urlRouterProvider,$ionicConfigProvider,$ionicConfigProvider,authProvider,$httpProvider) 
 {
+    // $httpProvider.interceptors.push('timestampMarker');
+    // $httpProvider.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+    // $httpProvider.defaults.withCredentials = false;
+    // $httpProvider.defaults.useXDomain = true;
+    // delete $httpProvider.defaults.headers.common["X-Requested-With"];
+
     authProvider.init({
         domain: 'raizeta.auth0.com',
         clientID: 'tI8AC9Ykd1dSBKoKGETQeP8vAx86OQal',

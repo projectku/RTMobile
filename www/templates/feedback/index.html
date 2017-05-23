@@ -1,8 +1,18 @@
-<ion-view class="profile-view">
-  <ion-nav-title>
-    <span>Profile</span>
-  </ion-nav-title>
+<ion-view view-title="FEED BACK">
   <ion-content>
-    Disini akan ada halaman feedback
+        <div class="row item-text-wrap">
+          <span style="text-align:left" class="col col-100">
+          	We'd love to hear what you think about our service or our app.
+          </span>
+        </div>
+        <div class="list card" style="margin-top:0px">
+          <div class="item item-body" style="padding:5px">
+              <textarea placeholder="Tulis Masukan Anda Disini" style="border:solid 1px orange;padding:5px;" ng-model="feedback.note">
+              </textarea>
+              <button type="submit" class="button button-block button-balanced" ng-click="submitfeedback()">
+                  Submit
+              </button>
+          </div>
+        </div>
   </ion-content>
 </ion-view>

@@ -8,7 +8,8 @@ angular.module('starter')
         {
           'view-content': 
             {
-              templateUrl: 'templates/feedback/index.html'
+              templateUrl: 'templates/feedback/index.html',
+              controller: 'FeedBackCtrl'
           }
         }
     });
