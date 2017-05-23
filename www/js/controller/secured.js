@@ -128,7 +128,7 @@ angular.module('starter')
     });
 
     $scope.customers = {'email':profile.email,'NAMA':profile.name}
-    $scope.luasrumah = [{'nama':'100M-300M','type':'100-300'},{'nama':'500M-1000M','type':'500-1000'}];
+    $scope.luasrumah = [{'nama':'100M-300M','type':'100-500'},{'nama':'500M-1000M','type':'500-1000'}];
     $scope.registerbaru = function (customers) 
     {
         $ionicLoading.show
