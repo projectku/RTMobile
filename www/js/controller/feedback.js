@@ -1,16 +1,36 @@
 angular.module('starter')
-.controller('FeedBackCtrl', function($scope,$state,$filter,$ionicModal,$ionicLoading,FeedbackFac) 
+.controller('FeedBackCtrl', function($scope,$state,$filter,$ionicModal,$ionicLoading,FeedbackFac,StorageService) 
 {
-    FeedbackFac.GetFeedBack($scope.profile.ACCESS_UNIX)
-    .then(function(resgetfeedback)
+    $scope.$on('$ionicView.enter', function()
     {
-    	console.log(resgetfeedback);
-        $scope.feedbacks = resgetfeedback;
-    },
-    function(errorgetfeedback)
-    {
-    	console.log(errorgetfeedback);
+        FeedbackFac.GetFeedBack($scope.profile.ACCESS_UNIX)
+        .then(function(resgetfeedback)
+        {
+            var storagefb       = StorageService.get('storage-feedbacks');
+            if(storagefb && storagefb.length > 0)
+            {
+                angular.forEach(storagefb,function(value,key)
+                {
+                    var indexinres = _.findIndex(resgetfeedback,{'ID':value.ID});
+                    if(indexinres == -1)
+                    {
+                        resgetfeedback.push(value);
+                    }
+                    else
+                    {
+                        storagefb.splice(key,1);
+                    }
+                })
+            }
+            StorageService.set('storage-feedbacks',storagefb);
+            $scope.feedbacks    = resgetfeedback;
+        },
+        function(errorgetfeedback)
+        {
+        	console.log(errorgetfeedback);
+        });
     });
+
     $scope.feedback = {'note':null};
     $scope.submitfeedback = function()
     {
@@ -34,15 +54,26 @@ angular.module('starter')
                     alert("Terimakasih Atas Feedback Yang Telah Anda Berikan");
                     $scope.feedback = {'note':null};
                     $scope.feedbacks.push(ressetfeedback);
+                    var storagefb       = StorageService.get('storage-feedbacks');
+                    if(storagefb)
+                    {
+                        storagefb.push(ressetfeedback);
+                    }
+                    else
+                    {
+                        storagefb = [];
+                        storagefb.push(ressetfeedback);
+                    }
+                    StorageService.set('storage-feedbacks',storagefb);
                 },
                 function(errorsetfeedback)
                 {
                     console.log(errorgetfeedback);
                 })
                 .finally(function()
-                    {
-                        $ionicLoading.hide({'duration':5000});
-                    });    
+                {
+                    $ionicLoading.hide({'duration':5000});
+                });    
             })
 	    	
     	}	
@@ -58,7 +89,14 @@ angular.module('starter')
         })
         .then(function(modal) 
         {
-            $scope.postingan    = posts;
+            // $scope.postingan    = posts;
+            $scope.postingan = [
+                                    {'user_id':1,'username':'Radumta','date':new Date(),'NOTE':"Lorem ipsum dolor sit amet, consectetur adipiscing elit,"},
+                                    {'user_id':2,'username':'Radumta','date':new Date(),'NOTE':"Lorem ipsum dolor sit amet, consectetur adipiscing elit,"},
+                                    {'user_id':2,'username':'Radumta','date':new Date(),'NOTE':"Lorem ipsum dolor sit amet, consectetur adipiscing elit, "},
+                                    {'user_id':2,'username':'Radumta','date':new Date(),'NOTE':"Lorem ipsum dolor sit amet, consectetur adipiscing elit,."}
+                                    
+                                ]
             $scope.modalcomment  = modal;
             $scope.modalcomment.show();
         });

@@ -38,6 +38,23 @@ angular.module('starter', ['ionic','ionic-ratings','ui.calendar','auth0','ionic-
     $scope.tglskrg            = $filter('date')(new Date(),'yyyy-MM-dd');
     $scope.profile            = StorageService.get('profile');
 
+    $scope.logout = function() 
+    {
+      $ionicLoading.show({duration:1000});
+      StorageService.destroy('profile');
+      StorageService.destroy('token');
+      $timeout(function () 
+      {
+            $ionicLoading.hide();
+            $ionicHistory.clearCache();
+            $ionicHistory.clearHistory();
+            $ionicHistory.nextViewOptions({ disableBack: true, historyRoot: true });
+            $window.location.href = "index.html";
+        }, 500);
+    };
+})
+.controller('DashboardCtrl', function($scope) 
+{
     var menus       = [];
     menus.push({src: "img/jadwal.jpg",link:"#/tab/jadwal",judul:"Jadwal Kunjungan",keterangan:null});
     menus.push({src: "img/history.jpg",link:"#/tab/history",judul:"History",keterangan:null});
@@ -45,21 +62,4 @@ angular.module('starter', ['ionic','ionic-ratings','ui.calendar','auth0','ionic-
     menus.push({src: "img/jasa.jpg",link:"#/tab/informasi",judul:"Jasa",keterangan:'DEV'});
     menus.push({src: "img/settings.jpg",link:"#/tab/setting",judul:"Setting",keterangan:'DEV'});
     $scope.menus = menus;
-
-  $scope.logout = function() 
-  {
-    $ionicLoading.show({duration:1000});
-    StorageService.destroy('profile');
-    StorageService.destroy('token');
-    $timeout(function () 
-    {
-          $ionicLoading.hide();
-          $ionicHistory.clearCache();
-          $ionicHistory.clearHistory();
-          $ionicHistory.nextViewOptions({ disableBack: true, historyRoot: true });
-          $window.location.href = "index.html";
-      }, 500);
-  };
-
-  
 });

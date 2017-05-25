@@ -73,7 +73,8 @@ angular.module('starter')
         {
           'view-content': 
             {
-              templateUrl: 'templates/dashboard/index.html'
+              templateUrl: 'templates/dashboard/index.html',
+              controller: 'DashboardCtrl'
           }
         }
     });

@@ -1,72 +1,67 @@
-<ion-modal-view class="modaldetail">
+<!-- Source http://codepen.io/jdnichollsc/pen/xOZgYw -->
+<ion-modal-view class="modalcomments">
   <ion-header-bar class="bar bar-header bar-assertive">
     <h1 class="title">COMMENTS</h1>
     <button class="button button-icon icon ion-arrow-left-c" ng-click="closemodalcomment()"></button>
     <button class="button button-icon"></button>
   </ion-header-bar>
-  <ion-content>
-    <div class="list card">
-      <div class="item row" style="background-color: teal;color:white;">
-        <span style="text-align:left;" class="col col-50" >
-        </span>
-        <span style="text-align:right;font-size: 14px" class="col col-50">
-          {{postingan.TGL|date :'EEEE, dd-MM-yy'}} {{postingan.JAM}}
-        </span>
-      </div>
-      <div class="itempost item-text-wrap">
-         <p align="justify">{{postingan.NOTE}}</p>
-      </div>
-    </div>
-    <div class="list card">
-        <div class="item row">
-          <span style="text-align:left" class="col col-50">Info Personal</span>
+  <ion-content overflow-scroll="false" has-bouncing="true" class="has-header has-footer">
+    <div class="message-wrapper" ng-repeat="postingan in postingan">
+
+        <div ng-if="postingan.user_id == 1">
+            
+          <img class="profile-pic left" ng-src="{{profile.picture}}" />
+
+            <div class="chat-bubble left">
+                <img ng-click="photoBrowser(message)" ng-if="message.photo" ng-src="{{message.photo}}" ng-success="refreshScroll(scrollDown)"/>
+                <div class="message">{{postingan.NOTE}}</div>
+
+                <div class="message-detail">
+                    <span ng-click="viewProfile(message)" class="bold">{{postingan.username}}</span>,
+                    <span am-time-ago="message.date"></span>
+                </div>
+
+            </div>
         </div>
-        <ion-item>
-            <div class="item-icon-left">
-                <i class="icon ion-key"></i>
-                <p>{{detailpekerja.ID_PEKERJA|uppercase}}</p>
+
+        <div ng-if="postingan.user_id != 1">
+          
+             <img class="profile-pic right" ng-src="img/rt.png" />
+          
+            <div class="chat-bubble right">
+            
+                <img ng-click="photoBrowser(message)" ng-if="message.photo" ng-src="{{message.photo}}" ng-success="refreshScroll($last)"/>
+
+                <div class="message">{{postingan.NOTE}}</div>
+
+                <div class="message-detail">
+                    <span class="bold">{{postingan.username}}</span>, 
+                    <span>{{postingan.date|date :'EEEE, dd-MM-yy HH:mm'}}</span>
+                </div>
+
             </div>
-            <div class="item-icon-right">
-                <i class="icon ion-ios-arrow-right"></i>
-            </div>
-        </ion-item>
-        <ion-item>
-            <div class="item-icon-left">
-                <i class="icon ion-social-whatsapp custom-icon-green"></i>
-                <p>{{detailpekerja.HP|uppercase}}</p>
-            </div>
-            <div class="item-icon-right">
-                <i class="icon ion-ios-arrow-right"></i>
-            </div>
-        </ion-item>
-        <ion-item>
-            <div class="item-icon-left">
-                <i class="icon ion-male" ng-if="detailpekerja.GENDER == 'pria'"></i>
-                <i class="icon ion-female" ng-if="detailpekerja.GENDER != 'pria'"></i>
-                <p>{{detailpekerja.GENDER|uppercase}}</p>
-            </div>
-            <div class="item-icon-right">
-                <i class="icon ion-ios-arrow-right"></i>
-            </div>
-        </ion-item>
-        <ion-item ng-if="detailpekerja.ALAMAT">
-            <div class="item-icon-left">
-                <i class="icon ion-ios-home-outline"></i>
-                <p>{{detailpekerja.ALAMAT}}</p>
-            </div>
-            <div class="item-icon-right">
-                <i class="icon ion-ios-arrow-right"></i>
-            </div>
-        </ion-item>
-        <ion-item ng-if="detailpekerja.EMAIL">
-            <div class="item-icon-left">
-                <i class="icon ion-ios-email-outline"></i>
-                <p>{{detailpekerja.EMAIL}}</p>
-            </div>
-            <div class="item-icon-right">
-                <i class="icon ion-ios-arrow-right"></i>
-            </div>
-        </ion-item>
+          
+        </div>
+
+        <div class="cf"></div>
+
     </div>
   </ion-content>
+
+  <form name="sendMessageForm" ng-submit="sendMessage(sendMessageForm)" novalidate>
+    <ion-footer-bar class="bar-stable item-input-inset message-footer" keyboard-attach>
+        <label class="item-input-wrapper">
+            <textarea ng-model="input.message" value="" placeholder="Send a message..." required minlength="1" maxlength="1500" msd-elastic></textarea>
+        </label>
+        <div class="footer-btn-wrap">
+          <button class="button button-icon icon ion-images button-dark button-clear photo" type="button" ng-if="!input.message || input.message === ''" on-tap="sendPhoto()">
+      </button>
+          <button class="button button-icon icon ion-android-send footer-btn" type="submit"
+              ng-disabled="!input.message || input.message === ''">
+          </button>
+          <a ng-click="refreshScroll(true, 50)" ng-show="!scrollDown" class="scrollDownBtn button button-icon icon ion-android-arrow-dropdown-circle"></a>
+        </div>
+    </ion-footer-bar>
+  </form>
+
 </ion-modal-view>

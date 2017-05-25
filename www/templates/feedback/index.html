@@ -1,24 +1,25 @@
 <ion-view view-title="FEED BACK">
-  <ion-content>
+  <ion-content scroll="true" padding="true" style="background-color:#f8f8f8;">
+    <ion-list>
         <div class="row item-text-wrap">
           <span style="text-align:left" class="col col-100">
           	We'd love to hear what you think about our service or our app.
           </span>
         </div>
         <div class="list card" style="margin-top:0px">
-          <div class="item item-body" style="padding:5px">
+          <div class="item item-body" style="padding:10px">
               <textarea placeholder="Tulis Masukan Anda Disini" style="border:solid 1px orange;padding:5px;" ng-model="feedback.note">
               </textarea>
-              <button type="submit" class="button button-block button-balanced" ng-click="submitfeedback()">
+              <button type="submit" class="button button-block button-balanced rcorners2" ng-click="submitfeedback()">
                   Submit
               </button>
           </div>
         </div>
         <div class="list card" ng-repeat="posts in feedbacks | orderBy:'-ID'">
           <div class="item row" style="background-color: teal;color:white;">
-            <span style="text-align:left;" class="col col-50" >
+            <span style="text-align:left;" class="col col-25" >
             </span>
-            <span style="text-align:right;font-size: 14px" class="col col-50">
+            <span style="text-align:right;font-size: 14px;padding-right: 5px" class="col col-75">
               {{posts.TGL|date :'EEEE, dd-MM-yy'}} {{posts.JAM}}
             </span>
           </div>
@@ -33,5 +34,6 @@
               </span>
           </div>
         </div>
+    </ion-list>
   </ion-content>
 </ion-view>

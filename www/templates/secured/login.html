@@ -1,4 +1,4 @@
-<ion-view id="login" hide-nav-bar="true" name="login-view" view-title="Login Area">
+<ion-view id="login" hide-nav-bar="true">
     <ion-content scroll="true" padding="true">
         <div class="row row-center" style="margin-top:10px">
             <div class="row responsive-md">
@@ -18,15 +18,15 @@
                                 <input type="password" ng-model="users.password" class="form-control" placeholder="password" required>
                             </label>
                         </div>
-                        <button type="submit" class="button button-block button-balanced" ng-disabled="loginForm.$invalid" style="border: 1px solid rgba(255, 255, 255, 0.8);">
+                        <button type="submit" class="button button-block button-balanced rcorners2" ng-disabled="loginForm.$invalid" style="border: 1px solid rgba(255, 255, 255, 0.8);">
                           Login
                         </button>
                     </form>
                     <div style="padding-top:15px">
-                        <button class="button button-block ion-social-googleplus button-assertive" ng-click="loginWithGoogle()" style="border: 1px solid rgba(255, 255, 255, 0.8);">
+                        <button class="button button-block ion-social-googleplus rcorners2" ng-click="loginWithGoogle()" style="border: 1px solid rgba(255, 255, 255, 0.8);background-color: #f44336;color:white;">
                         </button>
-                        <button class="button button-block ion-social-facebook button-positive" ng-click="loginWithFacebook()" style="border: 1px solid rgba(255, 255, 255, 0.8);"></button>
-                            <button class="button button-block ion-social-tumblr button-calm" style="border: 1px solid rgba(255, 255, 255, 0.8);"></button>
+                        <button class="button button-block ion-social-facebook button-positive rcorners2" ng-click="loginWithFacebook()" style="border: 1px solid rgba(255, 255, 255, 0.8);"></button>
+                            <button class="button button-block ion-social-tumblr button-calm rcorners2" style="border: 1px solid rgba(255, 255, 255, 0.8);"></button>
                     </div>
                         
                 </div>

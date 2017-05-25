@@ -1,5 +1,5 @@
 angular.module('starter')
-.controller('LoginCtrl', function($http,$timeout,$location,$scope,$ionicLoading,$state,$ionicHistory,$ionicPopup,auth,StorageService,SecuredFac) 
+.controller('LoginCtrl', function($ionicPlatform,$http,$timeout,$location,$scope,$ionicLoading,$state,$ionicHistory,$ionicPopup,auth,StorageService,SecuredFac) 
 {
 
     // var lock = new Auth0Lock('tI8AC9Ykd1dSBKoKGETQeP8vAx86OQal', 'raizeta.auth0.com');
@@ -9,7 +9,6 @@ angular.module('starter')
     $scope.loginWithGoogle = function ()
     {
         $ionicLoading.show();
-
         window.plugins.googleplus.login(
         {
         },
@@ -33,7 +32,7 @@ angular.module('starter')
         function (msg) 
         {
             alert("error " + msg)
-            // $ionicLoading.hide();
+            $ionicLoading.hide();
         });
     
     }
@@ -116,9 +115,14 @@ angular.module('starter')
     {
         if(angular.isArray(getprofilelogin))
         {
-            profile.ACCESS_UNIX = getprofilelogin[0].ACCESS_UNIX;
+            var profilelogin    = getprofilelogin[0]
+            profile.ACCESS_UNIX = profilelogin.ACCESS_UNIX;
+            profile.ID_FB       = profilelogin.ID_FB;
+            profile.ID_GOOGLE   = profilelogin.ID_GOOGLE;
+            profile.ID_TWITTER  = profilelogin.ID_TWITTER;
+            profile.ID_LINKEDIN = profilelogin.ID_LINKEDIN;
             StorageService.set('profile',profile);
-            $ionicHistory.nextViewOptions({disableAnimate: true, disableBack: true});
+            $ionicHistory.nextViewOptions({disableAnimate: true, disableBack: false});
             $location.path("/tab/dashboard");
         }
     },
@@ -128,7 +132,7 @@ angular.module('starter')
     });
 
     $scope.customers = {'email':profile.email,'NAMA':profile.name}
-    $scope.luasrumah = [{'nama':'100M-300M','type':'100-500'},{'nama':'500M-1000M','type':'500-1000'}];
+    $scope.luasrumah = [{'nama':'100M-500M','type':'100-500'},{'nama':'500M-1000M','type':'500-1000'}];
     $scope.registerbaru = function (customers) 
     {
         $ionicLoading.show

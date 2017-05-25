@@ -1,0 +1,15 @@
+.rcorners2 
+{
+    border-radius: 40px;
+    border: 2px solid #73AD21;
+    color: rgb(230, 230, 230);
+    font-size: 20px;
+	text-shadow: 0px -1px 0px rgba(30, 30, 30, 0.8);
+	-webkit-border-radius: 30px;
+	-moz-border-radius: 30px;
+	border-radius: 30px;
+	background: rgb(210, 20, 20);
+	-webkit-box-shadow: 0px 2px 1px rgba(50, 50, 50, 0.75);
+	-moz-box-shadow:    0px 2px 1px rgba(50, 50, 50, 0.75);
+	box-shadow:         0px 2px 1px rgba(50, 50, 50, 0.75);  
+}

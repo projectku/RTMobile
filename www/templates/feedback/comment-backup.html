@@ -1,0 +1,29 @@
+<ion-modal-view class="modalcomments">
+  <ion-header-bar class="bar bar-header bar-assertive">
+    <h1 class="title">COMMENTS</h1>
+    <button class="button button-icon icon ion-arrow-left-c" ng-click="closemodalcomment()"></button>
+    <button class="button button-icon"></button>
+  </ion-header-bar>
+  <ion-content scroll="true">
+    <ion-list>
+      <div class="list card">
+        <div class="item row" style="background-color: teal;color:white;">
+          <span style="text-align:left;" class="col col-50" >
+          </span>
+          <span style="text-align:right;font-size: 14px" class="col col-50">
+            {{postingan.TGL|date :'EEEE, dd-MM-yy'}} {{postingan.JAM}}
+          </span>
+        </div>
+        <div class="itempost item-text-wrap">
+           <p align="justify">{{postingan.NOTE}}</p>
+        </div>
+      </div>
+    </ion-list>
+  </ion-content>
+    <div class="bar bar-footer item-input-inset">
+      <label class="item-input-wrapper">
+        <input type="text" ng-model="message" ng-keydown="onKeydown($event)">
+      </label>
+      <button class="button button-icon icon ion-paper-airplane" ng-click="addMessage()"></button>
+    </div>
+</ion-modal-view>

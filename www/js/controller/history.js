@@ -1,24 +1,28 @@
 angular.module('starter')
 .controller('HistoryCtrl', function($scope,$state,$location,$ionicModal,$ionicLoading,JadwalFac) 
 {
-    $ionicLoading.show
-    ({
-    })
-    .then(function()
+    $scope.$on('$ionicView.enter', function()
     {
-        JadwalFac.GetJadwal($scope.profile.ACCESS_UNIX)
-        .then(function(responsegetjadwal)
-        {
-            $scope.datajadwal = responsegetjadwal;
-            console.log($scope.datajadwal);
-        },
-        function(errorgetjadwal)
-        {
-            console.log(errorgetjadwal);
+        $ionicLoading.show
+        ({
+            noBackdrop:true
         })
-        .finally(function()
+        .then(function()
         {
-            $ionicLoading.hide();
+            JadwalFac.GetJadwal($scope.profile.ACCESS_UNIX)
+            .then(function(responsegetjadwal)
+            {
+                $scope.datajadwal = responsegetjadwal;
+                console.log($scope.datajadwal);
+            },
+            function(errorgetjadwal)
+            {
+                console.log(errorgetjadwal);
+            })
+            .finally(function()
+            {
+                $ionicLoading.hide();
+            });
         });
     });
     $scope.openmodaldetail = function(jadwal)
