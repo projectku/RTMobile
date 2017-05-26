@@ -33,7 +33,7 @@ angular.module('starter', ['ionic','ionic-ratings','ui.calendar','auth0','ionic-
       }
   });
 })
-.controller('AppCtrl', function($window,$rootScope,$scope,$filter,$state,$ionicLoading,$timeout,$ionicHistory,StorageService) 
+.controller('AppCtrl', function($ionicPlatform,$window,$rootScope,$scope,$filter,$state,$ionicLoading,$timeout,$ionicHistory,StorageService) 
 {
     $scope.tglskrg            = $filter('date')(new Date(),'yyyy-MM-dd');
     $scope.profile            = StorageService.get('profile');
@@ -52,13 +52,24 @@ angular.module('starter', ['ionic','ionic-ratings','ui.calendar','auth0','ionic-
             $window.location.href = "index.html";
         }, 500);
     };
+    $ionicPlatform.registerBackButtonAction(function (event) 
+    {
+      if($state.current.name=="tab.dashboard")
+      {
+        navigator.app.exitApp();
+      }
+      else 
+      {
+        navigator.app.backHistory();
+      }
+    }, 100);
 })
 .controller('DashboardCtrl', function($scope) 
 {
     var menus       = [];
     menus.push({src: "img/jadwal.jpg",link:"#/tab/jadwal",judul:"Jadwal Kunjungan",keterangan:null});
     menus.push({src: "img/history.jpg",link:"#/tab/history",judul:"History",keterangan:null});
-    menus.push({src: "img/rt.png",link:"#/tab/feedback",judul:"FeedBack",keterangan:null});
+    menus.push({src: "img/feedback.jpg",link:"#/tab/feedback",judul:"FeedBack",keterangan:null});
     menus.push({src: "img/jasa.jpg",link:"#/tab/informasi",judul:"Jasa",keterangan:'DEV'});
     menus.push({src: "img/settings.jpg",link:"#/tab/setting",judul:"Setting",keterangan:'DEV'});
     $scope.menus = menus;
