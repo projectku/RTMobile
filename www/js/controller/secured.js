@@ -122,8 +122,10 @@ angular.module('starter')
             profile.ID_TWITTER  = profilelogin.ID_TWITTER;
             profile.ID_LINKEDIN = profilelogin.ID_LINKEDIN;
             StorageService.set('profile',profile);
+            // $ionicHistory.nextViewOptions({disableAnimate: true, disableBack: true});
+            // $location.path("/tab/dashboard");
             $ionicHistory.nextViewOptions({disableAnimate: true, disableBack: false});
-            $location.path("/tab/dashboard");
+            $state.go('tab.dashboard');
         }
     },
     function(errorgetprofilelogin)
@@ -165,8 +167,8 @@ angular.module('starter')
             {
                 profile.ACCESS_UNIX = responsesetloginprofile.ACCESS_UNIX;
                 StorageService.set('profile',profile);
-                $ionicHistory.nextViewOptions({disableAnimate: true, disableBack: true});
-                $state.go('tab.dashboard',{},{reload:true});  
+                $ionicHistory.nextViewOptions({disableAnimate: true, disableBack: false});
+                $state.go('tab.dashboard');  
             },
             function(errorsetloginprofile)
             {

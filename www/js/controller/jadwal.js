@@ -40,15 +40,16 @@ angular.module('starter')
                     data.start = new Date(value.TGL);
                     data.allDay =true;
                     data.url ="#/tab/jadwal/" + value.TGL;
-                    if(value.STATUS)
+                    console.log(value.STATUS)
+                    if(value.STATUS == 1)
                     {
                         data.title = 'FINISH';
-                        data.color = '#378006';  
+                        data.color = 'teal';  
                     }
                     else
                     {
                         data.title = 'PROGRESS';
-                        data.color = '#dd4b39';
+                        data.color = '#387ef5';
                     }
                     data.stick = true;
                     $scope.events.push(data); 

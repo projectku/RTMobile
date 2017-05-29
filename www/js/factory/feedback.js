@@ -10,7 +10,7 @@ angular.module('starter')
 		var method 			    = "GET";
 		var params 			    = {};
         params["ACCESS_UNIX"]   = ACCESS_UNIX;
-		$http({method:method, url:url,params:params,cache:false})
+		$http({method:method, url:url,params:params,cache:true})
         .success(function(response) 
         {
 	        deferred.resolve(response.feedback);
