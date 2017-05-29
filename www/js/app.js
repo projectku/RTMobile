@@ -69,7 +69,7 @@ angular.module('starter', ['ionic','ionic-ratings','ui.calendar','auth0','ionic-
     var menus       = [];
     menus.push({src: "img/jadwal.jpg",link:"#/tab/jadwal",judul:"Jadwal Kunjungan",keterangan:null});
     menus.push({src: "img/history.jpg",link:"#/tab/history",judul:"History",keterangan:null});
-    menus.push({src: "img/feedback.jpg",link:"#/tab/feedback",judul:"FeedBack",keterangan:null});
+    menus.push({src: "img/feedback.jpg",link:"#/tab/feedback",judul:"Customer",keterangan:null});
     menus.push({src: "img/jasa.jpg",link:"#/tab/informasi",judul:"Jasa",keterangan:'DEV'});
     menus.push({src: "img/settings.jpg",link:"#/tab/setting",judul:"Setting",keterangan:'DEV'});
     $scope.menus = menus;

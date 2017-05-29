@@ -92,27 +92,39 @@ angular.module('starter')
     
     $scope.openmodalratingjelek = function()
     {
-        $ionicModal.fromTemplateUrl('templates/history/ratingjelek.html', 
+        if($scope.datarating)
         {
-            scope: $scope,
-            animation: 'slide-in-up',
-            backdropClickToClose: false,
-            hardwareBackButtonClose: true
-        })
-        .then(function(modal) 
-        {
+            $ionicModal.fromTemplateUrl('templates/history/ratingjelek.html', 
+            {
+                scope: $scope,
+                animation: 'slide-in-up',
+                backdropClickToClose: false,
+                hardwareBackButtonClose: true
+            })
+            .then(function(modal) 
+            {
 
-            $scope.giverating.rating    = $scope.ratingsObject.rating;
-            $scope.alasan = [
-                            {'todo':'Tidak Sopan','checked':false},
-                            {'todo':'Bermalas Ria','checked':false},
-                            {'todo':'Merokok Pas Bekerja','checked':false},
-                            {'todo':'Semberawutan','checked':false}
-                        ];
-            $scope.komentarrating = {'alasan':null};
-            $scope.modalratingjelek  = modal;
-            $scope.modalratingjelek.show();
-        });
+                $scope.giverating.rating    = $scope.ratingsObject.rating;
+                $scope.alasan = [
+                                {'todo':'Tidak Sopan','checked':false},
+                                {'todo':'Malas','checked':false},
+                                {'todo':'Merokok Ketika Bekerja','checked':false},
+                                {'todo':'Berantakan','checked':false}
+                            ];
+                $scope.komentarrating = {'alasan':null};
+                $scope.modalratingjelek  = modal;
+                $scope.modalratingjelek.show();
+            });
+        }
+        else
+        {
+            swal({
+                          title: "",
+                          text: "Rating Belum Bisa Dilakukan.Pekerjaan Belum Selesai.",
+                          allowOutsideClick:true,
+                          showConfirmButton:true
+                        });
+        }
     }
     $scope.closemodalratingjelek = function()
     {

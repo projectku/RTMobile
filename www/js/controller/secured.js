@@ -122,8 +122,7 @@ angular.module('starter')
             profile.ID_TWITTER  = profilelogin.ID_TWITTER;
             profile.ID_LINKEDIN = profilelogin.ID_LINKEDIN;
             StorageService.set('profile',profile);
-            // $ionicHistory.nextViewOptions({disableAnimate: true, disableBack: true});
-            // $location.path("/tab/dashboard");
+
             $ionicHistory.nextViewOptions({disableAnimate: true, disableBack: false});
             $state.go('tab.dashboard');
         }

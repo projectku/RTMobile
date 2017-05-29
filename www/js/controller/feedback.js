@@ -51,7 +51,12 @@ angular.module('starter')
                 FeedbackFac.SetFeedBack(datatosave)
                 .then(function(ressetfeedback)
                 {
-                    alert("Terimakasih Atas Feedback Yang Telah Anda Berikan");
+                    swal({
+                          title: "",
+                          text: "Terimakasih Atas Feedback Yang Telah Anda Berikan!",
+                          allowOutsideClick:true,
+                          showConfirmButton:true
+                        });
                     $scope.feedback = {'note':null};
                     $scope.feedbacks.push(ressetfeedback);
                     var storagefb       = StorageService.get('storage-feedbacks');
