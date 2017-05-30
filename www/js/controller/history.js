@@ -13,7 +13,6 @@ angular.module('starter')
             .then(function(responsegetjadwal)
             {
                 $scope.datajadwal = responsegetjadwal;
-                console.log($scope.datajadwal);
             },
             function(errorgetjadwal)
             {
@@ -27,11 +26,10 @@ angular.module('starter')
     });
     $scope.openmodaldetail = function(jadwal)
     {
-        console.log(jadwal);
         $location.path("/tab/history/" + jadwal.TGL);
     }
 })
-.controller('HistoryDetailCtrl', function($scope,$state,$stateParams,$ionicModal,$ionicScrollDelegate,$ionicSlideBoxDelegate,$ionicLoading,JadwalFac,UtilService) 
+.controller('HistoryDetailCtrl', function($scope,$ionicPopup,$state,$stateParams,$ionicModal,$ionicScrollDelegate,$ionicSlideBoxDelegate,$ionicLoading,JadwalFac,UtilService) 
 {
     $scope.params       = $stateParams.detail;
     $scope.ratingsObject = UtilService.GetRatingConfig();
@@ -92,6 +90,7 @@ angular.module('starter')
     
     $scope.openmodalratingjelek = function()
     {
+        
         if($scope.datarating)
         {
             $ionicModal.fromTemplateUrl('templates/history/ratingjelek.html', 
@@ -103,15 +102,18 @@ angular.module('starter')
             })
             .then(function(modal) 
             {
-
                 $scope.giverating.rating    = $scope.ratingsObject.rating;
+                if($scope.giverating.rating < 4 && $scope.datarating.STATUS == 1)
+                {
+                	$scope.pilihalasan = true;	
+                }
                 $scope.alasan = [
                                 {'todo':'Tidak Sopan','checked':false},
                                 {'todo':'Malas','checked':false},
                                 {'todo':'Merokok Ketika Bekerja','checked':false},
                                 {'todo':'Berantakan','checked':false}
                             ];
-                $scope.komentarrating = {'alasan':null};
+                $scope.komentarrating = {'alasan':$scope.datarating.NILAI_KETERANGAN};
                 $scope.modalratingjelek  = modal;
                 $scope.modalratingjelek.show();
             });
@@ -133,19 +135,47 @@ angular.module('starter')
     }
     $scope.submitmodalrating = function()
     {
-
+        
         var starsawal   = $scope.ratingsObject.rating;
         var starsresult = $scope.ratinggiven;
-        JadwalFac.SetRatings($scope.datadetail.ID,starsawal,starsresult,$scope.komentarrating.alasan)
-        .then(function(responseupdaterating)
+        if($scope.ratinggiven < 4)
         {
-            $scope.ratingsObject.rating = starsresult;
-        },
-        function(errorupdaterating)
+            var confirmPopup = $ionicPopup.confirm({
+             title: 'Rating Jelek',
+             template: 'Anda Yakin Akan Memberikan Rating ' + $scope.ratinggiven + '?'
+            });
+
+            confirmPopup.then(function(res) 
+            {
+                if(res) 
+                {
+                    JadwalFac.SetRatings($scope.datadetail.ID,starsawal,starsresult,$scope.komentarrating.alasan)
+                    .then(function(responseupdaterating)
+                    {
+                        $scope.ratingsObject.rating = starsresult;
+                    },
+                    function(errorupdaterating)
+                    {
+                        console.log(errorupdaterating);
+                    });
+                    $scope.modalratingjelek.hide();
+                }
+            });
+        }
+        else
         {
-            console.log(errorupdaterating);
-        });
-        $scope.modalratingjelek.hide();  
+        	JadwalFac.SetRatings($scope.datadetail.ID,starsawal,starsresult,$scope.komentarrating.alasan)
+	        .then(function(responseupdaterating)
+	        {
+	            $scope.ratingsObject.rating = starsresult;
+	        },
+	        function(errorupdaterating)
+	        {
+	            console.log(errorupdaterating);
+	        });
+	        $scope.modalratingjelek.hide();	
+        }
+          
     }
     $scope.openModalImages = function(index) 
     {

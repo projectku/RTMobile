@@ -93,6 +93,7 @@ angular.module('starter')
         params["JADWAL_ID"]        = JADWAL_ID;
         params["NILAI"]            = NILAI;
         params["NILAI_KETERANGAN"] = NILAI_KETERANGAN;
+        params["STATUS"]           = 1;
 
         var result              = UtilService.SerializeObject(params);
         var serialized          = result.serialized;
@@ -100,7 +101,7 @@ angular.module('starter')
         $http.put(url,serialized,config)
         .success(function(response) 
         {
-            deferred.resolve(response.rating);
+            deferred.resolve(response);
         })
         .error(function(err,status)
         {
@@ -114,6 +115,6 @@ angular.module('starter')
         GetJadwalDetail:GetJadwalDetail,
     	SetJadwal:SetJadwal,
         GetRatings:GetRatings,
-        SetRatings:SetRatings
+        SetRatings:SetRatings,
     }
 });
