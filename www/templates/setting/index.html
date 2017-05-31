@@ -1,5 +1,5 @@
 <ion-view view-title="Account">
-	<ion-content scroll="true" padding="true">
+	<ion-content scroll="true" padding="true" style="background-color:#f8f8f8">
 	  <ion-list>
 	    <ion-item class="profile-item">
 	      <div class="profile-picture-login big-profile-picture">
@@ -9,15 +9,15 @@
 	    </ion-item>
 	  </ion-list>
 	      <ion-list>
-	      <ion-toggle  ng-model="settings.enablefacebook" ng-change="enablefacebookfunc()">
+	      <ion-toggle  ng-model="settings.enablefacebook" ng-click="loginWithFacebook()">
 		        Link To Facebook
 		    </ion-toggle>
-		    <ion-toggle  ng-model="settings.enablegoogle" ng-checked="enablegooglefunc()">
+		    <ion-toggle  ng-model="settings.enablegoogle" ng-click="loginWithGoogle()">
 		        Link To Google+
 		    </ion-toggle>
-		    <ion-toggle  ng-model="settings.enabletwitter" ng-checked="settings.enabletwitter">
+<!-- 		    <ion-toggle  ng-model="settings.enabletwitter" ng-click="settings.enabletwitter">
 		        Link To Twitter
-		    </ion-toggle>
+		    </ion-toggle> -->
 		    <ion-item class="item item-icon-right" type="item-text-wrap" ng-click="logout()">
 		        <h2>Log Out</h2>
 		        <i class="icon ion-log-out"></i>

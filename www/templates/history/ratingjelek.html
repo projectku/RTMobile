@@ -33,10 +33,10 @@
         <div class="item item-body">
             <textarea placeholder="Tulis Masukan Anda Disini" ng-model="komentarrating.alasan" style="border:solid 1px orange;padding:5px;"></textarea>
         </div>
-        <div class="row">
+        <div class="row" ng-show="datarating.STATUS != 1">
         <div class="col col-100">
           <div class="list">
-            <button type="submit" class="button button-block button-balanced" ng-click="submitmodalrating()">
+            <button type="submit" class="button button-block button-balanced" ng-click="submitmodalrating()" >
                 Submit
               </button>
             </div>

@@ -70,6 +70,7 @@ angular.module('starter')
 
     $scope.giverating           = UtilService.GetRatingConfig();
     $scope.giverating.readOnly  = false;
+
     
     $scope.giverating.callback = function(rating, index) 
     {    //Mandatory
@@ -93,6 +94,10 @@ angular.module('starter')
         
         if($scope.datarating)
         {
+            if($scope.datarating.STATUS == 1)
+            {
+              $scope.giverating.readOnly  = true;  
+            }
             $ionicModal.fromTemplateUrl('templates/history/ratingjelek.html', 
             {
                 scope: $scope,
