@@ -59,6 +59,19 @@ angular.module('starter')
         }
     });
 
+    $stateProvider.state('auth.signup', 
+    {
+        url: '/signup',
+        views: 
+        {
+            'signup-tab': 
+            {
+              templateUrl: 'templates/secured/login.html',
+              // controller: 'RegisterCtrl',
+            }
+        }
+    });
+
     $stateProvider.state('tab', 
     {
         url: '/tab',
@@ -84,4 +97,5 @@ angular.module('starter')
     $ionicConfigProvider.navBar.alignTitle('center');
     $ionicConfigProvider.backButton.text('Back').icon('ion-chevron-left');
     // $ionicConfigProvider.scrolling.jsScrolling(true);
+    $ionicConfigProvider.tabs.position('bottom');
 });

@@ -1,5 +1,5 @@
 angular.module('starter')
-.controller('JadwalCtrl', function($scope,$state,$ionicModal,$ionicLoading,uiCalendarConfig,JadwalFac,StorageService) 
+.controller('JadwalCtrl', function($scope,$state,$ionicModal,$filter,$ionicLoading,uiCalendarConfig,JadwalFac,StorageService) 
 {
     $scope.uiConfig = 
     {
@@ -11,7 +11,7 @@ angular.module('starter')
         {
           left: 'title',
           center: '',
-          right: ''
+          right: 'today prev,next'
         },
 
         eventClick: $scope.alertOnEventClick,
@@ -35,12 +35,16 @@ angular.module('starter')
             {
                 angular.forEach(responsegetjadwal, function(value, key)
                 {
+                    var bulanjadwal = $filter('date')(value.TGL,'MM');
+                    var bulanaktif  = $filter('date')(new Date(),'MM');
+                    if(bulanjadwal == bulanaktif)
+                    {
+                        $scope.adajadwal = true;
+                    }
                     var data ={};
-                    
                     data.start = new Date(value.TGL);
                     data.allDay =true;
                     data.url ="#/tab/jadwal/" + value.TGL;
-                    console.log(value.STATUS)
                     if(value.STATUS == 1)
                     {
                         data.title = 'FINISH';

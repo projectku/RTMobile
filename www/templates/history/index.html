@@ -1,6 +1,6 @@
 <ion-view id="login" view-title="HISTORY">
 	<ion-content>
-		<ion-list>
+		<ion-list ng-if="datajadwal">
 	    	<div class="list card" ng-repeat="jadwal in datajadwal " ng-click="openmodaldetail(jadwal)">
 				<div class="item row">
 				  <span style="text-align:left;" class="col col-50" >
@@ -26,6 +26,15 @@
 	                <div class="item-icon-right">
 	                    <i class="icon ion-star custom-icon-gold"></i>
 	                </div>
+	            </ion-item>
+			    </div>
+	    	</div>
+	    </ion-list>
+	    <ion-list ng-if="!datajadwal">
+	    	<div class="list card">
+			    <div class="item item-body">
+			      <ion-item>
+	                <p align="center">HISTORI KUNJUNGAN MASIH KOSONG </p>
 	            </ion-item>
 			    </div>
 	    	</div>

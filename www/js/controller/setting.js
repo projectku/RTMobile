@@ -44,8 +44,15 @@ angular.module('starter')
 	        function (msg) 
 	        {
 	            $scope.settings.enablegoogle = false;
-	            alert("error " + msg);
+	            swal({
+	                  title: "Google",
+	                  text: "Link To Your Google Account Unsuccessful.",
+	                  allowOutsideClick:true,
+	                  showConfirmButton:true
+                });
 	            $ionicLoading.hide();
+	            $scope.settings.enablegoogle = false;
+		    	$scope.$apply();
 	        });
 	    }
 	    else
@@ -105,11 +112,14 @@ angular.module('starter')
 	        function(error) 
 	        {
 	            $ionicLoading.hide();
-	            var alertPopup = $ionicPopup.alert
-	            ({
-	                title: 'Login failed!',
-	                template: 'Please check your credentials!'
-	            });
+	            swal({
+	                  title: "Facebook",
+	                  text: "Link To Your Facebook Account Unsuccessful.",
+	                  allowOutsideClick:true,
+	                  showConfirmButton:true
+                });
+                $scope.settings.enablefacebook = false;
+		    	$scope.$apply();
 	        });
         }
         else

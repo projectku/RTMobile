@@ -1,5 +1,5 @@
 angular.module('starter')
-.controller('LoginCtrl', function($ionicPlatform,$http,$timeout,$location,$scope,$ionicLoading,$state,$ionicHistory,$ionicPopup,auth,StorageService,SecuredFac) 
+.controller('LoginCtrl', function($ionicPlatform,$ionicModal,$http,$timeout,$location,$scope,$ionicLoading,$state,$ionicHistory,$ionicPopup,auth,StorageService,SecuredFac) 
 {
 
     // var lock = new Auth0Lock('tI8AC9Ykd1dSBKoKGETQeP8vAx86OQal', 'raizeta.auth0.com');
@@ -31,7 +31,12 @@ angular.module('starter')
         },
         function (msg) 
         {
-            alert("error " + msg)
+            swal({
+                  title: "Login failed",
+                  text: "Please check your credentials.",
+                  allowOutsideClick:true,
+                  showConfirmButton:true
+                });
             $ionicLoading.hide();
         });
     
@@ -60,11 +65,12 @@ angular.module('starter')
         function(error) 
         {
             $ionicLoading.hide();
-            var alertPopup = $ionicPopup.alert
-            ({
-                title: 'Login failed!',
-                template: 'Please check your credentials!'
-            });
+            swal({
+                  title: "Login failed",
+                  text: "Please check your credentials.",
+                  allowOutsideClick:true,
+                  showConfirmButton:true
+                });
         });    
     }
 
@@ -92,7 +98,12 @@ angular.module('starter')
             }
             else
             {
-                alert("Check Your Credentials");
+                swal({
+                  title: "Login failed",
+                  text: "Please check your credentials.",
+                  allowOutsideClick:true,
+                  showConfirmButton:true
+                });
             }   
         }, 
         function (err) 
@@ -102,6 +113,87 @@ angular.module('starter')
         .finally(function()
         {
            $ionicLoading.hide(); 
+        });
+    }
+
+    $scope.signupnewuser = function()
+    {
+        $ionicModal.fromTemplateUrl('templates/secured/signup.html', 
+        {
+            scope: $scope,
+            animation: 'slide-in-up',
+            backdropClickToClose: false,
+            hardwareBackButtonClose: true
+        })
+        .then(function(modal) 
+        {
+            // $scope.detailpekerja    = pekerja;
+            $scope.modalsignup  = modal;
+            $scope.modalsignup.show();
+        });
+    }
+    $scope.signupmodalcancel = function()
+    {
+        $scope.modalsignup.hide();
+    }
+    $scope.luasrumah = [{'nama':'100M-500M','type':'100-500'},{'nama':'500M-1000M','type':'500-1000'}];
+    $scope.registerbaru = function (customers) 
+    {
+        $ionicLoading.show
+        ({
+          template: 'Loading...'
+        })
+        .then(function()
+        {
+
+            $scope.disableInput = true;
+            var datatosave = {};
+            datatosave.username     = customers.email;
+            datatosave.email        = customers.email;
+            datatosave.new_pass     = customers.new_pass;
+            datatosave.ID_FB        = 0;   
+            datatosave.ID_GOOGLE    = 0;   
+
+            
+            datatosave.NAMA         = customers.NAMA;
+            datatosave.ALAMAT       = customers.ALAMAT;
+            datatosave.HP           = customers.HP;
+            datatosave.LUAS_TANAH   = customers.LUAS_TANAH.type;
+            console.log(datatosave)
+            SecuredFac.SetProfileLogin(datatosave)
+            .then(function(responsesetloginprofile)
+            {
+                console.log(responsesetloginprofile);
+                swal({
+                      title: "",
+                      text: "Registrasi Berhasil.",
+                      allowOutsideClick:true,
+                      showConfirmButton:true
+                    });
+                $scope.modalsignup.hide();
+                var profile = {};
+                profile.nickname        = datatosave.username;
+                profile.email           = datatosave.email;
+                profile.name            = datatosave.NAMA;
+                profile.ACCESS_UNIX     = responsesetloginprofile.ACCESS_UNIX;
+                profile.ID_FB           = responsesetloginprofile.ID_FB;
+                profile.ID_GOOGLE       = responsesetloginprofile.ID_GOOGLE;
+                profile.ID_TWITTER      = responsesetloginprofile.ID_TWITTER;
+                profile.ID_LINKEDIN     = responsesetloginprofile.ID_LINKEDIN;
+
+                StorageService.set('token', responsesetloginprofile.auth_key);
+                StorageService.set('profile',profile);
+                $ionicHistory.nextViewOptions({disableAnimate: true, disableBack: false});
+                $state.go('tab.dashboard');  
+            },
+            function(errorsetloginprofile)
+            {
+                console.log(errorsetloginprofile);
+            })
+            .finally(function()
+            {
+                $ionicLoading.hide();
+            });
         });
     }
 })
