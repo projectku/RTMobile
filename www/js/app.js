@@ -33,24 +33,43 @@ angular.module('starter', ['ionic','ionic-ratings','ui.calendar','auth0','ionic-
       }
   });
 })
-.controller('AppCtrl', function($ionicPlatform,$window,$rootScope,$scope,$filter,$state,$ionicLoading,$timeout,$ionicHistory,StorageService) 
+.controller('AppCtrl', function($ionicPlatform,$ionicActionSheet,$window,$rootScope,$scope,$filter,$state,$ionicLoading,$timeout,$ionicHistory,StorageService) 
 {
     $scope.tglskrg            = $filter('date')(new Date(),'yyyy-MM-dd');
     $scope.profile            = StorageService.get('profile');
 
     $scope.logout = function() 
     {
-      $ionicLoading.show({duration:1000});
-      StorageService.destroy('profile');
-      StorageService.destroy('token');
-      $timeout(function () 
-      {
-            $ionicLoading.hide();
-            $ionicHistory.clearCache();
-            $ionicHistory.clearHistory();
-            $ionicHistory.nextViewOptions({ disableBack: true, historyRoot: true });
-            $window.location.href = "index.html";
-        }, 500);
+
+    
+        $ionicActionSheet.show
+        ({
+          titleText: 'Are You Sure To Logout?',
+          buttons: [
+            { text: '<i class="icon ion-android-done-all"></i> Yes' }
+          ],
+          destructiveText: '<i class="icon ion-ios-undo-outline"></i> Cancel',
+          buttonClicked: function(index) 
+          {
+            $ionicLoading.show({duration:1000});
+            StorageService.destroy('profile');
+            StorageService.destroy('token');
+            $timeout(function () 
+            {
+                  $ionicLoading.hide();
+                  $ionicHistory.clearCache();
+                  $ionicHistory.clearHistory();
+                  $ionicHistory.nextViewOptions({ disableBack: true, historyRoot: true });
+                  $window.location.href = "index.html";
+              }, 500);
+          },
+          destructiveButtonClicked: function() 
+          {
+            console.log('DESTRUCT');
+            return true;
+          }
+        });
+      
     };
     $ionicPlatform.registerBackButtonAction(function (event) 
     {

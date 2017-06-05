@@ -7,7 +7,7 @@
                         <img data-ng-src="img/rt.png" width="100%" height="100%">
                       </div>
                     <form name="loginForm" ng-submit="loginmanual(users)" novalidate="">
-                        <div class="list list-inset">
+                        <div class="list list-inset label">
                             <label class="item item-input item-floating-label">
                                 <span class="input-label">Your Username</span>
                                 <input type="text" ng-model="users.username" class="form-control" placeholder="username" required>
@@ -26,14 +26,15 @@
                     <button  class="button button-block button-calm rcorners2" style="border: 1px solid rgba(255, 255, 255, 0.8);" ng-click="signupnewuser()">
                       Sign Up
                     </button>
-                    <div style="padding-top:5px">
-                        <button class="button button-block ion-social-googleplus rcorners2" ng-click="loginWithGoogle()" style="border: 1px solid rgba(255, 255, 255, 0.8);background-color: #f44336;color:white;">
+                    <div style="padding-top:25px;text-align: center;">
+                        <button class="button ion-social-googleplus rcorners2" ng-click="loginWithGoogle()" style="border: 1px solid rgba(255, 255, 255, 0.8);background-color: #f44336;color:white;">
                         </button>
-                        <button class="button button-block ion-social-facebook button-positive rcorners2" ng-click="loginWithFacebook()" style="border: 1px solid rgba(255, 255, 255, 0.8);"></button>
-<!--                         <button class="button button-block ion-social-tumblr button-calm rcorners2" style="border: 1px solid rgba(255, 255, 255, 0.8);"></button> -->
+                        <button class="button  ion-social-facebook button-positive rcorners2" ng-click="loginWithFacebook()" style="border: 1px solid rgba(255, 255, 255, 0.8);"></button>
+
+                        <button class="button  ion-social-twitter button-calm rcorners2" ng-click="loginWithFacebook()" style="border: 1px solid rgba(255, 255, 255, 0.8);"></button>
                     </div>
-                        
                 </div>
+                        
 
             </div>
 
