@@ -1,6 +1,6 @@
 <ion-view id="login" view-title="HISTORY">
 	<ion-content>
-		<ion-list ng-if="datajadwal">
+		<ion-list>
 	    	<div class="list card" ng-repeat="jadwal in datajadwal " ng-click="openmodaldetail(jadwal)">
 				<div class="item row">
 				  <span style="text-align:left;" class="col col-50" >
@@ -30,7 +30,7 @@
 			    </div>
 	    	</div>
 	    </ion-list>
-	    <ion-list ng-if="!datajadwal">
+	    <ion-list ng-hide="datajadwal">
 	    	<div class="list card">
 			    <div class="item item-body">
 			      <ion-item>

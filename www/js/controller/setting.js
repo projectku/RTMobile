@@ -1,5 +1,5 @@
 angular.module('starter')
-.controller('SettingCtrl', function($ionicPlatform,$http,$timeout,$location,$scope,$ionicLoading,$state,$ionicHistory,$ionicPopup,auth,StorageService,SecuredFac) 
+.controller('SettingCtrl', function($ionicPlatform,$ionicModal,$http,$timeout,$location,$scope,$ionicLoading,$state,$ionicHistory,$ionicPopup,auth,StorageService,SecuredFac) 
 {
 
     $scope.settings = {'enablefacebook':false,'enablegoogle':false};
@@ -26,19 +26,29 @@ angular.module('starter')
 	        },
 	        function (user_data) 
 	        {
-	            var profile = {};
-	            profile.nickname    = user_data.email;
-	            profile.email       = user_data.email;
-	            profile.name        = user_data.displayName,
-	            profile.picture     = user_data.imageUrl;
-	            profile.identities  = [{'user_id':user_data.userId,'connection':'google-oauth2'}]; 
-	            StorageService.set('profile', profile);
-	            StorageService.set('token', profile.identities[0].user_id);
-	            $timeout(function()
+                SecuredFac.CheckIdSosmed("ID_GOOGLE",user_data.userId)
+	            .then(function(responseserver)
 	            {
-	                $ionicLoading.hide();
-	                $ionicHistory.nextViewOptions({disableAnimate: true, disableBack: true});
-	                $location.path("/auth/register");
+	            	if(angular.isArray(responseserver) && responseserver.length > 0)
+	            	{
+	            		
+			            swal("Lingking Gagal!","Account Ini Sudah Pernah Terdaftar Di Server Kami.","error");
+			            $scope.settings.enablefacebook = false;
+	            	}
+	            	else
+	            	{
+	            		swal({
+			                  title: "Google",
+			                  text: "Link To Your Google Account Successful.",
+			                  allowOutsideClick:true,
+			                  showConfirmButton:true
+		                });	
+	            	}
+	            	$ionicLoading.hide();
+	            },
+	            function(errorgetresponse)
+	            {
+	            	console.log(errorgetresponse)
 	            });
 	        },
 	        function (msg) 
@@ -100,14 +110,30 @@ angular.module('starter')
 	        }, 
 	        function(profile, token) 
 	        {
-	            StorageService.set('profile', profile);
-	            StorageService.set('token', token);
-	            $timeout(function()
+	            SecuredFac.CheckIdSosmed("ID_FB",profile.identities[0].user_id)
+	            .then(function(responseserver)
 	            {
-	                $ionicLoading.hide();
-	                $ionicHistory.nextViewOptions({disableAnimate: true, disableBack: true});
-	                $location.path("/auth/register");
-	            });  
+	            	if(angular.isArray(responseserver) && responseserver.length > 0)
+	            	{
+	            		
+			            swal("Lingking Gagal!","Account Ini Sudah Pernah Terdaftar Di Server Kami.","error");
+			            $scope.settings.enablefacebook = false;
+	            	}
+	            	else
+	            	{
+	            		swal({
+			                  title: "Facebook",
+			                  text: "Link To Your Facebook Account Successful.",
+			                  allowOutsideClick:true,
+			                  showConfirmButton:true
+		                });	
+	            	}
+	            	$ionicLoading.hide();
+	            },
+	            function(errorgetresponse)
+	            {
+	            	console.log(errorgetresponse)
+	            }); 
 	        }, 
 	        function(error) 
 	        {
@@ -150,6 +176,27 @@ angular.module('starter')
 
 	    }
             
+    }
+
+    $scope.openchangepasswordmodal = function()
+    {
+    	$ionicModal.fromTemplateUrl('templates/setting/changepassword.html', 
+        {
+            scope: $scope,
+            animation: 'slide-in-up',
+            backdropClickToClose: false,
+            hardwareBackButtonClose: true
+        })
+        .then(function(modal) 
+        {
+            $scope.modalchangepass  = modal;
+            $scope.modalchangepass.show();
+        });
+    }
+
+    $scope.closechangepassmodal = function()
+    {
+    	$scope.modalchangepass.hide();
     }
 
 })

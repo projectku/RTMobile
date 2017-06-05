@@ -6,7 +6,12 @@ height: 15vh;
 
 #login 
 {
-background: #2aa5ad; 
+    background: #2aa5ad; 
+    display: -webkit-flex;
+    -webkit-flex-direction: column;
+    height: 100%;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#2aa5ad), color-stop(100%,#f7d47c));
+    background: -webkit-linear-gradient(top, #2aa5ad 0%,#f7d47c 100%);
 /*  -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -215,4 +220,14 @@ background: #2aa5ad;
     border-style: solid;
     font-size: 16px;
 }
+.card-1 {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+/*  transition: all 0.3s cubic-bezier(.25,.8,.25,1);*/
+}
+
+.card-1:hover {
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+
+
 

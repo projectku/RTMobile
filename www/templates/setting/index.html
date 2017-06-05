@@ -1,27 +1,36 @@
-<ion-view view-title="Account">
-	<ion-content scroll="true" padding="true" style="background-color:#f8f8f8">
+<ion-view view-title="Account" id="login">
+	<ion-content scroll="true" padding="true"  class="card-1">
 	  <ion-list>
-	    <ion-item class="profile-item">
-	      <div class="profile-picture-login big-profile-picture">
-	        <img data-ng-src="{{profile.picture}}" width="100%" height="100%">
-	      </div>
-	      <h5 class="profile-name dark">{{profile.name}}</h5>
-	    </ion-item>
-	  </ion-list>
-	      <ion-list>
-	      <ion-toggle  ng-model="settings.enablefacebook" ng-click="loginWithFacebook()">
-		        Link To Facebook
-		    </ion-toggle>
-		    <ion-toggle  ng-model="settings.enablegoogle" ng-click="loginWithGoogle()">
-		        Link To Google+
-		    </ion-toggle>
-<!-- 		    <ion-toggle  ng-model="settings.enabletwitter" ng-click="settings.enabletwitter">
-		        Link To Twitter
-		    </ion-toggle> -->
-		    <ion-item class="item item-icon-right" type="item-text-wrap" ng-click="logout()">
-		        <h2>Log Out</h2>
-		        <i class="icon ion-log-out"></i>
-	      	</ion-item>
+		    <ion-item class="profile-item">
+		      <div class="profile-picture-login big-profile-picture">
+		        <img data-ng-src="{{profile.picture}}" width="100%" height="100%">
+		      </div>
+		      <h5 class="profile-name dark">{{profile.name}}</h5>
+		    </ion-item>
+      		<div class="list card">
+	      		<div class="item row" style="background:rgb(200, 200, 100)">
+		          <span  class="col col-100">SocMed Connected</span>
+		        </div>
+		      	<ion-toggle  ng-model="settings.enablefacebook" ng-click="loginWithFacebook()">
+			        Link To Facebook
+			    </ion-toggle>
+			    <ion-toggle  ng-model="settings.enablegoogle" ng-click="loginWithGoogle()">
+			        Link To Google+
+			    </ion-toggle>
+	      	</div>
+      		<div class="list card">
+	      		<div class="item row" style="background:rgb(200, 200, 100)">
+		          <span  class="col col-100">Account Setting</span>
+		        </div>
+		        <ion-item class="item item-icon-right" type="item-text-wrap" ng-click="openchangepasswordmodal()">
+			        <h2>Change Password</h2>
+			        <i class="icon ion-chevron-right"></i>
+		      	</ion-item>
+			    <ion-item class="item item-icon-right" type="item-text-wrap" ng-click="logout()">
+			        <h2>Log Out</h2>
+			        <i class="icon ion-log-out"></i>
+		      	</ion-item>
+	      	</div>
 	    </ion-list>
 	</ion-content>
 </ion-view>
