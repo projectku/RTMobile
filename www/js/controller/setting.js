@@ -2,7 +2,7 @@ angular.module('starter')
 .controller('SettingCtrl', function($ionicPlatform,$ionicModal,$http,$timeout,$location,$scope,$ionicLoading,$state,$ionicHistory,$ionicPopup,auth,StorageService,SecuredFac) 
 {
 
-    $scope.settings = {'enablefacebook':false,'enablegoogle':false};
+    $scope.settings = {'enablefacebook':false,'enablegoogle':false,'enabletwitter':false};
     if($scope.profile.ID_FB && $scope.profile.ID_FB != 0)
     {
     	$scope.settings.enablefacebook = true;
@@ -10,6 +10,10 @@ angular.module('starter')
     if($scope.profile.ID_GOOGLE && $scope.profile.ID_GOOGLE != 0)
     {
     	$scope.settings.enablegoogle = true;
+    }
+    if($scope.profile.ID_TWITTER && $scope.profile.ID_TWITTER != 0)
+    {
+    	$scope.settings.enabletwitter = true;
     }
     if(!$scope.profile.picture)
     {
@@ -33,7 +37,7 @@ angular.module('starter')
 	            	{
 	            		
 			            swal("Lingking Gagal!","Account Ini Sudah Pernah Terdaftar Di Server Kami.","error");
-			            $scope.settings.enablefacebook = false;
+			            $scope.settings.enablegoogle = false;
 	            	}
 	            	else
 	            	{

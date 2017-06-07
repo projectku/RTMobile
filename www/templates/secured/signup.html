@@ -32,14 +32,18 @@
                           <span class="input-label">No.Telp</span>
                             <input type="tel" ng-model="customers.HP" class="form-control" placeholder="No Telepon" required>
                         </label>
-                        <label class="item item-input item-select" style="background-color: #f8f8f8">
+                        <label class="item item-input item-stacked-label" style="background-color: #f8f8f8" ng-click="chooseluasrumah()">
+                          <span class="input-label">Luas Rumah</span>
+                            <input type="tel" ng-model="customers.LUAS_TANAH" class="form-control" placeholder="Luas Rumah" required readonly>
+                        </label>
+<!--                         <label class="item item-input item-select" style="background-color: #f8f8f8">
                             <div class="input-label">
                               Luas Rumah
                             </div>
                             <select ng-model="customers.LUAS_TANAH" ng-options="item.nama for item in luasrumah" required>
                               <option value="">-- Pilih Luas --</option>
                             </select>
-                        </label> 
+                        </label>  -->
                     </div>
                     <button type="submit" class="button button-block button-positive rcorners2" ng-disabled="loginForm.$invalid" round>
                       Registration

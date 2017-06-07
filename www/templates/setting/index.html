@@ -1,4 +1,4 @@
-<ion-view view-title="Account">
+<ion-view view-title="Account" id="login">
 	<ion-content scroll="true" padding="true"  class="card-1">
 	  <ion-list>
 		    <ion-item class="profile-item">
@@ -16,6 +16,9 @@
 			    </ion-toggle>
 			    <ion-toggle  ng-model="settings.enablegoogle" ng-click="loginWithGoogle()">
 			        Link To Google+
+			    </ion-toggle>
+			    <ion-toggle  ng-model="settings.enabletwitter" ng-click="loginWithTwitter()">
+			        Link To Twitter
 			    </ion-toggle>
 	      	</div>
       		<div class="list card">
