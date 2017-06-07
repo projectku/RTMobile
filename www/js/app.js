@@ -86,10 +86,10 @@ angular.module('starter', ['ionic','ionic-ratings','ui.calendar','auth0','ionic-
 .controller('DashboardCtrl', function($scope) 
 {
     var menus       = [];
-    menus.push({src: "img/jadwal.jpg",link:"#/tab/jadwal",judul:"Jadwal Kunjungan"});
-    menus.push({src: "img/history.jpg",link:"#/tab/history",judul:"History"});
-    menus.push({src: "img/feedback.jpg",link:"#/tab/feedback",judul:"Customer Feedback"});
-    menus.push({src: "img/jasa.jpg",link:"#/tab/informasi",judul:"Informasi"});
-    menus.push({src: "img/settings.jpg",link:"#/tab/setting",judul:"Setting"});
+    menus.push({src: "img/jadwal.png",link:"#/tab/jadwal",judul:"Jadwal Kunjungan"});
+    menus.push({src: "img/history.png",link:"#/tab/history",judul:"History"});
+    menus.push({src: "img/feedback.png",link:"#/tab/feedback",judul:"Customer Feedback"});
+    menus.push({src: "img/jasa.png",link:"#/tab/informasi",judul:"Informasi"});
+    menus.push({src: "img/settings.png",link:"#/tab/setting",judul:"Setting"});
     $scope.menus = menus;
 });
