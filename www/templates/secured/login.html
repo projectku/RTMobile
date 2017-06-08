@@ -10,7 +10,7 @@
                         <div class="list list-inset label">
                             <label class="item item-input item-floating-label">
                                 <span class="input-label">Your Username</span>
-                                <input type="text" ng-model="users.username" class="form-control" placeholder="username" required>
+                                <input type="text" ng-model="users.username"  class="form-control" placeholder="username" required>
                             </label>
 
                             <label class="item item-input item-floating-label">
@@ -18,6 +18,7 @@
                                 <input type="password" ng-model="users.password" class="form-control" placeholder="password" required>
                             </label>
                         </div>
+                        <p style="float:right;color:rgba(255, 255, 255, 0.5);padding-top:-20px" ng-click="resetpassword()">Forget Password?</p>
                         <button type="submit" class="button button-block button-balanced rcorners2" ng-disabled="loginForm.$invalid" style="border: 1px solid rgba(255, 255, 255, 0.8);">
                           Sign In
                         </button>

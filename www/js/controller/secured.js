@@ -267,6 +267,81 @@ angular.module('starter')
           }
         });
     }
+    $scope.resetpassword = function()
+    {
+        swal({
+              title: "Reset Password",
+              text: "Confirm Your Email",
+              type: "input",
+              inputType:"email",
+              showCancelButton: true,
+              closeOnConfirm: false,
+              animation: "slide-from-top",
+              inputPlaceholder: "Your Email",
+              showLoaderOnConfirm:true
+            },
+            function(inputValue)
+            {
+                var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                if(!re.test(inputValue))
+                {
+                    var testemail = true;  
+                }
+
+                if (inputValue === false) 
+                {
+                    return false;
+                }
+                if (inputValue === "" || testemail) 
+                {
+                    swal.showInputError("Wrong Format.Please Enter Valid Email!");
+                    return false
+                }
+                SecuredFac.GetProfileLogin(inputValue, inputValue)
+                .then(function (result) 
+                {
+                    if(angular.isArray(result) && result.length > 0)
+                    {
+                        $timeout(function() 
+                        {
+                            swal.close();
+                            $scope.modalnewpass();
+                        }, 5000);
+                    }
+                    else
+                    {
+                        swal.showInputError("Email Anda Tidak Ditemukan Di Server Kami!");
+                        return false;
+                    }   
+                }, 
+                function (err) 
+                {          
+                    console.log(err);
+                });
+                
+            });
+    }
+
+    $scope.modalnewpass = function()
+    {
+        $ionicModal.fromTemplateUrl('templates/secured/resetpassword.html', 
+        {
+            scope: $scope,
+            animation: 'slide-in-up',
+            backdropClickToClose: false,
+            hardwareBackButtonClose: true
+        })
+        .then(function(modal) 
+        {
+            $scope.modalresetpass  = modal;
+            $scope.modalresetpass.show();
+        });
+    }
+    $scope.submitresetpass = function(datapassword)
+    {
+        console.log(datapassword);
+        $scope.modalresetpass.hide();
+    }
 })
 .controller('RegisterCtrl', function($ionicActionSheet,$timeout,$location,$http,$scope, $state, $ionicPopup,$ionicHistory,$ionicLoading,StorageService,SecuredFac) 
 {
