@@ -61,9 +61,27 @@ angular.module('starter')
 
         return deferred.promise;  
     }
+    var CheckEmailExist = function(email)
+    {
+        var deferred        = $q.defer();
+        var url             = "http://rt.kontrolgampang.com/login/user-tokens?email=" + email;
+        var method          = "GET";
+        $http({method:method, url:url})
+        .success(function(response) 
+        {
+            deferred.resolve(response);
+        })
+        .error(function(err,status)
+        {
+            deferred.reject(err);
+        }); 
+
+        return deferred.promise;  
+    }
     return {
     	GetProfileLogin:GetProfileLogin,
     	SetProfileLogin:SetProfileLogin,
-        CheckIdSosmed:CheckIdSosmed
+        CheckIdSosmed:CheckIdSosmed,
+        CheckEmailExist:CheckEmailExist
     }
 });

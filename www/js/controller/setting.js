@@ -97,7 +97,6 @@ angular.module('starter')
 				});
 
 	    }
-    
     }
     
     $scope.loginWithFacebook = function ()
@@ -180,6 +179,86 @@ angular.module('starter')
 
 	    }
             
+    }
+
+    $scope.loginWithTwitter = function ()
+    {
+        var twitter = $scope.settings.enabletwitter;
+        if(twitter)
+        {
+        	$ionicLoading.show();
+	        auth.signin(
+	        {
+	            popup: true,
+	            connection: 'twitter',
+	            scope: 'openid name email' //Details: https:///scopes
+	        }, 
+	        function(profile, token) 
+	        {
+	            SecuredFac.CheckIdSosmed("ID_TWITTER",profile.identities[0].user_id)
+	            .then(function(responseserver)
+	            {
+	            	if(angular.isArray(responseserver) && responseserver.length > 0)
+	            	{
+	            		
+			            swal("Lingking Gagal!","Account Ini Sudah Pernah Terdaftar Di Server Kami.","error");
+			            $scope.settings.enabletwitter = false;
+	            	}
+	            	else
+	            	{
+	            		swal({
+			                  title: "Twitter",
+			                  text: "Link To Your Twitter Account Successful.",
+			                  allowOutsideClick:true,
+			                  showConfirmButton:true
+		                });	
+	            	}
+	            	$ionicLoading.hide();
+	            },
+	            function(errorgetresponse)
+	            {
+	            	console.log(errorgetresponse)
+	            }); 
+	        }, 
+	        function(error) 
+	        {
+	            $ionicLoading.hide();
+	            swal({
+	                  title: "Twitter",
+	                  text: "Link To Your Twitter Account Unsuccessful.",
+	                  allowOutsideClick:true,
+	                  showConfirmButton:true
+                });
+                $scope.settings.enabletwitter = false;
+		    	$scope.$apply();
+	        });
+        }
+        else
+	    {
+	    	swal({
+				  title: "Are you sure?",
+				  text: "You want to unlink your twitter account.",
+				  type: "warning",
+				  showCancelButton: true,
+				  confirmButtonColor: "#DD6B55",
+				  confirmButtonText: "Yes",
+				  cancelButtonText: "No",
+				  closeOnConfirm: false,
+				  closeOnCancel: true
+				},
+				function(isConfirm)
+				{
+				  if (isConfirm) 
+				  {
+				    swal("Unlink!", "Your Twitter account has been unlinked.", "success");
+				  } 
+				  else 
+				  {
+				    	$scope.settings.enabletwitter = true;
+				    	$scope.$apply();
+				  }
+				});
+	    }      
     }
 
     $scope.openchangepasswordmodal = function()

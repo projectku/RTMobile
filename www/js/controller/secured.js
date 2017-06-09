@@ -297,7 +297,7 @@ angular.module('starter')
                     swal.showInputError("Wrong Format.Please Enter Valid Email!");
                     return false
                 }
-                SecuredFac.GetProfileLogin(inputValue, inputValue)
+                SecuredFac.CheckEmailExist(inputValue)
                 .then(function (result) 
                 {
                     if(angular.isArray(result) && result.length > 0)
