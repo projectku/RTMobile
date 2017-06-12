@@ -8,26 +8,25 @@
                       </div>
                     <form name="loginForm" ng-submit="loginmanual(users)" novalidate="">
                         <div class="list list-inset label" style="margin-bottom:5px">
-                            <label class="item item-input item-floating-label">
+                            <label class="item item-input item-stacked-label">
                                 <span class="input-label">Your Username</span>
-                                <input type="text" ng-model="users.username"  class="form-control" placeholder="username" required>
+                                <input type="text" ng-model="users.username"  class="form-control" required>
                             </label>
 
-                            <label class="item item-input item-floating-label">
+                            <label class="item item-input item-stacked-label">
                               <span class="input-label">Your Password</span>
-                                <input type="password" ng-model="users.password" class="form-control" placeholder="password" required>
+                                <input type="password" ng-model="users.password" class="form-control" required>
                             </label>
                         </div>
-                        <p style="float:right;color:rgba(255, 255, 255, 0.5);padding-top:-20px" ng-click="resetpassword()">Forget Password?</p>
+                        <p style="float:right;color:rgba(255, 255, 255, 0.5);padding-top:10px;padding-bottom:10px;" ng-click="resetpassword()">Forget Password?</p>
                         <button type="submit" class="button button-block button-balanced rcorners2" ng-disabled="loginForm.$invalid" style="border: 1px solid rgba(255, 255, 255, 0.8);">
                           Sign In
                         </button>
-                        
                     </form>
-                    <button  class="button button-block button-calm rcorners2" style="border: 1px solid rgba(255, 255, 255, 0.8);" ng-click="signupnewuser()" ng-show="showregister">
+                    <button  class="button button-block button-calm rcorners2" style="border: 1px solid rgba(255, 255, 255, 0.8); " ng-click="signupnewuser()" ng-show="showregister">
                       Sign Up
                     </button>
-                    <div style="padding-top:25px;text-align: center;">
+                    <div style="padding-top:10px;text-align: center;">
                         <button class="button ion-social-googleplus rcorners2" ng-click="loginWithGoogle()" style="border: 1px solid rgba(255, 255, 255, 0.8);background-color: #f44336;color:white;">
                         </button>
                         <button class="button  ion-social-facebook button-positive rcorners2" ng-click="loginWithFacebook()" style="border: 1px solid rgba(255, 255, 255, 0.8);"></button>

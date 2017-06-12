@@ -78,10 +78,54 @@ angular.module('starter')
 
         return deferred.promise;  
     }
+    var ResetOldPassword = function(datatosave)
+    {
+        var deferred            = $q.defer();
+        var globalurl           = UtilService.ApiUrl();      
+        var url                 = "http://rt.kontrolgampang.com/login/user-reset-codes";
+
+        var result              = UtilService.SerializeObject(datatosave);
+        var serialized          = result.serialized;
+        var config              = result.config;
+
+        $http.post(url,serialized,config)
+        .success(function(dataresponse,status,headers,config) 
+        {
+            deferred.resolve(dataresponse);
+        })
+        .error(function(err,status)
+        {
+            deferred.reject(err);
+        });
+        return deferred.promise;  
+    }
+    var SetNewPassword = function(datatosave)
+    {
+        var deferred            = $q.defer();
+        var globalurl           = UtilService.ApiUrl();      
+        var url                 = "http://rt.kontrolgampang.com/login/user-resets";
+
+        var result              = UtilService.SerializeObject(datatosave);
+        var serialized          = result.serialized;
+        var config              = result.config;
+
+        $http.post(url,serialized,config)
+        .success(function(dataresponse,status,headers,config) 
+        {
+            deferred.resolve(dataresponse.result);
+        })
+        .error(function(err,status)
+        {
+            deferred.reject(err);
+        });
+        return deferred.promise;  
+    }
     return {
     	GetProfileLogin:GetProfileLogin,
     	SetProfileLogin:SetProfileLogin,
         CheckIdSosmed:CheckIdSosmed,
-        CheckEmailExist:CheckEmailExist
+        CheckEmailExist:CheckEmailExist,
+        ResetOldPassword:ResetOldPassword,
+        SetNewPassword:SetNewPassword
     }
 });

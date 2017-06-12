@@ -9,29 +9,29 @@
             <div class="col col-50 col-offset-25">
                 <form name="loginForm" ng-submit="registerbaru(customers)" novalidate="">
                     <div class="list list-inset rounded">
-                        <label class="item item-input item-floating-label " style="background-color: #f8f8f8" ng-class="{ 'has-errors' : loginForm.emailvalid.$invalid, 'no-errors' : loginForm.emailvalid.$valid}">
+                        <label class="item item-input item-stacked-label " style="background-color: #f8f8f8" ng-class="{ 'has-errors' : loginForm.emailvalid.$invalid && !loginForm.emailvalid.$pristine}">
                             <span class="input-label">Email</span>
                             <input type="email" name="emailvalid" ng-model="customers.email" class="form-control has-error" placeholder="Email" required>
                         </label>
-                        <label class="item item-input item-floating-label" style="background-color: #f8f8f8" ng-class="{ 'has-errors' : loginForm.passvalid.$invalid, 'no-errors' : loginForm.passvalid.$valid}">
+                        <label class="item item-input item-stacked-label" style="background-color: #f8f8f8" ng-class="{ 'has-errors' : loginForm.passvalid.$invalid && !loginForm.passvalid.$pristine}">
                             <span class="input-label">Password</span>
                             <input type="password" name="passvalid" ng-model="customers.new_pass" class="form-control" placeholder="Password" required>
                         </label>
                     </div>
                     <div class="list list-inset">
-                        <label class="item item-input item-floating-label" style="background-color: #f8f8f8" ng-class="{ 'has-errors' : loginForm.namavalid.$invalid, 'no-errors' : loginForm.namavalid.$valid}">
+                        <label class="item item-input item-stacked-label" style="background-color: #f8f8f8" ng-class="{ 'has-errors' : loginForm.namavalid.$invalid && !loginForm.namavalid.$pristine}">
                           <span class="input-label">Nama</span>
                             <input type="text" name="namavalid" ng-model="customers.NAMA" class="form-control" placeholder="Nama" required>
                         </label>
-                        <label class="item item-input item-floating-label" style="background-color: #f8f8f8" ng-class="{ 'has-errors' : loginForm.alamatvalid.$invalid, 'no-errors' : loginForm.alamatvalid.$valid}">
+                        <label class="item item-input item-stacked-label" style="background-color: #f8f8f8" ng-class="{ 'has-errors' : loginForm.alamatvalid.$invalid && !loginForm.alamatvalid.$pristine}">
                           <span class="input-label">Alamat</span>
                             <input type="text" name="alamatvalid" ng-model="customers.ALAMAT" class="form-control" placeholder="Alamat" required>
                         </label>
-                        <label class="item item-input item-floating-label" style="background-color: #f8f8f8" ng-class="{ 'has-errors' : loginForm.telpvalid.$invalid, 'no-errors' : loginForm.telpvalid.$valid}">
+                        <label class="item item-input item-stacked-label" style="background-color: #f8f8f8" ng-class="{ 'has-errors' : loginForm.telpvalid.$invalid && !loginForm.telpvalid.$pristine}">
                           <span class="input-label">No.Telp</span>
                             <input type="tel" name="telpvalid" ng-model="customers.HP" class="form-control" placeholder="No Telepon" required>
                         </label>
-                        <label class="item item-input item-stacked-label" style="background-color: #f8f8f8" ng-click="chooseluasrumah()" ng-class="{ 'has-errors' : loginForm.luasrumahvalid.$invalid, 'no-errors' : loginForm.luasrumahvalid.$valid}">
+                        <label class="item item-input item-stacked-label" style="background-color: #f8f8f8" ng-click="chooseluasrumah()" ng-class="{ 'has-errors' : loginForm.luasrumahvalid.$invalid && !loginForm.luasrumahvalid.$pristine}">
                           <span class="input-label">Luas Rumah</span>
                             <input type="tel" name="luasrumahvalid" ng-model="customers.LUAS_TANAH" class="form-control" placeholder="Luas Rumah" required readonly>
                         </label>

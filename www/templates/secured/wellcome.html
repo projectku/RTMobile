@@ -1,0 +1,15 @@
+<ion-modal-view  id="login" class="modaldetail">
+    <ion-header-bar class="bar bar-header bar-assertive">
+        <h1 class="title">WELLCOME</h1>
+        <button class="button button-icon" ng-click="closemodalwellcome()">SKIP</button>
+    </ion-header-bar>
+    <ion-content>
+        <div  id="login" class="modal image-modal">
+            <ion-slide-box on-slide-changed="slideChanged(index)" show-pager="true">
+              <ion-slide ng-repeat="oImage in aImages" >
+                <div ng-include src="oImage.template"></div>
+              </ion-slide>
+            </ion-slide-box>
+        </div>
+    </ion-content>
+</ion-modal-view>

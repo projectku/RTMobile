@@ -6,43 +6,11 @@ angular.module('starter')
     // lock.show({connections: ['Username-Password-Authentication']});
     // lock.show({connections: ['twitter', 'facebook', 'linkedin']});
     // lock.show({connections: ['qraftlabs.com']});
-    $scope.$on('$ionicView.beforeEnter', function()
+    var sudahregister = StorageService.get('sudahdaftarbelum');
+    if(!sudahregister)
     {
-        var sudahregister = StorageService.get('sudahdaftarbelum');
-        if(!sudahregister)
-        {
-            $scope.showregister = true;
-            $scope.aImages = [{
-                                'src' : 'https://ionicframework.com/img/ionic-logo-blog.png', 
-                                'msg' : 'Swipe me to the left. Tap/click to close',
-                                'template':'templates/wellcome/slide1.html'
-                                }, 
-                                {
-                                    'src' : 'https://ionicframework.com/img/ionic_logo.svg', 
-                                    'msg' : ''
-                                }, 
-                                { 
-                                'src' : 'https://ionicframework.com/img/homepage/phones-weather-demo@2x.png', 
-                                'msg' : ''
-                            }];
-            $ionicModal.fromTemplateUrl('templates/secured/wellcome.html', 
-            {
-                scope: $scope,
-                animation: 'slide-in-up'
-            }).then(function(modal) 
-            {
-                $scope.modalwell = modal;
-                $scope.modalwell.show();
-            });
-
-        }
-    });
-    
-    $scope.closemodalwellcome = function()
-    {
-        $scope.modalwell.hide();
+        $scope.showregister = true;
     }
-    
     $scope.loginWithGoogle = function ()
     {
         $ionicLoading.show();

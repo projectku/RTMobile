@@ -15,7 +15,7 @@
                         </label>
                     </div> -->
                     <div class="list list-inset">
-                        <label class="item item-input item-stacked-label" style="background-color: #f8f8f8" ng-class="{ 'has-errors' : loginForm.namavalid.$invalid, 'no-errors' : loginForm.namavalid.$valid}">
+                        <label class="item item-input item-stacked-label" style="background-color: #f8f8f8" ng-class="{ 'has-errors' : loginForm.namavalid.$invalid && !userForm.name.$pristine, 'no-errors' : loginForm.namavalid.$valid}">
                           <span class="input-label">Nama</span>
                             <input type="text" name="namavalid" ng-model="customers.NAMA" class="form-control" placeholder="Nama" required>
                         </label>
