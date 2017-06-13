@@ -88,7 +88,7 @@ angular.module('starter')
             popup: true,
             connection: 'facebook',
             device: 'Mobile device',
-            scope: 'openid name email' //Details: https:///scopes
+            scope: 'openid name email'
         }, 
         function(profile, token) 
         {
@@ -122,7 +122,7 @@ angular.module('starter')
         {
             popup: true,
             connection: 'twitter',
-            scope: 'openid name email', //Details: https:///scopes
+            scope: 'openid name email',
             device: 'Mobile device'
         }, 
         function(profile, token) 
@@ -162,7 +162,6 @@ angular.module('starter')
         SecuredFac.UserLogins(datalogin)
         .then(function (result) 
         {
-            console.log(result);
             if(result.result == 'wrong-username')
             {
                 swal({
@@ -183,12 +182,14 @@ angular.module('starter')
             }
             else
             {
+                console.log(result);
                 var profile = {};
                 profile.nickname        = result.username;
                 profile.email           = result.email;
                 profile.ACCESS_UNIX     = result.ACCESS_UNIX;
                 profile.name            = result.NAMA;
                 profile.type_login      = 'manual';
+                profile.type_socmed     = 'manual';
                 StorageService.set('profile', profile);
                 StorageService.set('token', result.auth_key);
                 StorageService.set('sudahdaftarbelum','yes');
@@ -223,7 +224,6 @@ angular.module('starter')
         })
         .then(function(modal) 
         {
-            // $scope.detailpekerja    = pekerja;
             $scope.customers = {'LUAS_TANAH':null};
             $scope.modalsignup  = modal;
             $scope.modalsignup.show();
@@ -450,32 +450,29 @@ angular.module('starter')
     var profile  = StorageService.get('profile');
     var username = profile.nickname;
     var email    = profile.email;
-    // if(profile.type_login == 'manual')
-    // {
-        SecuredFac.GetProfileLogin(username,email)
-        .then(function(getprofilelogin)
-        {
-            if(angular.isArray(getprofilelogin))
-            {
-                var profilelogin    = getprofilelogin[0]
-                profile.ACCESS_UNIX = profilelogin.ACCESS_UNIX;
-                profile.ID_FB       = profilelogin.ID_FB;
-                profile.ID_GOOGLE   = profilelogin.ID_GOOGLE;
-                profile.ID_TWITTER  = profilelogin.ID_TWITTER;
-                StorageService.set('profile',profile);
 
-                $ionicHistory.nextViewOptions({disableAnimate: true, disableBack: false});
-                $state.go('tab.dashboard');
-            }
-        },
-        function(errorgetprofilelogin)
+    SecuredFac.GetProfileLogin(username,email)
+    .then(function(getprofilelogin)
+    {
+        if(angular.isArray(getprofilelogin))
         {
-            console.log(errorgetprofilelogin);
-        });
-    // }
+            var profilelogin    = getprofilelogin[0];
+            profile.ACCESS_UNIX = profilelogin.ACCESS_UNIX;
+            profile.ID_FB       = profilelogin.ID_FB;
+            profile.ID_GOOGLE   = profilelogin.ID_GOOGLE;
+            profile.ID_TWITTER  = profilelogin.ID_TWITTER;
+            StorageService.set('profile',profile);
+
+            $ionicHistory.nextViewOptions({disableAnimate: true, disableBack: false});
+            $state.go('tab.dashboard');
+        }
+    },
+    function(errorgetprofilelogin)
+    {
+        console.log(errorgetprofilelogin);
+    });
 
     $scope.customers = {'email':profile.email,'NAMA':profile.name}
-    $scope.luasrumah = [{'nama':'100M-500M','type':'100-500'},{'nama':'500M-1000M','type':'500-1000'}];
     $scope.registerbaru = function (customers) 
     {
         $ionicLoading.show
