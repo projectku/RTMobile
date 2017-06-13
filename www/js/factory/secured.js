@@ -120,12 +120,56 @@ angular.module('starter')
         });
         return deferred.promise;  
     }
+    var UserChangePassword = function(datatosave)
+    {
+        var deferred            = $q.defer();
+        var globalurl           = UtilService.ApiUrl();      
+        var url                 = "http://rt.kontrolgampang.com/login/user-change-passwords";
+
+        var result              = UtilService.SerializeObject(datatosave);
+        var serialized          = result.serialized;
+        var config              = result.config;
+
+        $http.post(url,serialized,config)
+        .success(function(dataresponse,status,headers,config) 
+        {
+            deferred.resolve(dataresponse.result);
+        })
+        .error(function(err,status)
+        {
+            deferred.reject(err);
+        });
+        return deferred.promise;  
+    }
+    var LinkedSocMed = function(datatosave)
+    {
+        var deferred            = $q.defer();
+        var globalurl           = UtilService.ApiUrl();      
+        var url                 = "http://rt.kontrolgampang.com/login/user-links";
+
+        var result              = UtilService.SerializeObject(datatosave);
+        var serialized          = result.serialized;
+        var config              = result.config;
+
+        $http.post(url,serialized,config)
+        .success(function(dataresponse,status,headers,config) 
+        {
+            deferred.resolve(dataresponse);
+        })
+        .error(function(err,status)
+        {
+            deferred.reject(err);
+        });
+        return deferred.promise;  
+    }
     return {
     	GetProfileLogin:GetProfileLogin,
     	SetProfileLogin:SetProfileLogin,
         CheckIdSosmed:CheckIdSosmed,
         CheckEmailExist:CheckEmailExist,
         ResetOldPassword:ResetOldPassword,
-        SetNewPassword:SetNewPassword
+        SetNewPassword:SetNewPassword,
+        UserChangePassword:UserChangePassword,
+        LinkedSocMed:LinkedSocMed
     }
 });

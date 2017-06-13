@@ -3,42 +3,23 @@
         <div class="row responsive-md">
             <div class="col col-50 col-offset-25">
                 <form name="loginForm" ng-submit="registerbaru(customers)">
-<!--                     <div class="list list-inset rounded">
-                        <label class="item item-input item-floating-label" style="background-color: #f8f8f8">
-                            <span class="input-label">Email</span>
-                            <input type="email" ng-model="customers.email" class="form-control" placeholder="Email" required>
-                        </label>
-                    
-                        <label class="item item-input item-floating-label" style="background-color: #f8f8f8">
-                            <span class="input-label">Password</span>
-                            <input type="password" ng-model="customers.new_pass" class="form-control" placeholder="Password" required>
-                        </label>
-                    </div> -->
                     <div class="list list-inset">
-                        <label class="item item-input item-stacked-label" style="background-color: #f8f8f8" ng-class="{ 'has-errors' : loginForm.namavalid.$invalid && !userForm.name.$pristine, 'no-errors' : loginForm.namavalid.$valid}">
+                        <label class="item item-input item-stacked-label" style="background-color: #f8f8f8" ng-class="{ 'has-errors' : loginForm.namavalid.$invalid && !userForm.namavalid.$pristine}">
                           <span class="input-label">Nama</span>
                             <input type="text" name="namavalid" ng-model="customers.NAMA" class="form-control" placeholder="Nama" required>
                         </label>
-                        <label class="item item-input item-stacked-label" style="background-color: #f8f8f8" ng-class="{ 'has-errors' : loginForm.alamatvalid.$invalid, 'no-errors' : loginForm.alamatvalid.$valid}">
+                        <label class="item item-input item-stacked-label" style="background-color: #f8f8f8" ng-class="{ 'has-errors' : loginForm.alamatvalid.$invalid && !userForm.alamatvalid.$pristine}">
                           <span class="input-label">Alamat</span>
                             <input type="text" name="alamatvalid" ng-model="customers.ALAMAT" class="form-control" placeholder="Alamat" required>
                         </label>
-                        <label class="item item-input item-stacked-label" style="background-color: #f8f8f8" ng-class="{ 'has-errors' : loginForm.telpvalid.$invalid, 'no-errors' : loginForm.telpvalid.$valid}">
+                        <label class="item item-input item-stacked-label" style="background-color: #f8f8f8" ng-class="{ 'has-errors' : loginForm.telpvalid.$invalid && !userForm.telpvalid.$pristine}">
                           <span class="input-label">No.Telp</span>
                             <input type="tel" name="telpvalid" ng-model="customers.HP" class="form-control" placeholder="No Telepon" required>
                         </label>
-                        <label class="item item-input item-stacked-label" style="background-color: #f8f8f8" ng-click="chooseluasrumah()" ng-class="{ 'has-errors' : loginForm.luasrumahvalid.$invalid, 'no-errors' : loginForm.luasrumahvalid.$valid}">
+                        <label class="item item-input item-stacked-label" style="background-color: #f8f8f8" ng-click="chooseluasrumah()" ng-class="{ 'has-errors' : loginForm.luasrumahvalid.$invalid && !userForm.luasrumahvalid.$pristine}">
                           <span class="input-label">Luas Rumah</span>
                             <input type="tel" name="luasrumahvalid" ng-model="customers.LUAS_TANAH" class="form-control" placeholder="Luas Rumah" required readonly>
                         </label>
-<!--                         <label class="item item-input item-select" style="background-color: #f8f8f8">
-                            <div class="input-label">
-                              Luas Rumah
-                            </div>
-                            <select ng-model="customers.LUAS_TANAH" ng-options="item.nama for item in luasrumah" required>
-                              <option value="">-- Pilih Luas --</option>
-                            </select>
-                        </label>  -->
                     </div>
                     <button type="submit" class="button button-block button-positive rcorners2" ng-disabled="loginForm.$invalid" round>
                       Registration

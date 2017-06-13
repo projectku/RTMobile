@@ -57,6 +57,8 @@ angular.module('starter')
             profile.name        = user_data.displayName,
             profile.picture     = user_data.imageUrl;
             profile.identities  = [{'user_id':user_data.userId,'connection':'google-oauth2'}]; 
+            profile.type_login  = 'socmed';
+            profile.type_socmed = 'socmed-google';
             StorageService.set('profile', profile);
             StorageService.set('token', profile.identities[0].user_id);
             $timeout(function()
@@ -76,7 +78,6 @@ angular.module('starter')
                 });
             $ionicLoading.hide();
         });
-    
     }
     
     $scope.loginWithFacebook = function ()
@@ -91,6 +92,8 @@ angular.module('starter')
         }, 
         function(profile, token) 
         {
+            profile.type_login      = 'socmed';
+            profile.type_socmed     = 'socmed-fb';
             StorageService.set('profile', profile);
             StorageService.set('token', token);
             $timeout(function()
@@ -124,6 +127,8 @@ angular.module('starter')
         }, 
         function(profile, token) 
         {
+            profile.type_login      = 'socmed';
+            profile.type_socmed     = 'socmed-twitter';
             StorageService.set('profile', profile);
             StorageService.set('token', token);
             $timeout(function()
@@ -162,6 +167,7 @@ angular.module('starter')
                 profile.email           = result[0].email;
                 profile.ACCESS_UNIX     = result[0].ACCESS_UNIX;
                 profile.name            = result[0].NAMA;
+                profile.type_login      = 'manual';
                 StorageService.set('profile', profile);
                 StorageService.set('token', result[0].access_token);
                 StorageService.set('sudahdaftarbelum','yes');
@@ -205,11 +211,12 @@ angular.module('starter')
             $scope.modalsignup.show();
         });
     }
+
     $scope.signupmodalcancel = function()
     {
         $scope.modalsignup.hide();
     }
-    $scope.luasrumah = [{'nama':'100M-500M','type':'100-500'},{'nama':'500M-1000M','type':'500-1000'}];
+
     $scope.registerbaru = function (customers) 
     {
         $ionicLoading.show
@@ -386,11 +393,11 @@ angular.module('starter')
     $scope.submitresetpass = function(datapassword)
     {
         $ionicLoading.show();
-        // var datareset = StorageService.get('datareset');
+        var datareset = StorageService.get('datareset');
         var datatosave = {};
-        datatosave.email                = 'raizetacorp@gmail.com';
-        datatosave.username             = 'raizetacorp@gmail.com';
-        datatosave.ACCESS_UNIX          = '20170511185635';
+        datatosave.email                = datareset.email;
+        datatosave.username             = datareset.username;
+        datatosave.ACCESS_UNIX          = datareset.ACCESS_UNIX;
         datatosave.password_reset_token = datapassword.keyconfirmation;
         datatosave.password_hash        = datapassword.newpass;
         SecuredFac.SetNewPassword(datatosave)
@@ -402,15 +409,12 @@ angular.module('starter')
             }
             else if(result == 'true')
             {
-                
                 $scope.modalresetpass.hide();
-
                 $timeout(function() 
                 {
                     $ionicPopup.alert({title: 'Sukses!',template: 'Reset Password Berhasil.Silahkan Login Dengan Password Terbaru Anda.'});   
                 }, 500); 
             }
-
         }, 
         function (err) 
         {          
@@ -419,8 +423,7 @@ angular.module('starter')
         .finally(function()
         {
             $ionicLoading.hide();     
-        });
-        
+        });    
     }
 
 })
@@ -429,26 +432,29 @@ angular.module('starter')
     var profile  = StorageService.get('profile');
     var username = profile.nickname;
     var email    = profile.email;
-    SecuredFac.GetProfileLogin(username,email)
-    .then(function(getprofilelogin)
-    {
-        if(angular.isArray(getprofilelogin))
+    // if(profile.type_login == 'manual')
+    // {
+        SecuredFac.GetProfileLogin(username,email)
+        .then(function(getprofilelogin)
         {
-            var profilelogin    = getprofilelogin[0]
-            profile.ACCESS_UNIX = profilelogin.ACCESS_UNIX;
-            profile.ID_FB       = profilelogin.ID_FB;
-            profile.ID_GOOGLE   = profilelogin.ID_GOOGLE;
-            profile.ID_TWITTER  = profilelogin.ID_TWITTER;
-            StorageService.set('profile',profile);
+            if(angular.isArray(getprofilelogin))
+            {
+                var profilelogin    = getprofilelogin[0]
+                profile.ACCESS_UNIX = profilelogin.ACCESS_UNIX;
+                profile.ID_FB       = profilelogin.ID_FB;
+                profile.ID_GOOGLE   = profilelogin.ID_GOOGLE;
+                profile.ID_TWITTER  = profilelogin.ID_TWITTER;
+                StorageService.set('profile',profile);
 
-            $ionicHistory.nextViewOptions({disableAnimate: true, disableBack: false});
-            $state.go('tab.dashboard');
-        }
-    },
-    function(errorgetprofilelogin)
-    {
-        console.log(errorgetprofilelogin);
-    });
+                $ionicHistory.nextViewOptions({disableAnimate: true, disableBack: false});
+                $state.go('tab.dashboard');
+            }
+        },
+        function(errorgetprofilelogin)
+        {
+            console.log(errorgetprofilelogin);
+        });
+    // }
 
     $scope.customers = {'email':profile.email,'NAMA':profile.name}
     $scope.luasrumah = [{'nama':'100M-500M','type':'100-500'},{'nama':'500M-1000M','type':'500-1000'}];
