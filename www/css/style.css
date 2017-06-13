@@ -158,6 +158,12 @@ height: 15vh;
   font-weight: bold !important;
   text-transform: capitalize;
 }
+.profile-namex {
+  padding-top: 5px;
+  font-size: x-large !important;
+  font-weight: bold !important;
+/*  text-transform: capitalize;*/
+}
 .profile-name-custom {
   padding-top: 0px;
   /*font-size: x-large !important;*/

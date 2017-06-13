@@ -37,6 +37,7 @@ angular.module('starter', ['ionic','ionic-ratings','ui.calendar','auth0','ionic-
 {
     $scope.tglskrg            = $filter('date')(new Date(),'yyyy-MM-dd');
     $scope.profile            = StorageService.get('profile');
+    console.log($scope.profile);
 
     $scope.logout = function() 
     {
@@ -85,7 +86,6 @@ angular.module('starter', ['ionic','ionic-ratings','ui.calendar','auth0','ionic-
 })
 .controller('DashboardCtrl', function($scope) 
 {
-    console.log($scope.profile);
     var menus       = [];
     menus.push({src: "img/jadwal.png",link:"#/tab/jadwal",judul:"Jadwal Kunjungan"});
     menus.push({src: "img/history.png",link:"#/tab/history",judul:"History"});

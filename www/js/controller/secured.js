@@ -12,28 +12,28 @@ angular.module('starter')
         if(!sudahregister)
         {
             $scope.showregister = true;
-            $scope.aImages = [{
-                                'src' : 'https://ionicframework.com/img/ionic-logo-blog.png', 
-                                'msg' : 'Swipe me to the left. Tap/click to close',
-                                'template':'templates/wellcome/slide1.html'
-                                }, 
-                                {
-                                    'src' : 'https://ionicframework.com/img/ionic_logo.svg', 
-                                    'msg' : ''
-                                }, 
-                                { 
-                                'src' : 'https://ionicframework.com/img/homepage/phones-weather-demo@2x.png', 
-                                'msg' : ''
-                            }];
-            $ionicModal.fromTemplateUrl('templates/secured/wellcome.html', 
-            {
-                scope: $scope,
-                animation: 'slide-in-up'
-            }).then(function(modal) 
-            {
-                $scope.modalwell = modal;
-                $scope.modalwell.show();
-            });
+            // $scope.aImages = [{
+            //                     'src' : 'https://ionicframework.com/img/ionic-logo-blog.png', 
+            //                     'msg' : 'Swipe me to the left. Tap/click to close',
+            //                     'template':'templates/wellcome/slide1.html'
+            //                     }, 
+            //                     {
+            //                         'src' : 'https://ionicframework.com/img/ionic_logo.svg', 
+            //                         'msg' : ''
+            //                     }, 
+            //                     { 
+            //                     'src' : 'https://ionicframework.com/img/homepage/phones-weather-demo@2x.png', 
+            //                     'msg' : ''
+            //                 }];
+            // $ionicModal.fromTemplateUrl('templates/secured/wellcome.html', 
+            // {
+            //     scope: $scope,
+            //     animation: 'slide-in-up'
+            // }).then(function(modal) 
+            // {
+            //     $scope.modalwell = modal;
+            //     $scope.modalwell.show();
+            // });
 
         }
     });
@@ -156,37 +156,55 @@ angular.module('starter')
 
         $scope.disableInput = true;
         $scope.users    = angular.copy(users);
-        var username    = $scope.users.username;
-        SecuredFac.GetProfileLogin(username, username)
+        var datalogin   = {};
+        datalogin.username      = $scope.users.username;
+        datalogin.password_hash = $scope.users.password;
+        SecuredFac.UserLogins(datalogin)
         .then(function (result) 
         {
-            if(!result.statusCode)
-            {
-                var profile = {};
-                profile.nickname        = result[0].username;
-                profile.email           = result[0].email;
-                profile.ACCESS_UNIX     = result[0].ACCESS_UNIX;
-                profile.name            = result[0].NAMA;
-                profile.type_login      = 'manual';
-                StorageService.set('profile', profile);
-                StorageService.set('token', result[0].access_token);
-                StorageService.set('sudahdaftarbelum','yes');
-                $ionicHistory.nextViewOptions({disableAnimate: true, disableBack: true});
-                $state.go('auth.register', {}, {reload: true});    
-            }
-            else
+            console.log(result);
+            if(result.result == 'wrong-username')
             {
                 swal({
-                  title: "Login failed",
-                  text: "Please check your credentials.",
+                  title: "Login Failed",
+                  text: "Username Tidak Ditemukan.Cek Kembali Username Anda",
                   allowOutsideClick:true,
                   showConfirmButton:true
                 });
+            }
+            else if(result.result == 'wrong-password')
+            {
+                swal({
+                  title: "Login Failed",
+                  text: "Password Yang Anda Masukkan Salah.",
+                  allowOutsideClick:true,
+                  showConfirmButton:true
+                });
+            }
+            else
+            {
+                var profile = {};
+                profile.nickname        = result.username;
+                profile.email           = result.email;
+                profile.ACCESS_UNIX     = result.ACCESS_UNIX;
+                profile.name            = result.NAMA;
+                profile.type_login      = 'manual';
+                StorageService.set('profile', profile);
+                StorageService.set('token', result.auth_key);
+                StorageService.set('sudahdaftarbelum','yes');
+                $ionicHistory.nextViewOptions({disableAnimate: true, disableBack: true});
+                $state.go('auth.register', {}, {reload: true});    
             }   
         }, 
         function (err) 
         {          
             console.log(err);
+            swal({
+                  title: "Login Failed",
+                  text: "Cek Jaringan Dan Paket Data Anda Atau Ulangi Login Kembali",
+                  allowOutsideClick:true,
+                  showConfirmButton:true
+                });
         })
         .finally(function()
         {

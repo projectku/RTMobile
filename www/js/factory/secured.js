@@ -2,7 +2,29 @@ angular.module('starter')
 .factory('SecuredFac',function($rootScope,$http,$q,$window,UtilService)
 {
 	
-	var GetProfileLogin = function(username,email)
+	var UserLogins = function(datatosave)
+    {
+        var deferred            = $q.defer();
+        var globalurl           = UtilService.ApiUrl();      
+        var url                 = "http://rt.kontrolgampang.com/login/user-logins";
+
+        var result              = UtilService.SerializeObject(datatosave);
+        var serialized          = result.serialized;
+        var config              = result.config;
+
+        $http.post(url,serialized,config)
+        .success(function(dataresponse,status,headers,config) 
+        {
+            deferred.resolve(dataresponse);
+        })
+        .error(function(err,status)
+        {
+            deferred.reject(err);
+        });
+        return deferred.promise;  
+    }
+
+    var GetProfileLogin = function(username,email)
     {
 		var deferred 		= $q.defer();
 		// var url 			= "http://rt.kontrolgampang.com/login/user-tokens?username=x&email=piter@x.com";
@@ -163,6 +185,7 @@ angular.module('starter')
         return deferred.promise;  
     }
     return {
+        UserLogins:UserLogins,
     	GetProfileLogin:GetProfileLogin,
     	SetProfileLogin:SetProfileLogin,
         CheckIdSosmed:CheckIdSosmed,
