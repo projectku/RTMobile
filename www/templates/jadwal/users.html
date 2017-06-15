@@ -29,7 +29,9 @@
         <ion-item>
             <div class="item-icon-left">
                 <i class="icon ion-social-whatsapp custom-icon-green"></i>
-                <p>{{detailpekerja.HP|uppercase}}</p>
+                <a href="tel:{{detailpekerja.HP|uppercase}}" style="text-decoration: none;color:#666">
+                    {{detailpekerja.HP|uppercase}}
+                </a>
             </div>
             <div class="item-icon-right">
                 <i class="icon ion-ios-arrow-right"></i>

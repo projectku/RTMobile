@@ -98,4 +98,5 @@ angular.module('starter')
     $ionicConfigProvider.backButton.text('Back').icon('ion-chevron-left');
     // $ionicConfigProvider.scrolling.jsScrolling(true);
     $ionicConfigProvider.tabs.position('bottom');
+    $ionicConfigProvider.views.swipeBackEnabled(false);
 });

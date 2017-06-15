@@ -240,4 +240,22 @@ height: 15vh;
 }
 
 
+@media (max-width: 320px) {
+  .profile-picture-login {
+/*  border: 1px solid rgba(0, 0, 0, 0.25);*/
+  padding: 3px;
+  border-radius: 100%;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  margin: 0 auto;
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+}
 
+.profile-picture-login img {
+  width: 100px;
+  border-radius: 100%;
+}
+}

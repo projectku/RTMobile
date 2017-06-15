@@ -12,7 +12,6 @@ angular.module('starter')
             JadwalFac.GetJadwal($scope.profile.ACCESS_UNIX)
             .then(function(responsegetjadwal)
             {
-                console.log(responsegetjadwal)
                 $scope.datajadwal = responsegetjadwal;
             },
             function(errorgetjadwal)

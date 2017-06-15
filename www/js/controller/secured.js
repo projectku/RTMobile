@@ -448,29 +448,71 @@ angular.module('starter')
 .controller('RegisterCtrl', function($ionicActionSheet,$timeout,$location,$http,$scope, $state, $ionicPopup,$ionicHistory,$ionicLoading,StorageService,SecuredFac) 
 {
     var profile  = StorageService.get('profile');
-    var username = profile.nickname;
-    var email    = profile.email;
-
-    SecuredFac.GetProfileLogin(username,email)
-    .then(function(getprofilelogin)
+    
+    if(profile.type_login == 'socmed')
     {
-        if(angular.isArray(getprofilelogin))
+        if(profile.type_socmed == 'socmed-fb')
         {
-            var profilelogin    = getprofilelogin[0];
-            profile.ACCESS_UNIX = profilelogin.ACCESS_UNIX;
-            profile.ID_FB       = profilelogin.ID_FB;
-            profile.ID_GOOGLE   = profilelogin.ID_GOOGLE;
-            profile.ID_TWITTER  = profilelogin.ID_TWITTER;
-            StorageService.set('profile',profile);
-
-            $ionicHistory.nextViewOptions({disableAnimate: true, disableBack: false});
-            $state.go('tab.dashboard');
+            var sosmed      = 'ID_FB';  
         }
-    },
-    function(errorgetprofilelogin)
+        else if(profile.type_socmed == 'socmed-google')
+        {
+            var sosmed      = 'ID_GOOGLE';   
+        }
+        else if(profile.type_socmed == 'socmed-twitter')
+        {
+            var sosmed      = 'ID_TWITTER';   
+        }
+
+        SecuredFac.CheckIdSosmed(sosmed,profile.identities[0].user_id)
+        .then(function(getprofilelogin)
+        {
+            console.log(getprofilelogin);
+            if(angular.isArray(getprofilelogin))
+            {
+                var profilelogin    = getprofilelogin[0];
+                profile.ACCESS_UNIX = profilelogin.ACCESS_UNIX;
+                profile.ID_FB       = profilelogin.ID_FB;
+                profile.ID_GOOGLE   = profilelogin.ID_GOOGLE;
+                profile.ID_TWITTER  = profilelogin.ID_TWITTER;
+                StorageService.set('profile',profile);
+
+                $ionicHistory.nextViewOptions({disableAnimate: true, disableBack: false});
+                $state.go('tab.dashboard');
+            }
+        },
+        function(errorgetprofilelogin)
+        {
+            console.log(errorgetprofilelogin);
+        });
+    }
+    else
     {
-        console.log(errorgetprofilelogin);
-    });
+        var username = profile.nickname;
+        var email    = profile.email;
+        SecuredFac.GetProfileLogin(username,email)
+        .then(function(getprofilelogin)
+        {
+            if(angular.isArray(getprofilelogin))
+            {
+                var profilelogin    = getprofilelogin[0];
+                profile.ACCESS_UNIX = profilelogin.ACCESS_UNIX;
+                profile.ID_FB       = profilelogin.ID_FB;
+                profile.ID_GOOGLE   = profilelogin.ID_GOOGLE;
+                profile.ID_TWITTER  = profilelogin.ID_TWITTER;
+                StorageService.set('profile',profile);
+
+                $ionicHistory.nextViewOptions({disableAnimate: true, disableBack: false});
+                $state.go('tab.dashboard');
+            }
+        },
+        function(errorgetprofilelogin)
+        {
+            console.log(errorgetprofilelogin);
+        });
+    }
+
+    
 
     $scope.customers = {'email':profile.email,'NAMA':profile.name}
     $scope.registerbaru = function (customers) 

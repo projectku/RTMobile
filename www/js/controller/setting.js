@@ -5,7 +5,6 @@ angular.module('starter')
     $scope.settings = {'enablefacebook':false,'enablegoogle':false,'enabletwitter':false};
     if($scope.profile.ID_FB && $scope.profile.ID_FB != 0 && $scope.profile.ID_FB != 'null')
     {
-    	console.log($scope.profile.ID_FB);
     	$scope.settings.enablefacebook = true;
     }
     if($scope.profile.ID_GOOGLE && $scope.profile.ID_GOOGLE != 0 && $scope.profile.ID_GOOGLE != 'null')
@@ -23,120 +22,124 @@ angular.module('starter')
 
     $scope.loginWithGoogle = function ()
     {
-        var googleprofile = StorageService.set('profile');
-        if($scope.settings.enablegoogle)
-        {
-	        $ionicLoading.show();
-	        window.plugins.googleplus.login(
+        
+			var googleprofile = StorageService.get('profile');
+	        if($scope.settings.enablegoogle)
 	        {
-	        },
-	        function (user_data) 
-	        {
-                SecuredFac.CheckIdSosmed("ID_GOOGLE",user_data.userId)
-	            .then(function(responseserver)
-	            {
-	            	if(angular.isArray(responseserver) && responseserver.length > 0)
-	            	{
-			            swal("Lingking Gagal!","Account Ini Sudah Pernah Terdaftar Di Server Kami.","error");
+		        document.addEventListener("deviceready", function () 
+    			{
+			        $ionicLoading.show();
+			        window.plugins.googleplus.login(
+			        {
+			        },
+			        function (user_data) 
+			        {
+		                SecuredFac.CheckIdSosmed("ID_GOOGLE",user_data.userId)
+			            .then(function(responseserver)
+			            {
+			            	if(angular.isArray(responseserver) && responseserver.length > 0)
+			            	{
+					            swal("Lingking Gagal!","Account Ini Sudah Pernah Terdaftar Di Server Kami.","error");
+					            $scope.settings.enablegoogle = false;
+			            	}
+			            	else
+			            	{
+			            		var datatosave = {};
+						        datatosave.email                = $scope.profile.email;
+						        datatosave.username             = $scope.profile.username;
+						        datatosave.ACCESS_UNIX          = $scope.profile.ACCESS_UNIX;
+						        datatosave.ID_GOOGLE			= user_data.userId;
+						        SecuredFac.LinkedSocMed(datatosave)
+						        .then(function (result) 
+						        {
+						        	googleprofile.ID_GOOGLE = user_data.userId;
+					        		StorageService.set('profile',googleprofile);
+						        	swal({
+						                  title: "Google",
+						                  text: "Link To Your Google Account Successful.",
+						                  allowOutsideClick:true,
+						                  showConfirmButton:true
+					                });	
+						        }, 
+						        function (err) 
+						        {          
+						            console.log(err);
+						        })
+						        .finally(function()
+						        {
+						            $ionicLoading.hide();     
+						        });
+			            	}
+			            	$ionicLoading.hide();
+			            },
+			            function(errorgetresponse)
+			            {
+			            	console.log(errorgetresponse)
+			            });
+			        },
+			        function (msg) 
+			        {
 			            $scope.settings.enablegoogle = false;
-	            	}
-	            	else
-	            	{
-	            		var datatosave = {};
-				        datatosave.email                = $scope.profile.email;
-				        datatosave.username             = $scope.profile.username;
-				        datatosave.ACCESS_UNIX          = $scope.profile.ACCESS_UNIX;
-				        datatosave.ID_GOOGLE			= user_data.userId;
-				        SecuredFac.LinkedSocMed(datatosave)
-				        .then(function (result) 
-				        {
-				        	googleprofile.ID_GOOGLE = user_data.userId;
-			        		StorageService.set('profile',googleprofile);
-				        	swal({
-				                  title: "Google",
-				                  text: "Link To Your Google Account Successful.",
-				                  allowOutsideClick:true,
-				                  showConfirmButton:true
-			                });	
-				        }, 
-				        function (err) 
-				        {          
-				            console.log(err);
-				        })
-				        .finally(function()
-				        {
-				            $ionicLoading.hide();     
-				        });
-	            	}
-	            	$ionicLoading.hide();
-	            },
-	            function(errorgetresponse)
-	            {
-	            	console.log(errorgetresponse)
-	            });
-	        },
-	        function (msg) 
-	        {
-	            $scope.settings.enablegoogle = false;
-	            swal({
-	                  title: "Google",
-	                  text: "Link To Your Google Account Unsuccessful.",
-	                  allowOutsideClick:true,
-	                  showConfirmButton:true
-                });
-	            $ionicLoading.hide();
-	            $scope.settings.enablegoogle = false;
-		    	$scope.$apply();
-	        });
-	    }
-	    else
-	    {
-	    	swal({
-				  title: "Are you sure?",
-				  text: "You want to unlink your google account.",
-				  type: "warning",
-				  showCancelButton: true,
-				  confirmButtonColor: "#DD6B55",
-				  confirmButtonText: "Yes",
-				  cancelButtonText: "No",
-				  closeOnConfirm: false,
-				  closeOnCancel: true
-				},
-				function(isConfirm)
-				{
-				  console.log(isConfirm);
-				  if (isConfirm) 
-				  {
-				    	var datatosave = {};
-				        datatosave.email                = $scope.profile.email;
-				        datatosave.username             = $scope.profile.username;
-				        datatosave.ACCESS_UNIX          = $scope.profile.ACCESS_UNIX;
-				        datatosave.ID_GOOGLE			= 0;
-				        SecuredFac.LinkedSocMed(datatosave)
-				        .then(function (result) 
-				        {
-				        	googleprofile.ID_GOOGLE = 0;
-			        		StorageService.set('profile',googleprofile);
-				        	swal("Unlink!", "Your google account has been unlinked.", "success");	
-				        }, 
-				        function (err) 
-				        {          
-				            console.log(err);
-				        })
-				        .finally(function()
-				        {
-				            $ionicLoading.hide();     
-				        });
-
-				  } 
-				  else 
-				  {
-				    	$scope.settings.enablegoogle = true;
+			            swal({
+			                  title: "Google",
+			                  text: "Link To Your Google Account Unsuccessful.",
+			                  allowOutsideClick:true,
+			                  showConfirmButton:true
+		                });
+			            $ionicLoading.hide();
+			            $scope.settings.enablegoogle = false;
 				    	$scope.$apply();
-				  }
-				});
+			        });
+				},$scope.settings.enablegoogle = false);
+		    }
+		    else
+		    {
+		    	swal({
+					  title: "Are you sure?",
+					  text: "You want to unlink your google account.",
+					  type: "warning",
+					  showCancelButton: true,
+					  confirmButtonColor: "#DD6B55",
+					  confirmButtonText: "Yes",
+					  cancelButtonText: "No",
+					  closeOnConfirm: false,
+					  closeOnCancel: true
+					},
+					function(isConfirm)
+					{
+					  console.log(isConfirm);
+					  if (isConfirm) 
+					  {
+					    	var datatosave = {};
+					        datatosave.email                = $scope.profile.email;
+					        datatosave.username             = $scope.profile.username;
+					        datatosave.ACCESS_UNIX          = $scope.profile.ACCESS_UNIX;
+					        datatosave.ID_GOOGLE			= 0;
+					        SecuredFac.LinkedSocMed(datatosave)
+					        .then(function (result) 
+					        {
+					        	googleprofile.ID_GOOGLE = 0;
+				        		StorageService.set('profile',googleprofile);
+					        	swal("Unlink!", "Your google account has been unlinked.", "success");	
+					        }, 
+					        function (err) 
+					        {          
+					            console.log(err);
+					        })
+					        .finally(function()
+					        {
+					            $ionicLoading.hide();     
+					        });
 
-	    }
+					  } 
+					  else 
+					  {
+					    	$scope.settings.enablegoogle = true;
+					    	$scope.$apply();
+					  }
+					});
+		    }	
+        
     }
     
     $scope.loginWithFacebook = function ()
