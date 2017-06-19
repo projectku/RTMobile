@@ -10,38 +10,29 @@ angular.module('starter', ['ngCordova','ionic','ionic-ratings','ui.calendar','au
   auth.hookEvents();
   $ionicPlatform.ready(function() 
   {
-    if(window.cordova && window.cordova.plugins.Keyboard) 
-    {
-      // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-      // for form inputs)
-      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+      if(window.cordova && window.cordova.plugins.Keyboard) 
+      {
+        cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+        cordova.plugins.Keyboard.disableScroll(true);
+      }
+      if(window.StatusBar) 
+      {
+        StatusBar.styleDefault();
+      }
+      var notificationOpenedCallback = function(jsonData) 
+      {
+        console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
+      };
 
-      // Don't remove this line unless you know what you are doing. It stops the viewport
-      // from snapping when text inputs are focused. Ionic handles this internally for
-      // a much nicer keyboard experience.
-      cordova.plugins.Keyboard.disableScroll(true);
-    }
-    if(window.StatusBar) 
-    {
-      StatusBar.styleDefault();
-    }
-    var notificationOpenedCallback = function(jsonData) 
-    {
-      console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
-    };
-
-    window.plugins.OneSignal.startInit("bc2e8fd6-c7df-4d89-b32f-2df294be0f1a","282260926521")
-                  .handleNotificationOpened(notificationOpenedCallback)
-                  .endInit();
-    // var notificationOpenedCallback = function(jsonData) 
-    //   {
-    //     console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
-    //   };
-
-    //   window.plugins.OneSignal.startInit("a291df49-653d-41ff-858d-e36513440760", "943983549601")
-    //                 .handleNotificationOpened(notificationOpenedCallback)
-    //                 .endInit();
+      window.plugins.OneSignal.startInit("c7338e8b-808a-4d26-a79d-b57c28dec360","1031404738817")
+                    .handleNotificationOpened(notificationOpenedCallback)
+                    .endInit();
+      window.plugins.OneSignal.getIds(function(ids) 
+      {
+          alert(JSON.stringify(ids['userId']));
+      });
   });
+  
   $rootScope.$on('$stateChangeStart', function (event,next, nextParams, fromState) 
   {
       var token   = StorageService.get('token');
