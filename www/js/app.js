@@ -29,7 +29,8 @@ angular.module('starter', ['ngCordova','ionic','ionic-ratings','ui.calendar','au
                     .endInit();
       window.plugins.OneSignal.getIds(function(ids) 
       {
-          alert(JSON.stringify(ids['userId']));
+          var idonesignal = ids['userId'];
+          StorageService.set('idonesignal',idonesignal);
       });
   });
   
@@ -50,8 +51,6 @@ angular.module('starter', ['ngCordova','ionic','ionic-ratings','ui.calendar','au
 
     $scope.logout = function() 
     {
-
-    
         $ionicActionSheet.show
         ({
           titleText: 'Are You Sure To Logout?',

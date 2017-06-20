@@ -244,6 +244,7 @@ angular.module('starter')
         .then(function()
         {
 
+            var idonesignal     = StorageService.get('idonesignal');
             $scope.disableInput = true;
             var datatosave = {};
             datatosave.username     = customers.email;
@@ -257,7 +258,7 @@ angular.module('starter')
             datatosave.ALAMAT       = customers.ALAMAT;
             datatosave.HP           = customers.HP;
             datatosave.LUAS_TANAH   = customers.LUAS_TANAH;
-            console.log(datatosave)
+            datatosave.ID_ONESIGNAL = idonesignal;
             SecuredFac.SetProfileLogin(datatosave)
             .then(function(responsesetloginprofile)
             {
@@ -541,11 +542,12 @@ angular.module('starter')
             {
                 datatosave.ID_TWITTER    = profile.identities[0].user_id;   
             }
-            
+            var idonesignal         = StorageService.get('idonesignal');
             datatosave.NAMA         = customers.NAMA;
             datatosave.ALAMAT       = customers.ALAMAT;
             datatosave.HP           = customers.HP;
             datatosave.LUAS_TANAH   = customers.LUAS_TANAH;
+            datatosave.ID_ONESIGNAL = idonesignal;
             SecuredFac.SetProfileLogin(datatosave)
             .then(function(responsesetloginprofile)
             {
