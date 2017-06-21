@@ -149,6 +149,40 @@ angular.module('starter')
                 });
         });    
     }
+    $scope.loginWithYahoo = function ()
+    {
+        $ionicLoading.show();
+        auth.signin(
+        {
+            popup: true,
+            connection: 'yahoo',
+            scope: 'openid offline_access',
+            // device: 'Mobile device'
+        }, 
+        function(profile, token, accessToken, state, refreshToken) 
+        {
+            profile.type_login      = 'socmed';
+            profile.type_socmed     = 'socmed-yahoo';
+            StorageService.set('profile', profile);
+            StorageService.set('token', token);
+            $timeout(function()
+            {
+                $ionicLoading.hide();
+                $ionicHistory.nextViewOptions({disableAnimate: true, disableBack: true});
+                $location.path("/auth/register");
+            });  
+        }, 
+        function(error) 
+        {
+            $ionicLoading.hide();
+            swal({
+                  title: "Login failed",
+                  text: "Please check your credentials.",
+                  allowOutsideClick:true,
+                  showConfirmButton:true
+                });
+        });    
+    }
 
     $scope.loginmanual  = function(users)
     {
@@ -409,6 +443,7 @@ angular.module('starter')
             $scope.modalresetpass.show();
         });
     }
+
     $scope.submitresetpass = function(datapassword)
     {
         $ionicLoading.show();
@@ -464,11 +499,14 @@ angular.module('starter')
         {
             var sosmed      = 'ID_TWITTER';   
         }
+        else if(profile.type_socmed == 'socmed-yahoo')
+        {
+            var sosmed      = 'ID_YAHOO';   
+        }
 
         SecuredFac.CheckIdSosmed(sosmed,profile.identities[0].user_id)
         .then(function(getprofilelogin)
         {
-            console.log(getprofilelogin);
             if(angular.isArray(getprofilelogin))
             {
                 var profilelogin    = getprofilelogin[0];
@@ -478,8 +516,8 @@ angular.module('starter')
                 profile.ID_TWITTER  = profilelogin.ID_TWITTER;
                 StorageService.set('profile',profile);
 
-                $ionicHistory.nextViewOptions({disableAnimate: true, disableBack: false});
-                $state.go('tab.dashboard');
+                // $ionicHistory.nextViewOptions({disableAnimate: true, disableBack: false});
+                // $state.go('tab.dashboard');
             }
         },
         function(errorgetprofilelogin)
