@@ -516,8 +516,8 @@ angular.module('starter')
                 profile.ID_TWITTER  = profilelogin.ID_TWITTER;
                 StorageService.set('profile',profile);
 
-                // $ionicHistory.nextViewOptions({disableAnimate: true, disableBack: false});
-                // $state.go('tab.dashboard');
+                $ionicHistory.nextViewOptions({disableAnimate: true, disableBack: false});
+                $state.go('tab.dashboard');
             }
         },
         function(errorgetprofilelogin)

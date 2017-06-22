@@ -2,7 +2,7 @@ angular.module('starter')
 .controller('SettingCtrl', function($ionicPlatform,$ionicModal,$http,$timeout,$location,$scope,$ionicLoading,$state,$ionicHistory,$ionicPopup,auth,StorageService,SecuredFac) 
 {
 
-    $scope.settings = {'enablefacebook':false,'enablegoogle':false,'enabletwitter':false};
+    $scope.settings = {'enablefacebook':false,'enablegoogle':false,'enabletwitter':false,'enableyahoo':false};
     if($scope.profile.ID_FB && $scope.profile.ID_FB != 0 && $scope.profile.ID_FB != 'null')
     {
     	$scope.settings.enablefacebook = true;
@@ -14,6 +14,10 @@ angular.module('starter')
     if($scope.profile.ID_TWITTER && $scope.profile.ID_TWITTER != 0 && $scope.profile.ID_TWITTER != 'null')
     {
     	$scope.settings.enabletwitter = true;
+    }
+    if($scope.profile.ID_YAHOO && $scope.profile.ID_YAHOO != 0 && $scope.profile.ID_YAHOO != 'null')
+    {
+    	$scope.settings.enableyahoo = true;
     }
     if(!$scope.profile.picture)
     {
@@ -375,6 +379,124 @@ angular.module('starter')
 				  else 
 				  {
 				    	$scope.settings.enabletwitter = true;
+				    	$scope.$apply();
+				  }
+				});
+	    }      
+    }
+    
+    $scope.loginWithYahoo = function ()
+    {
+        var yahoo 			= $scope.settings.enableyahoo;
+        var yahooprofile 	= StorageService.get('profile');
+        if(yahoo)
+        {
+        	$ionicLoading.show();
+	        auth.signin(
+	        {
+	            popup: true,
+	            connection: 'yahoo',
+	            scope: 'openid name email' //Details: https:///scopes
+	        }, 
+	        function(profile, token) 
+	        {
+	            SecuredFac.CheckIdSosmed("ID_YAHOO",profile.identities[0].user_id)
+	            .then(function(responseserver)
+	            {
+	            	if(angular.isArray(responseserver) && responseserver.length > 0)
+	            	{
+			            swal("Lingking Gagal!","Account Ini Sudah Pernah Terdaftar Di Server Kami.","error");
+			            $scope.settings.enableyahoo = false;
+	            	}
+	            	else
+	            	{
+	            		var datatosave = {};
+				        datatosave.email                = $scope.profile.email;
+				        datatosave.username             = $scope.profile.username;
+				        datatosave.ACCESS_UNIX          = $scope.profile.ACCESS_UNIX;
+				        datatosave.ID_YAHOO				= profile.identities[0].user_id;
+				        SecuredFac.LinkedSocMed(datatosave)
+				        .then(function (result) 
+				        {
+				        	yahooprofile.ID_YAHOO = profile.identities[0].user_id;
+			        		StorageService.set('profile',yahooprofile);
+				        	swal({
+									title: "Yahoo",
+									text: "Link To Your Yahoo Account Successful.",
+									allowOutsideClick:true,
+									showConfirmButton:true
+				                });	
+				        }, 
+				        function (err) 
+				        {          
+				            console.log(err);
+				        })
+				        .finally(function()
+				        {
+				            $ionicLoading.hide();     
+				        });		
+	            	}
+	            	$ionicLoading.hide();
+	            },
+	            function(errorgetresponse)
+	            {
+	            	console.log(errorgetresponse)
+	            }); 
+	        }, 
+	        function(error) 
+	        {
+	            $ionicLoading.hide();
+	            swal({
+	                  title: "Yahoo",
+	                  text: "Link To Your Yahoo Account Unsuccessful.",
+	                  allowOutsideClick:true,
+	                  showConfirmButton:true
+                });
+                $scope.settings.enableyahoo = false;
+		    	$scope.$apply();
+	        });
+        }
+        else
+	    {
+	    	swal({
+				  title: "Are you sure?",
+				  text: "You want to unlink your Yahoo account.",
+				  type: "warning",
+				  showCancelButton: true,
+				  confirmButtonColor: "#DD6B55",
+				  confirmButtonText: "Yes",
+				  cancelButtonText: "No",
+				  closeOnConfirm: false,
+				  closeOnCancel: true
+				},
+				function(isConfirm)
+				{
+				  if (isConfirm) 
+				  {
+				    	var datatosave = {};
+				        datatosave.email                = $scope.profile.email;
+				        datatosave.username             = $scope.profile.username;
+				        datatosave.ACCESS_UNIX          = $scope.profile.ACCESS_UNIX;
+				        datatosave.ID_YAHOO				= 0;
+				        SecuredFac.LinkedSocMed(datatosave)
+				        .then(function (result) 
+				        {
+				        	yahooprofile.ID_YAHOO = 0;
+			        		StorageService.set('profile',yahooprofile);
+				        	swal("Unlink!", "Your Yahoo account has been unlinked.", "success");	
+				        }, 
+				        function (err) 
+				        {          
+				            console.log(err);
+				        })
+				        .finally(function()
+				        {
+				            $ionicLoading.hide();     
+				        });
+				  } 
+				  else 
+				  {
+				    	$scope.settings.enableyahoo = true;
 				    	$scope.$apply();
 				  }
 				});
