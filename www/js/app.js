@@ -1,48 +1,43 @@
-// Ionic Starter App
-
-// angular.module is a global place for creating, registering and retrieving Angular modules
-// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
-// the 2nd parameter is an array of 'requires'
 angular.module('starter', ['ngCordova','ionic','ionic-ratings','ui.calendar','auth0','ionic-zoom-view'])
-
 .run(function($ionicPlatform,$location,auth,$rootScope,StorageService) 
 {
-  auth.hookEvents();
-  $ionicPlatform.ready(function() 
-  {
-      if(window.cordova && window.cordova.plugins.Keyboard) 
-      {
-        cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-        cordova.plugins.Keyboard.disableScroll(true);
-      }
-      if(window.StatusBar) 
-      {
-        StatusBar.styleDefault();
-      }
-      var notificationOpenedCallback = function(jsonData) 
-      {
-        console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
-      };
+    auth.hookEvents();
+    $ionicPlatform.ready(function() 
+    {
+        if(window.cordova && window.cordova.plugins.Keyboard) 
+        {
+          cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+          cordova.plugins.Keyboard.disableScroll(true);
+        }
+        if(window.StatusBar) 
+        {
+          StatusBar.styleDefault();
+        }
+        var notificationOpenedCallback = function(jsonData) 
+        {
+          console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
+        };
 
-      window.plugins.OneSignal.startInit("c7338e8b-808a-4d26-a79d-b57c28dec360","1031404738817")
-                    .handleNotificationOpened(notificationOpenedCallback)
-                    .endInit();
-      window.plugins.OneSignal.getIds(function(ids) 
-      {
-          var idonesignal = ids['userId'];
-          StorageService.set('idonesignal',idonesignal);
-      });
-  });
-  
-  $rootScope.$on('$stateChangeStart', function (event,next, nextParams, fromState) 
-  {
-      var token   = StorageService.get('token');
-      if (!token) 
-      {
-        $location.path('/auth/login');
-      }
-  });
+        window.plugins.OneSignal.startInit("c7338e8b-808a-4d26-a79d-b57c28dec360","1031404738817")
+                      .handleNotificationOpened(notificationOpenedCallback)
+                      .endInit();
+        window.plugins.OneSignal.getIds(function(ids) 
+        {
+            var idonesignal = ids['userId'];
+            StorageService.set('idonesignal',idonesignal);
+        });
+    });
+    
+    $rootScope.$on('$stateChangeStart', function (event,next, nextParams, fromState) 
+    {
+        var token   = StorageService.get('token');
+        if (!token) 
+        {
+          $location.path('/auth/login');
+        }
+    });
 })
+
 .controller('AppCtrl', function($ionicPlatform,$ionicActionSheet,$window,$rootScope,$scope,$filter,$state,$ionicLoading,$timeout,$ionicHistory,StorageService) 
 {
     $scope.tglskrg            = $filter('date')(new Date(),'yyyy-MM-dd');
@@ -92,7 +87,8 @@ angular.module('starter', ['ngCordova','ionic','ionic-ratings','ui.calendar','au
       }
     }, 100);
 })
-.controller('DashboardCtrl', function($scope) 
+
+.controller('DashboardCtrl', function($scope,$cordovaToast) 
 {
     var menus       = [];
     menus.push({src: "img/jadwal.png",link:"#/tab/jadwal",judul:"Jadwal Kunjungan"});
@@ -101,4 +97,14 @@ angular.module('starter', ['ngCordova','ionic','ionic-ratings','ui.calendar','au
     menus.push({src: "img/jasa.png",link:"#/tab/informasi",judul:"Informasi"});
     menus.push({src: "img/settings.png",link:"#/tab/setting",judul:"Setting"});
     $scope.menus = menus;
+
+    $cordovaToast.show('Testing the bottom of toast balla balla.','long','bottom')
+    .then(function(success) 
+    {
+        console.log("The toast was shown");
+    }, 
+    function (error) 
+    {
+        console.log("The toast was not shown due to " + error);
+    });
 });

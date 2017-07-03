@@ -1,6 +1,8 @@
 angular.module('starter')
 .controller('FeedBackCtrl', function($scope,$state,$filter,$ionicModal,$ionicLoading,FeedbackFac,StorageService) 
 {
+    $scope.feedbacks = [];
+    $scope.noMoreItemsAvailable = false;
     $scope.$on('$ionicView.enter', function()
     {
         FeedbackFac.GetFeedBack($scope.profile.ACCESS_UNIX)
@@ -30,6 +32,24 @@ angular.module('starter')
         	console.log(errorgetfeedback);
         });
     });
+
+    $scope.loadMore = function() 
+    {
+        FeedbackFac.GetFeedBack($scope.profile.ACCESS_UNIX)
+        .then(function(resgetfeedback)
+        {
+            $scope.feedbacks    = $scope.feedbacks.concat(resgetfeedback);
+            if ($scope.feedbacks.length > 10 ) 
+            {
+              $scope.noMoreItemsAvailable = true;
+            }
+            // $scope.$broadcast('scroll.infiniteScrollComplete');
+        },
+        function(errorgetfeedback)
+        {
+            console.log(errorgetfeedback);
+        });
+    };
 
     $scope.feedback = {'note':null};
     $scope.submitfeedback = function()
