@@ -12,36 +12,8 @@ angular.module('starter')
         if(!sudahregister)
         {
             $scope.showregister = true;
-            // $scope.aImages = [{
-            //                     'src' : 'https://ionicframework.com/img/ionic-logo-blog.png', 
-            //                     'msg' : 'Swipe me to the left. Tap/click to close',
-            //                     'template':'templates/wellcome/slide1.html'
-            //                     }, 
-            //                     {
-            //                         'src' : 'https://ionicframework.com/img/ionic_logo.svg', 
-            //                         'msg' : ''
-            //                     }, 
-            //                     { 
-            //                     'src' : 'https://ionicframework.com/img/homepage/phones-weather-demo@2x.png', 
-            //                     'msg' : ''
-            //                 }];
-            // $ionicModal.fromTemplateUrl('templates/secured/wellcome.html', 
-            // {
-            //     scope: $scope,
-            //     animation: 'slide-in-up'
-            // }).then(function(modal) 
-            // {
-            //     $scope.modalwell = modal;
-            //     $scope.modalwell.show();
-            // });
-
         }
     });
-    
-    $scope.closemodalwellcome = function()
-    {
-        $scope.modalwell.hide();
-    }
     
     $scope.loginWithGoogle = function ()
     {
@@ -359,6 +331,7 @@ angular.module('starter')
           }
         });
     }
+
     $scope.resetpassword = function()
     {
         swal({
@@ -550,8 +523,6 @@ angular.module('starter')
             console.log(errorgetprofilelogin);
         });
     }
-
-    
 
     $scope.customers = {'email':profile.email,'NAMA':profile.name}
     $scope.registerbaru = function (customers) 
