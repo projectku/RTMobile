@@ -1,5 +1,5 @@
 angular.module('starter')
-.config(function ($stateProvider, $urlRouterProvider,$ionicConfigProvider,$ionicConfigProvider,authProvider,$httpProvider) 
+.config(function ($stateProvider,FlashProvider, $urlRouterProvider,$ionicConfigProvider,$ionicConfigProvider,authProvider,$httpProvider) 
 {
     // $httpProvider.interceptors.push('timestampMarker');
     // $httpProvider.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
@@ -13,6 +13,9 @@ angular.module('starter')
         callbackURL: location.href,
         loginState: 'auth.login'
       });
+
+    FlashProvider.setTimeout(0);
+    FlashProvider.setShowClose(false);
 
     $stateProvider.state('auth', 
     {

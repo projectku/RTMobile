@@ -1,5 +1,5 @@
 angular.module('starter')
-.controller('FeedBackCtrl', function($scope,$state,$filter,$ionicModal,$ionicLoading,FeedbackFac,StorageService) 
+.controller('FeedBackCtrl', function($cordovaToast,$scope,$state,$filter,$ionicModal,$ionicLoading,FeedbackFac,StorageService) 
 {
     $scope.feedbacks = [];
     $scope.noMoreItemsAvailable = false;
@@ -71,12 +71,13 @@ angular.module('starter')
                 FeedbackFac.SetFeedBack(datatosave)
                 .then(function(ressetfeedback)
                 {
-                    swal({
-                          title: "",
-                          text: "Terimakasih Atas Feedback Yang Telah Anda Berikan!",
-                          allowOutsideClick:true,
-                          showConfirmButton:true
-                        });
+                    // swal({
+                    //       title: "",
+                    //       text: "Terimakasih Atas Feedback Yang Telah Anda Berikan!",
+                    //       allowOutsideClick:true,
+                    //       showConfirmButton:true
+                    //     });
+                    $cordovaToast.show('Terimakasih Atas Feedback Yang Telah Anda Berikan!', 'long', 'bottom');
                     $scope.feedback = {'note':null};
                     $scope.feedbacks.push(ressetfeedback);
                     var storagefb       = StorageService.get('storage-feedbacks');

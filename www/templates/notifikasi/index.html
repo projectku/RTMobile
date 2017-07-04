@@ -1,0 +1,32 @@
+<ion-view view-title="Notifikasi" id="login">
+	<ion-content padding="true" style="background-color:white">
+	  <ion-list >
+	  <style>
+		  	.item .icon .icon-badgex 
+		  	{
+			  position: relative;
+			  top: -13px;
+			  left: -10px;
+			  font-size: 2px;
+			  background: red;
+			}
+
+		</style>
+      		<div class="list" style="padding:5px;border:1px solid rgba(1, 1, 1, 0.3);" ng-if="datanotifikasi.length > 0">
+		        <ion-item class="item item-icon-right" type="item-text-wrap" style="border-left:none;border-top:none;border-right:none;border-bottom:2px solid rgba(1, 1, 1, 0.3);" ng-repeat="notif in datanotifikasi | orderBy:'-id'" ng-click="bacadetailnotifikasimodal(notif)">
+					<div class="item-icon-left">
+					  <i class="icon ion-email-unread custom-icon-red" ng-if="notif.statusbaca == 0"></i>
+					  <i class="icon ion-email-unread custom-icon-green" ng-if="notif.statusbaca == 1"></i>
+					  <span style="font-size: 12px;text-align:left;">
+					    {{notif.judul}}
+					  </span></br>
+					  <span style="font-size: 12px;text-align:left;">
+					    {{notif.deskripsi}}
+					  </span>
+					</div>
+		      	</ion-item>
+	      	</div>
+	    </ion-list>
+	</ion-content>
+</ion-view>
+

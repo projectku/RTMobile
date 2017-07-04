@@ -1,8 +1,9 @@
 angular.module('starter')
-.controller('HistoryCtrl', function($scope,$state,$location,$ionicModal,$ionicLoading,JadwalFac) 
+.controller('HistoryCtrl', function($scope,Flash,$state,$location,$ionicModal,$ionicLoading,JadwalFac) 
 {
     $scope.$on('$ionicView.enter', function()
     {
+        Flash.clear();
         $ionicLoading.show
         ({
             noBackdrop:true
@@ -13,6 +14,12 @@ angular.module('starter')
             .then(function(responsegetjadwal)
             {
                 $scope.datajadwal = responsegetjadwal;
+                if(!$scope.datajadwal)
+                {
+                    $scope.showdatakosong = true;
+                    var message = '<p align="justify">History Kunjungan Rawat Taman Anda Masih Kosong.Silahkan Hubungi Customer Kami Untuk Informasi Lebih Lanjut Tentang Layanan Yang Kami Sediakan.Terima Kasih</p>';
+                    Flash.create('success', message);
+                }
             },
             function(errorgetjadwal)
             {
@@ -36,6 +43,7 @@ angular.module('starter')
     $scope.ratingsObject.readOnly   = true;
     $ionicLoading.show
     ({
+        noBackdrop:true
     })
     .then(function()
     {
@@ -65,7 +73,6 @@ angular.module('starter')
         {
             $ionicLoading.hide();
         });
-
     });
 
     $scope.giverating           = UtilService.GetRatingConfig();
