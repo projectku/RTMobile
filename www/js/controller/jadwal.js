@@ -11,7 +11,7 @@ angular.module('starter')
         {
           left: 'title',
           center: '',
-          right: 'today prev,next'
+          right: 'prev,next'
         },
 
         eventClick: $scope.alertOnEventClick,

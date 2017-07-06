@@ -13,12 +13,13 @@ angular.module('starter', ['ngCordova','ionic','ionic-ratings','ui.calendar','au
         {
           StatusBar.styleDefault();
         }
-        var notificationOpenedCallback = function(jsonData) 
+
+        var notificationReceivedCallback = function(jsonData) 
         {
             alert('notificationOpenedCallback: ' + JSON.stringify(jsonData));
             var datatosave        = {};
-            datatosave.judul      = jsonData.notification.payload.title;
-            datatosave.deskripsi  = jsonData.notification.payload.body;
+            datatosave.judul      = jsonData.payload.title;
+            datatosave.deskripsi  = jsonData.payload.body;
             datatosave.linkuntuk  = 'sudah-diaprove';
             datatosave.statusbaca = 0;
             NotifFac.SetNotifToLocal(datatosave)
@@ -33,8 +34,13 @@ angular.module('starter', ['ngCordova','ionic','ionic-ratings','ui.calendar','au
         };
 
         window.plugins.OneSignal.startInit("c7338e8b-808a-4d26-a79d-b57c28dec360","1031404738817")
-                      .handleNotificationOpened(notificationOpenedCallback)
-                      .endInit();
+                                .inFocusDisplaying(window.plugins.OneSignal.OSInFocusDisplayOption.Notification)
+                                .endInit();
+
+        window.plugins.OneSignal.startInit("c7338e8b-808a-4d26-a79d-b57c28dec360","1031404738817")
+                                .handleNotificationReceived(notificationReceivedCallback)
+                                .endInit();
+  
         window.plugins.OneSignal.getIds(function(ids) 
         {
             var idonesignal = ids['userId'];
