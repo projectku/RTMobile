@@ -1,16 +1,19 @@
 angular.module('starter')
 .controller('NotifikasiCtrl', function($ionicModal,$http,$timeout,$location,$scope,$ionicLoading,$state,NotifFac) 
 {
-   NotifFac.GetNotifikasi()
-   .then(function(responselocal)
+   $scope.loaddatanotfikasi = function()
    {
-   		$scope.datanotifikasi = responselocal;
-   },
-   function(error)
-   {
-   		console.log(error)
-   })
-
+      NotifFac.GetNotifikasi()
+      .then(function(responselocal)
+      {
+      		$scope.datanotifikasi = responselocal;
+      },
+      function(error)
+      {
+      		console.log(error)
+      });
+   }
+   $scope.loaddatanotfikasi();
    $scope.bacadetailnotifikasimodal = function(notif)
    {
    		$ionicModal.fromTemplateUrl('templates/notifikasi/deskripsi.html', 
@@ -42,4 +45,8 @@ angular.module('starter')
       })
       $scope.modaldeskripsinotif.hide();
    }
+   $scope.$on('update-notiflength',function()
+   {
+        $scope.loaddatanotfikasi();
+   });
 })

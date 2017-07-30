@@ -1,5 +1,5 @@
 <ion-view view-title="Notifikasi" id="login">
-	<ion-content padding="true" style="background-color:white">
+	<ion-content padding="true">
 	  <ion-list >
 	  <style>
 		  	.item .icon .icon-badgex 
@@ -12,8 +12,8 @@
 			}
 
 		</style>
-      		<div class="list" style="padding:5px;border:1px solid rgba(1, 1, 1, 0.3);" ng-if="datanotifikasi.length > 0">
-		        <ion-item class="item item-icon-right" type="item-text-wrap" style="border-left:none;border-top:none;border-right:none;border-bottom:2px solid rgba(1, 1, 1, 0.3);" ng-repeat="notif in datanotifikasi | orderBy:'-id'" ng-click="bacadetailnotifikasimodal(notif)">
+      		<div class="list" style="padding:1px;border:1px solid rgba(1, 1, 1, 0.1);background:white" ng-if="datanotifikasi.length > 0">
+		        <ion-item class="item item-icon-right"  type="item-text-wrap" style="border-left:none;border-top:none;border-right:none;border-bottom:2px solid rgba(1, 1, 1, 0.1);" ng-repeat="notif in datanotifikasi | orderBy:'-id'" ng-click="bacadetailnotifikasimodal(notif)" ng-class="{'active': notif.statusbaca == 1}">
 					<div class="item-icon-left">
 					  <i class="icon ion-email-unread custom-icon-red" ng-if="notif.statusbaca == 0"></i>
 					  <i class="icon ion-email-unread custom-icon-green" ng-if="notif.statusbaca == 1"></i>
