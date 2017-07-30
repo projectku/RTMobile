@@ -1,11 +1,6 @@
 angular.module('starter')
 .controller('LoginCtrl', function($ionicActionSheet,$ionicPlatform,$ionicModal,$http,$timeout,$location,$scope,$ionicLoading,$state,$ionicHistory,$ionicPopup,auth,StorageService,SecuredFac) 
 {
-
-    // var lock = new Auth0Lock('tI8AC9Ykd1dSBKoKGETQeP8vAx86OQal', 'raizeta.auth0.com');
-    // lock.show({connections: ['Username-Password-Authentication']});
-    // lock.show({connections: ['twitter', 'facebook', 'linkedin']});
-    // lock.show({connections: ['qraftlabs.com']});
     $scope.$on('$ionicView.beforeEnter', function()
     {
         var sudahregister = StorageService.get('sudahdaftarbelum');
@@ -29,15 +24,39 @@ angular.module('starter')
             profile.name        = user_data.displayName,
             profile.picture     = user_data.imageUrl;
             profile.identities  = [{'user_id':user_data.userId,'connection':'google-oauth2'}]; 
-            profile.type_login  = 'socmed';
-            profile.type_socmed = 'socmed-google';
             StorageService.set('profile', profile);
-            StorageService.set('token', profile.identities[0].user_id);
-            $timeout(function()
+            SecuredFac.CheckIdSosmed('ID_GOOGLE',profile.identities[0].user_id)
+            .then(function(getprofilelogin)
+            {
+                if(angular.isArray(getprofilelogin))
+                {
+                    var profilelogin    = getprofilelogin[0];
+                    profile.ACCESS_UNIX = profilelogin.ACCESS_UNIX;
+                    profile.ID_FB       = profilelogin.ID_FB;
+                    profile.ID_GOOGLE   = profilelogin.ID_GOOGLE;
+                    profile.ID_TWITTER  = profilelogin.ID_TWITTER;
+                    StorageService.set('token', profilelogin.access_token);
+                    StorageService.set('profile',profile);
+                    StorageService.set('sudahdaftarbelum','yes');
+
+                    $ionicHistory.nextViewOptions({disableAnimate: true, disableBack: true});
+                    $state.go('tab.dashboard', {}, {reload: true});
+                }
+                else
+                {
+                    $ionicHistory.nextViewOptions({disableAnimate: true, disableBack: true});
+                    $state.go('auth.register', {}, {reload: true});   
+                }
+            },
+            function(errorgetprofilelogin)
             {
                 $ionicLoading.hide();
-                $ionicHistory.nextViewOptions({disableAnimate: true, disableBack: true});
-                $location.path("/auth/register");
+                swal({
+                      title: "Login failed",
+                      text: "Please check your credentials.",
+                      allowOutsideClick:true,
+                      showConfirmButton:true
+                    });
             });
         },
         function (msg) 
@@ -52,63 +71,75 @@ angular.module('starter')
         });
     }
     
-    $scope.loginWithFacebook = function ()
+    $scope.loginWithSocmed = function (socmedprovider)
     {
-        $ionicLoading.show();
+        if(socmedprovider == 'yahoo')
+        {
+            var scopeprovider = 'openid offline_access';
+        }
+        else
+        {
+            var scopeprovider = 'openid name email offline_access'
+        }
         auth.signin(
         {
             popup: true,
-            connection: 'facebook',
+            connection: socmedprovider,
+            scope: scopeprovider,
             device: 'Mobile device',
-            scope: 'openid name email'
         }, 
         function(profile, token) 
         {
             profile.type_login      = 'socmed';
-            profile.type_socmed     = 'socmed-fb';
+            profile.type_socmed     = 'socmed-'+ socmedprovider;
             StorageService.set('profile', profile);
-            StorageService.set('token', token);
-            $timeout(function()
-            {
-                $ionicLoading.hide();
-                $ionicHistory.nextViewOptions({disableAnimate: true, disableBack: true});
-                $location.path("/auth/register");
-            });  
-        }, 
-        function(error) 
-        {
-            $ionicLoading.hide();
-            swal({
-                  title: "Login failed",
-                  text: "Please check your credentials.",
-                  allowOutsideClick:true,
-                  showConfirmButton:true
-                });
-        });    
-    }
 
-    $scope.loginWithTwitter = function ()
-    {
-        $ionicLoading.show();
-        auth.signin(
-        {
-            popup: true,
-            connection: 'twitter',
-            scope: 'openid name email',
-            device: 'Mobile device'
-        }, 
-        function(profile, token) 
-        {
-            profile.type_login      = 'socmed';
-            profile.type_socmed     = 'socmed-twitter';
-            StorageService.set('profile', profile);
-            StorageService.set('token', token);
-            $timeout(function()
+            if(profile.type_socmed == 'socmed-facebook')
+            {
+                var sosmed      = 'ID_FB';  
+            }
+            else if(profile.type_socmed == 'socmed-twitter')
+            {
+                var sosmed      = 'ID_TWITTER';   
+            }
+            else if(profile.type_socmed == 'socmed-yahoo')
+            {
+                var sosmed      = 'ID_YAHOO';   
+            }
+            SecuredFac.CheckIdSosmed(sosmed,profile.identities[0].user_id)
+            .then(function(getprofilelogin)
+            {
+                if(angular.isArray(getprofilelogin))
+                {
+                    var profilelogin    = getprofilelogin[0];
+                    profile.ACCESS_UNIX = profilelogin.ACCESS_UNIX;
+                    profile.ID_FB       = profilelogin.ID_FB;
+                    profile.ID_GOOGLE   = profilelogin.ID_GOOGLE;
+                    profile.ID_TWITTER  = profilelogin.ID_TWITTER;
+
+                    StorageService.set('token', profilelogin.access_token);
+                    StorageService.set('profile',profile);
+                    StorageService.set('sudahdaftarbelum','yes');
+
+                    $ionicHistory.nextViewOptions({disableAnimate: true, disableBack: true});
+                    $state.go('tab.dashboard', {}, {reload: true});
+                }
+                else
+                {
+                    $ionicHistory.nextViewOptions({disableAnimate: true, disableBack: true});
+                    $state.go('auth.register', {}, {reload: true});   
+                }
+            },
+            function(errorgetprofilelogin)
             {
                 $ionicLoading.hide();
-                $ionicHistory.nextViewOptions({disableAnimate: true, disableBack: true});
-                $location.path("/auth/register");
-            });  
+                swal({
+                      title: "Login failed",
+                      text: "Please check your credentials.",
+                      allowOutsideClick:true,
+                      showConfirmButton:true
+                    });
+            });
         }, 
         function(error) 
         {
@@ -119,41 +150,7 @@ angular.module('starter')
                   allowOutsideClick:true,
                   showConfirmButton:true
                 });
-        });    
-    }
-    $scope.loginWithYahoo = function ()
-    {
-        $ionicLoading.show();
-        auth.signin(
-        {
-            popup: true,
-            connection: 'yahoo',
-            scope: 'openid offline_access',
-            // device: 'Mobile device'
-        }, 
-        function(profile, token, accessToken, state, refreshToken) 
-        {
-            profile.type_login      = 'socmed';
-            profile.type_socmed     = 'socmed-yahoo';
-            StorageService.set('profile', profile);
-            StorageService.set('token', token);
-            $timeout(function()
-            {
-                $ionicLoading.hide();
-                $ionicHistory.nextViewOptions({disableAnimate: true, disableBack: true});
-                $location.path("/auth/register");
-            });  
-        }, 
-        function(error) 
-        {
-            $ionicLoading.hide();
-            swal({
-                  title: "Login failed",
-                  text: "Please check your credentials.",
-                  allowOutsideClick:true,
-                  showConfirmButton:true
-                });
-        });    
+        });
     }
 
     $scope.loginmanual  = function(users)
@@ -168,7 +165,20 @@ angular.module('starter')
         SecuredFac.UserLogins(datalogin)
         .then(function (result) 
         {
-            if(result.result == 'wrong-username')
+            if(result = 'pendaftaran-complete')
+            {
+                $ionicHistory.nextViewOptions({disableAnimate: true, disableBack: true});
+                $state.go('tab.dashboard', {}, {reload: true});   
+            }
+            else
+            {
+                $ionicHistory.nextViewOptions({disableAnimate: true, disableBack: true});
+                $state.go('auth.register', {}, {reload: true});
+            }   
+        }, 
+        function (err) 
+        {          
+            if(err == 'wrong-username')
             {
                 swal({
                   title: "Login Failed",
@@ -177,7 +187,7 @@ angular.module('starter')
                   showConfirmButton:true
                 });
             }
-            else if(result.result == 'wrong-password')
+            else if(err == 'wrong-password')
             {
                 swal({
                   title: "Login Failed",
@@ -188,30 +198,13 @@ angular.module('starter')
             }
             else
             {
-                console.log(result);
-                var profile = {};
-                profile.nickname        = result.username;
-                profile.email           = result.email;
-                profile.ACCESS_UNIX     = result.ACCESS_UNIX;
-                profile.name            = result.NAMA;
-                profile.type_login      = 'manual';
-                profile.type_socmed     = 'manual';
-                StorageService.set('profile', profile);
-                StorageService.set('token', result.auth_key);
-                StorageService.set('sudahdaftarbelum','yes');
-                $ionicHistory.nextViewOptions({disableAnimate: true, disableBack: true});
-                $state.go('auth.register', {}, {reload: true});    
-            }   
-        }, 
-        function (err) 
-        {          
-            console.log(err);
-            swal({
-                  title: "Login Failed",
-                  text: "Cek Jaringan Dan Paket Data Anda Atau Ulangi Login Kembali",
-                  allowOutsideClick:true,
-                  showConfirmButton:true
-                });
+                swal({
+                      title: "Login Failed",
+                      text: "Cek Jaringan Dan Paket Data Anda Atau Ulangi Login Kembali",
+                      allowOutsideClick:true,
+                      showConfirmButton:true
+                    });
+            }
         })
         .finally(function()
         {
@@ -457,73 +450,6 @@ angular.module('starter')
 .controller('RegisterCtrl', function($ionicActionSheet,$timeout,$location,$http,$scope, $state, $ionicPopup,$ionicHistory,$ionicLoading,StorageService,SecuredFac) 
 {
     var profile  = StorageService.get('profile');
-    
-    if(profile.type_login == 'socmed')
-    {
-        if(profile.type_socmed == 'socmed-fb')
-        {
-            var sosmed      = 'ID_FB';  
-        }
-        else if(profile.type_socmed == 'socmed-google')
-        {
-            var sosmed      = 'ID_GOOGLE';   
-        }
-        else if(profile.type_socmed == 'socmed-twitter')
-        {
-            var sosmed      = 'ID_TWITTER';   
-        }
-        else if(profile.type_socmed == 'socmed-yahoo')
-        {
-            var sosmed      = 'ID_YAHOO';   
-        }
-
-        SecuredFac.CheckIdSosmed(sosmed,profile.identities[0].user_id)
-        .then(function(getprofilelogin)
-        {
-            if(angular.isArray(getprofilelogin))
-            {
-                var profilelogin    = getprofilelogin[0];
-                profile.ACCESS_UNIX = profilelogin.ACCESS_UNIX;
-                profile.ID_FB       = profilelogin.ID_FB;
-                profile.ID_GOOGLE   = profilelogin.ID_GOOGLE;
-                profile.ID_TWITTER  = profilelogin.ID_TWITTER;
-                StorageService.set('profile',profile);
-
-                $ionicHistory.nextViewOptions({disableAnimate: true, disableBack: false});
-                $state.go('tab.dashboard');
-            }
-        },
-        function(errorgetprofilelogin)
-        {
-            console.log(errorgetprofilelogin);
-        });
-    }
-    else
-    {
-        var username = profile.nickname;
-        var email    = profile.email;
-        SecuredFac.GetProfileLogin(username,email)
-        .then(function(getprofilelogin)
-        {
-            if(angular.isArray(getprofilelogin))
-            {
-                var profilelogin    = getprofilelogin[0];
-                profile.ACCESS_UNIX = profilelogin.ACCESS_UNIX;
-                profile.ID_FB       = profilelogin.ID_FB;
-                profile.ID_GOOGLE   = profilelogin.ID_GOOGLE;
-                profile.ID_TWITTER  = profilelogin.ID_TWITTER;
-                StorageService.set('profile',profile);
-
-                $ionicHistory.nextViewOptions({disableAnimate: true, disableBack: false});
-                $state.go('tab.dashboard');
-            }
-        },
-        function(errorgetprofilelogin)
-        {
-            console.log(errorgetprofilelogin);
-        });
-    }
-
     $scope.customers = {'email':profile.email,'NAMA':profile.name}
     $scope.registerbaru = function (customers) 
     {
@@ -533,7 +459,6 @@ angular.module('starter')
         })
         .then(function()
         {
-
             $scope.disableInput = true;
             var datatosave = {};
             datatosave.username     = profile.nickname;
@@ -561,6 +486,7 @@ angular.module('starter')
             .then(function(responsesetloginprofile)
             {
                 profile.ACCESS_UNIX = responsesetloginprofile.ACCESS_UNIX;
+                StorageService.set('token', responsesetloginprofile.auth_key);
                 StorageService.set('profile',profile);
                 StorageService.set('sudahdaftarbelum','yes');
                 $ionicHistory.nextViewOptions({disableAnimate: true, disableBack: false});
@@ -606,4 +532,4 @@ angular.module('starter')
           }
         });
     }
-})
+});

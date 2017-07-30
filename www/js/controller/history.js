@@ -17,7 +17,7 @@ angular.module('starter')
                 if(!$scope.datajadwal)
                 {
                     $scope.showdatakosong = true;
-                    var message = '<p align="justify">History Kunjungan Rawat Taman Anda Masih Kosong.Silahkan Hubungi Customer Kami Untuk Informasi Lebih Lanjut Tentang Layanan Yang Kami Sediakan.Terima Kasih</p>';
+                    var message = '<p align="justify">History Kunjungan Rawat Taman Anda Masih Kosong.Silahkan Hubungi Customer Service Kami Untuk Informasi Lebih Lanjut Tentang Layanan Yang Kami Sediakan.Terima Kasih</p>';
                     Flash.create('success', message);
                 }
             },

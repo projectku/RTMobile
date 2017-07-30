@@ -42,7 +42,7 @@ angular.module('starter')
                 var userinformation = StorageService.get('token');
                 if(userinformation)
                 {
-                    $location.path("/auth/register");
+                    $location.path("/tab/dashboard");
                     console.log();
                 }
             }  

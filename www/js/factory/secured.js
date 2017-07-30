@@ -1,5 +1,5 @@
 angular.module('starter')
-.factory('SecuredFac',function($rootScope,$http,$q,$window,UtilService)
+.factory('SecuredFac',function($rootScope,$http,$q,$window,UtilService,StorageService)
 {
 	
 	var UserLogins = function(datatosave)
@@ -15,7 +15,49 @@ angular.module('starter')
         $http.post(url,serialized,config)
         .success(function(dataresponse,status,headers,config) 
         {
-            deferred.resolve(dataresponse);
+            if(angular.isDefined(dataresponse.result) && (dataresponse.result == 'wrong-username'))
+            {
+                deferred.reject('wrong-username');
+            }
+            else if(dataresponse.result == 'wrong-password')
+            {
+                deferred.reject('wrong-password');
+            }
+            else
+            {
+                var profile = {};
+                profile.nickname        = dataresponse.username;
+                profile.email           = dataresponse.email;
+                profile.ACCESS_UNIX     = dataresponse.ACCESS_UNIX;
+                profile.name            = dataresponse.NAMA;
+                StorageService.set('profile', profile);
+                StorageService.set('token', dataresponse.auth_key);
+                StorageService.set('sudahdaftarbelum','yes');
+
+                GetProfileLogin(dataresponse.username,dataresponse.email)
+                .then(function(getprofilelogin)
+                {
+                    if(angular.isArray(getprofilelogin))
+                    {
+                        var profilelogin    = getprofilelogin[0];
+                        profile.ACCESS_UNIX = profilelogin.ACCESS_UNIX;
+                        profile.ID_FB       = profilelogin.ID_FB;
+                        profile.ID_GOOGLE   = profilelogin.ID_GOOGLE;
+                        profile.ID_TWITTER  = profilelogin.ID_TWITTER;
+                        StorageService.set('profile',profile);
+
+                        deferred.resolve('pendaftaran-complete');
+                    }
+                    else
+                    {
+                        deferred.resolve('pendaftaran-belumcomplete');
+                    }
+                },
+                function(errorgetprofilelogin)
+                {
+                    deferred.reject(errorgetprofilelogin);
+                }); 
+            }
         })
         .error(function(err,status)
         {
