@@ -108,7 +108,8 @@ angular.module('starter')
             $ionicModal.fromTemplateUrl('templates/history/ratingjelek.html', 
             {
                 scope: $scope,
-                animation: 'slide-in-up',
+                animation: 'animated pulse',
+                hideDelay:1020,
                 backdropClickToClose: false,
                 hardwareBackButtonClose: true
             })
@@ -201,7 +202,8 @@ angular.module('starter')
         $ionicModal.fromTemplateUrl(templateUrl, 
         {
             scope: $scope,
-            animation: 'slide-in-up'
+            animation: 'animated zoomInUp',
+            hideDelay:1020,
         }).then(function(modal) 
         {
             $scope.gambar = $scope.datarating.PHOTO_HASIL;
@@ -249,7 +251,8 @@ angular.module('starter')
         $ionicModal.fromTemplateUrl('templates/history/users.html', 
         {
             scope: $scope,
-            animation: 'slide-in-up',
+            animation: 'animated zoomInUp',
+            hideDelay:1020,
             backdropClickToClose: false,
             hardwareBackButtonClose: true
         })
